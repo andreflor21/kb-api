@@ -1,0 +1,119 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Rotas {
+  id        String   @id @default(uuid())
+  descricao String   @db.VarChar(100)
+  caminho   String   @db.VarChar(100)
+  metodo    String?  @db.VarChar(10)
+  perfis    Perfil[] @relation("PerfilToRotas")
+
+  @@map("rotas")
+}
+
+model Perfil {
+  id        String     @id @default(uuid())
+  descricao String     @db.VarChar(100)
+  usuarios  Usuarios[]
+  rotas     Rotas[]    @relation("PerfilToRotas")
+
+  @@map("perfil")
+}
+
+model Usuarios {
+  id                String         @id @default(uuid())
+  nome              String         @db.VarChar(100)
+  email             String         @unique @db.VarChar(100)
+  cpf               String?        @unique @db.VarChar(14)
+  codigo            String?        @db.VarChar(50)
+  dtNascimento      DateTime?      @map("dt_nascimento") @db.Date
+  senha             String         @db.VarChar(255)
+  dtCadastro        DateTime       @default(now()) @map("dt_cadastro") @db.DateTime(0)
+  ativo             Boolean        @default(true)
+  trocaSenha        Boolean        @default(false) @map("troca_senha")
+  perfilId          String         @map("perfil_id")
+  tokenReset        String?        @map("token_reset") @db.VarChar(200)
+  tokenResetExpires DateTime?      @map("token_reset_expires") @db.DateTime(0)
+  fornecedores      Fornecedores[]
+  perfil            Perfil         @relation(fields: [perfilId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([perfilId], map: "usuarios_perfil_id_fkey")
+  @@map("usuarios")
+}
+
+model TipoSecao {
+  id         String  @id @default(uuid())
+  abreviacao String? @unique @db.VarChar(10)
+  descricao  String  @unique @db.VarChar(100)
+  secao      Secao[]
+
+  @@map("tipo_secao")
+}
+
+model Secao {
+  id                 String    @id @default(uuid())
+  descricao          String    @unique @db.VarChar(100)
+  codigo             String    @map("codigo") @db.VarChar(10)
+  codigoMatrizFilial String    @map("codigo_matriz_filial") @db.VarChar(10)
+  codigoERP          String?   @map("codigo_erp") @db.VarChar(10)
+  tipoSecaoId        String    @map("tipo_secao_id")
+  ativo              Boolean   @default(true)
+  tipoSecao          TipoSecao @relation(fields: [tipoSecaoId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([tipoSecaoId], map: "secao_tipo_secao_id_fkey")
+  @@map("secao")
+}
+
+model Fornecedores {
+  id          String               @id @default(uuid())
+  codigo      String               @map("codigo") @db.VarChar(10)
+  codigoERP   String               @map("codigo_erp") @db.VarChar(10)
+  nome        String               @db.VarChar(100)
+  cnpj        String               @unique @db.VarChar(14)
+  usuarioId   String?              @map("usuario_resp_id")
+  fone        String?              @db.VarChar(10)
+  email       String?              @db.VarChar(50)
+  ativo       Boolean              @default(true)
+  dtCadastro  DateTime             @default(now()) @map("dt_cadastro") @db.DateTime(0)
+  enderecos   EnderecoFornecedor[]
+  usuarioResp Usuarios?            @relation(fields: [usuarioId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([usuarioId], map: "fornecedores_usuarioId_fkey")
+  @@map("fornecedores")
+}
+
+model EnderecoFornecedor {
+  id             String        @id @default(uuid())
+  lograd         String        @db.VarChar(100)
+  numero         String        @db.VarChar(20)
+  complemento    String?       @db.VarChar(100)
+  bairro         String        @db.VarChar(100)
+  cidade         String        @db.VarChar(100)
+  uf             String        @db.VarChar(2)
+  cep            String        @db.VarChar(9)
+  fornecedorId   String        @map("fornecedor_id")
+  tipoEnderecoId String?       @map("tipo_endereco_id")
+  fornecedor     Fornecedores  @relation(fields: [fornecedorId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  tipoEndereco   TipoEndereco? @relation(fields: [tipoEnderecoId], references: [id], onUpdate: NoAction)
+
+  @@index([fornecedorId], map: "endereco_fornecedor_fornecedor_id_fkey")
+  @@index([tipoEnderecoId], map: "endereco_fornecedor_tipo_endereco_id_fkey")
+  @@map("endereco_fornecedor")
+}
+
+model TipoEndereco {
+  id        String               @id @default(uuid())
+  descricao String               @db.VarChar(50)
+  enderecos EnderecoFornecedor[]
+
+  @@map("tipo_endereco")
+}
