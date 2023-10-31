@@ -8,9 +8,13 @@ class UserController {
     async createUser(req: Request, res: Response) {
         try {
             const user = req.body as User; // Certifique-se de validar os dados de entrada
+            console.log(user);
+
             const createdUser = await this.userRepository.createUser(user);
             res.status(201).json(createdUser);
         } catch (error) {
+            console.log(error);
+
             res.status(500).json({ error: 'Erro interno do servidor' });
         }
     }
@@ -18,7 +22,7 @@ class UserController {
     async getUserById(req: Request, res: Response) {
         try {
             const { id } = req.params;
-            const user = await this.userRepository.getUserById(Number(id));
+            const user = await this.userRepository.getUserById(id);
             if (!user) {
                 res.status(404).json({ error: 'Usuário não encontrado' });
             } else {

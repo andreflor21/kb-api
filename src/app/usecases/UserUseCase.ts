@@ -8,7 +8,7 @@ class UserUseCase {
         return this.userRepository.createUser(user);
     }
 
-    async getUserById(id: number) {
+    async getUserById(id: string) {
         return this.userRepository.getUserById(id);
     }
 

@@ -1,17 +1,17 @@
 class User {
     constructor(
-        public id: number,
+        public id: string,
         public nome: string,
         public email: string,
         public senha: string,
-        public cpf: string,
+        public cpf: string | null,
         public ativo: boolean,
-        public dtNascimento: Date,
+        public dtNascimento: Date | null,
         public dtCadastro: Date,
-        public tokenReset: string | undefined,
-        public tokenResetExpires: Date | undefined,
+        public tokenReset: string | null | undefined,
+        public tokenResetExpires: Date | null | undefined,
         public trocaSenha: boolean,
-        public perfilId: number
+        public perfilId: string
     ) {}
 }
 

@@ -1,8 +1,8 @@
 // src/application/services/AuthService.ts
 import { compare, hash } from 'bcrypt';
 import { sign } from 'jsonwebtoken';
-import { User } from '@entities/User';
-import { IUserRepository } from '@repositories/IUserRepository';
+import { User } from '../../domain/entities/User';
+import { IUserRepository } from '../../domain/repositories/IUserRepository';
 
 export class AuthService {
     constructor(
@@ -11,7 +11,9 @@ export class AuthService {
     ) {}
 
     async login(email: string, senha: string): Promise<string | null> {
-        const user: User = await this.userRepository.getUserByEmail(email);
+        const user: User | null = await this.userRepository.getUserByEmail(
+            email
+        );
 
         if (!user) {
             return null;
@@ -23,9 +25,13 @@ export class AuthService {
             return null;
         }
 
-        const token = sign({ userId: user.id }, this.jwtSecret, {
-            expiresIn: '1h',
-        });
+        const token = sign(
+            { userId: user.id, profileId: user.perfilId },
+            this.jwtSecret,
+            {
+                expiresIn: '1 day',
+            }
+        );
         return token;
     }
 

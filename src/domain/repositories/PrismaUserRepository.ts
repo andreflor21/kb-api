@@ -1,24 +1,36 @@
 import { PrismaClient } from '@prisma/client';
 import { IUserRepository } from './IUserRepository';
 import { User } from '../entities/User';
+import { AuthService } from '../../app/services/AuthService';
 
-export class PrismaUserRepository implements IUserRepository {
+class PrismaUserRepository implements IUserRepository {
     private prisma: PrismaClient;
 
-    constructor() {
-        this.prisma = new PrismaClient();
+    constructor(prisma: PrismaClient) {
+        this.prisma = prisma;
     }
 
     async createUser(user: User): Promise<User> {
-        return this.prisma.user.create({ data: user });
+        const authService = new AuthService(this, '');
+
+        user.senha = await authService.hashPassword(user.senha);
+
+        const createdUser = await this.prisma.usuarios.create({ data: user });
+        return createdUser;
     }
 
-    async getUserById(id: number): Promise<User | null> {
-        return this.prisma.user.findUnique({ where: { id } });
+    async getUserById(id: string): Promise<User | null> {
+        const user = await this.prisma.usuarios.findUnique({ where: { id } });
+        return user;
     }
 
     async getUserByEmail(email: string): Promise<User | null> {
-        return this.prisma.user.findUnique({ where: { email } });
+        const user = await this.prisma.usuarios.findUnique({
+            where: { email },
+        });
+        return user;
     }
     // Implemente outros métodos de acesso ao banco aqui
 }
+
+export { PrismaUserRepository };
