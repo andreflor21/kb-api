@@ -4,7 +4,7 @@ import { expect, test } from 'vitest'
 import { UserUseCase } from '../app/usecases/UserUseCase'
 import { User } from '../domain/entities/User'
 import { v4 as uuid } from 'uuid'
-import { serializeUser } from '@infra/serializers/UserSerializer'
+import { serializeUser } from '../infra/serializers/UserSerializer'
 
 test('should be able to create a new user', async () => {
   const fakeUserRepository = new FakeUserRepository()
@@ -62,6 +62,5 @@ test('Shoud not return the passoword property', async () => {
   const user = await userUseCase.createUser(userData)
 
   const returnUser = await userUseCase.getUserByEmail(user.email)
-
-  expect(returnUser).rejects.toHaveProperty('senha')
+  expect(serializeUser(returnUser).senha).toBeUndefined()
 })
