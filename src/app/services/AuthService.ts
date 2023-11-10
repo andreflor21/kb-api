@@ -1,13 +1,13 @@
 // src/application/services/AuthService.ts
 import { compare, hash } from 'bcrypt'
 import { sign } from 'jsonwebtoken'
-import { User } from '@entities/User'
-import { IUserRepository } from '@repositories/IUserRepository'
+import { User } from '../../domain/entities/User'
+import { IUserRepository } from '../../domain/repositories/IUserRepository'
 
 export class AuthService {
   constructor(
     private userRepository: IUserRepository,
-    private jwtSecret: string
+    private jwtSecret: string = ''
   ) {}
 
   async login(email: string, senha: string): Promise<string | null> {
