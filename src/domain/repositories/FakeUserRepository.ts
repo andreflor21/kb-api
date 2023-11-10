@@ -2,6 +2,7 @@ import { IUserRepository } from './IUserRepository'
 import { User } from '../entities/User'
 import { v4 as uuid } from 'uuid'
 import { AuthService } from '../../app/services/AuthService'
+import { serializeUser } from '../../infra/serializers/UserSerializer'
 class FakeUserRepository implements IUserRepository {
   private users: User[] = []
 
@@ -13,24 +14,19 @@ class FakeUserRepository implements IUserRepository {
     return this.users
   }
 
-  public async getUserById(id: string): Promise<Omit<User, 'senha'> | null> {
+  public async getUserById(id: string): Promise<User | null> {
     const findUser = this.users.find((user) => user.id === id)
 
     return findUser ? findUser : null
   }
 
-  public async getUserByEmail(
-    email: string
-  ): Promise<Omit<User, 'senha'> | null> {
+  public async getUserByEmail(email: string): Promise<User | null> {
     const findUser = this.users.find((user) => user.email === email)
 
     return findUser ? findUser : null
   }
 
-  public async updateUser(
-    id: string,
-    user: User
-  ): Promise<Omit<User, 'senha'> | null> {
+  public async updateUser(id: string, user: User): Promise<User | null> {
     const findUser = this.users.find((user) => user.id === id)
 
     if (findUser) {
