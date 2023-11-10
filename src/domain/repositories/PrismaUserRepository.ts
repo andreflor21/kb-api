@@ -1,8 +1,9 @@
-import { PrismaClient } from '@prisma/client'
+import { Prisma, PrismaClient } from '@prisma/client'
 import { IUserRepository } from './IUserRepository'
 import { User } from '../entities/User'
 import { AuthService } from '../../app/services/AuthService'
-
+import { serializeUser } from '../../infra/serializers/UserSerializer'
+import AppError from '../../shared/errors/AppError'
 class PrismaUserRepository implements IUserRepository {
   private prisma: PrismaClient
 
@@ -10,37 +11,45 @@ class PrismaUserRepository implements IUserRepository {
     this.prisma = prisma
   }
 
-  async createUser(user: User): Promise<Omit<User, 'senha'>> {
+  async createUser(user: User): Promise<User> {
     const authService = new AuthService(this, '')
 
     user.senha = await authService.hashPassword(user.senha)
-
-    const createdUser = await this.prisma.usuarios.create({ data: user })
-    return createdUser
+    try {
+      const createdUser = await this.prisma.usuarios.create({ data: user })
+      return createdUser
+    } catch (err) {
+      if (err instanceof Prisma.PrismaClientKnownRequestError) {
+        if (err.meta) {
+          throw new AppError(err.meta.target, 400)
+        }
+      } else {
+        throw new AppError('Valide os dados enviados', 400)
+      }
+    }
   }
 
   async getUserById(id: string): Promise<User | null> {
     const user = await this.prisma.usuarios.findUnique({ where: { id } })
-    return user
+    if (user) return user
+    else return null
   }
 
   async getUserByEmail(email: string): Promise<User | null> {
     const user = await this.prisma.usuarios.findUnique({
       where: { email },
     })
-    return user
+    if (user) return user
+    else return null
   }
 
-  async getUsers(): Promise<Omit<User[], 'senha'>> {
+  async getUsers(): Promise<User[]> {
     const users = await this.prisma.usuarios.findMany()
 
     return users
   }
 
-  async updateUser(
-    id: string,
-    user: User
-  ): Promise<Omit<User, 'senha'> | null> {
+  async updateUser(id: string, user: User): Promise<User | null> {
     const checkUser = await this.prisma.usuarios.findUnique({ where: { id } })
     if (checkUser) {
       const updateUser = await this.prisma.usuarios.update({
