@@ -4,6 +4,14 @@ import { IUserRepository } from '../../domain/repositories/IUserRepository'
 import { serializeUser } from '../../infra/serializers/UserSerializer'
 import AppError from '../../shared/errors/AppError'
 import { AuthService } from '../services/AuthService'
+import { sendMail } from '../../infra/email/SendEmail'
+import path from 'path'
+
+interface TemplateResetSenha {
+  nome: string
+  token: string
+  url: string
+}
 class UserController {
   constructor(private userRepository: IUserRepository) {}
 
@@ -63,6 +71,63 @@ class UserController {
     } else {
       res.status(401).json({ error: 'Credenciais inválidas.' })
     }
+  }
+
+  async forgotPassword(req: Request, res: Response) {
+    const { email } = req.body
+    try {
+      const user = await this.userRepository.getUserByEmail(email)
+
+      if (!user) throw new AppError('Usuário não encontrado', 404)
+
+      const token = crypto.randomUUID()
+      const now = new Date()
+      now.setHours(now.getHours() + 1)
+
+      if (user.id) await this.userRepository.updateToken(user.id, token, now)
+
+      const templateData: TemplateResetSenha = {
+        nome: user.nome,
+        token,
+        url: `http://localhost:5173/redefinir-senha/${token}`,
+      }
+      sendMail<TemplateResetSenha>({
+        subject: 'Recuperação de Senha',
+        templateData,
+        templatePath: path.join('src', 'infra/email/forgotPasswordEmail.html'),
+        to: email,
+      })
+      res.status(200).json({
+        message: `E-mail enviado para ${email}`,
+        token,
+        expires: now,
+      })
+    } catch (err) {
+      if (err instanceof AppError) res.status(err.statusCode).json(err)
+    }
+  }
+
+  async recoverPassword(req: Request, res: Response) {
+    const { token } = req.params
+    const { senha } = req.body
+
+    try {
+      const user = await this.userRepository.getUserByToken(token)
+
+      if (!user) throw new AppError('Usuário não encontrado', 404)
+      else {
+        const now = new Date()
+        const expires = new Date(
+          user.tokenResetExpires ? user.tokenResetExpires : ''
+        )
+
+        if (now > expires) throw new AppError('Token expirado', 400)
+
+        await this.userRepository.recoverPassword(token, senha)
+
+        res.status(200).json({ message: 'Senha atualizada!' })
+      }
+    } catch (err) {}
   }
   // Implemente outros métodos do controlador aqui
 }

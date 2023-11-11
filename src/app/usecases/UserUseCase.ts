@@ -1,4 +1,4 @@
-import { IUserRepository } from '@repositories/IUserRepository'
+import { IUserRepository } from '../../domain/repositories/IUserRepository'
 import { User } from '../../domain/entities/User'
 import AppError from '../../shared/errors/AppError'
 class UserUseCase {
@@ -22,6 +22,9 @@ class UserUseCase {
     return this.userRepository.getUserByEmail(email)
   }
 
+  async getUserByToken(token: string) {
+    return this.userRepository.getUserByToken(token)
+  }
   async getUsers() {
     return this.userRepository.getUsers()
   }
@@ -37,6 +40,9 @@ class UserUseCase {
   }
   async recoverPassword(token: string, password: string) {
     return this.userRepository.recoverPassword(token, password)
+  }
+  async updateToken(userId: string, token: string, date: Date) {
+    return this.userRepository.updateToken(userId, token, date)
   }
   // Implemente outros casos de uso aqui
 }

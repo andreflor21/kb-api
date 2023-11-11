@@ -21,7 +21,7 @@ class PrismaUserRepository implements IUserRepository {
     } catch (err) {
       if (err instanceof Prisma.PrismaClientKnownRequestError) {
         if (err.meta) {
-          throw new AppError(err.meta.target, 400)
+          throw new AppError(err.meta.target as string, 400)
         }
       } else {
         throw new AppError('Valide os dados enviados', 400)
@@ -31,6 +31,14 @@ class PrismaUserRepository implements IUserRepository {
 
   async getUserById(id: string): Promise<User | null> {
     const user = await this.prisma.usuarios.findUnique({ where: { id } })
+    if (user) return user
+    else return null
+  }
+
+  async getUserByToken(token: string): Promise<User | null> {
+    const user = await this.prisma.usuarios.findFirst({
+      where: { tokenReset: token },
+    })
     if (user) return user
     else return null
   }
@@ -101,7 +109,24 @@ class PrismaUserRepository implements IUserRepository {
     if (checkUser) {
       await this.prisma.usuarios.update({
         where: { id: checkUser.id },
-        data: { senha: hashedPassword },
+        data: {
+          senha: hashedPassword,
+          tokenReset: null,
+          tokenResetExpires: null,
+          trocaSenha: false,
+        },
+      })
+    }
+  }
+  async updateToken(userId: string, token: string, date: Date): Promise<void> {
+    const checkUser = await this.prisma.usuarios.findUnique({
+      where: { id: userId },
+    })
+
+    if (checkUser) {
+      await this.prisma.usuarios.update({
+        where: { id: checkUser.id },
+        data: { tokenReset: token, tokenResetExpires: date, trocaSenha: true },
       })
     }
   }

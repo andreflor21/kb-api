@@ -2,7 +2,6 @@ import { IUserRepository } from './IUserRepository'
 import { User } from '../entities/User'
 import { v4 as uuid } from 'uuid'
 import { AuthService } from '../../app/services/AuthService'
-import { serializeUser } from '../../infra/serializers/UserSerializer'
 class FakeUserRepository implements IUserRepository {
   private users: User[] = []
 
@@ -16,6 +15,11 @@ class FakeUserRepository implements IUserRepository {
 
   public async getUserById(id: string): Promise<User | null> {
     const findUser = this.users.find((user) => user.id === id)
+
+    return findUser ? findUser : null
+  }
+  public async getUserByToken(token: string): Promise<User | null> {
+    const findUser = this.users.find((user) => user.tokenReset === token)
 
     return findUser ? findUser : null
   }
@@ -69,6 +73,13 @@ class FakeUserRepository implements IUserRepository {
     throw new Error('Method not implemented.')
   }
   public async changePassword(id: string, password: string): Promise<void> {
+    throw new Error('Method not implemented.')
+  }
+  public async updateToken(
+    id: string,
+    token: string,
+    date: Date
+  ): Promise<void> {
     throw new Error('Method not implemented.')
   }
 }
