@@ -1,4 +1,4 @@
-import { IUserRepository } from '../repositories/user-repository';
+import { UsersRepository } from '../repositories/users-repository';
 import { User } from '../entities/User';
 import AppError from '../shared/errors/app-error';
 class UserUseCase {
