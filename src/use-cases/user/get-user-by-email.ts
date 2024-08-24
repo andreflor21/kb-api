@@ -14,7 +14,7 @@ export class GetUserByEmailUseCase {
 
     async execute({
         email,
-    }: GetUserByEmailUseCaseRequest): Promise<GetUserByEmailUseCaseResponse> {
+    }: GetUserByEmailUseCaseRequest): Promise<GetUserByEmailUseCaseResponse | null> {
         const user = await this.usersRepository.getUserByEmail(email);
 
         return { user };

@@ -6,15 +6,15 @@ import { hash } from 'bcryptjs';
 interface CreateUserUseCaseRequest {
     name: string;
     email: string;
-    password: string;
+    pwd: string;
     cpf: string | null;
-    birthdate: Date | null;
+    birthdate: string | null;
     code: string | null;
     profileId: string;
 }
 
 interface CreateUserUseCaseResponse {
-    user: Omit<User, 'password'>;
+    user: Partial<User>;
 }
 
 export class CreateUserUseCase {
@@ -23,7 +23,7 @@ export class CreateUserUseCase {
     async execute({
         name,
         email,
-        password,
+        pwd,
         cpf,
         birthdate,
         code,
@@ -39,13 +39,14 @@ export class CreateUserUseCase {
         const user = await this.usersRepository.createUser({
             name,
             email,
-            password: await hash(password, 10),
+            password: await hash(pwd, 10),
             cpf,
             birthdate,
             code,
             profile: { connect: { id: profileId } },
         });
 
-        return { user };
+        const { password, ...userWithoutPassword } = user;
+        return { user: userWithoutPassword };
     }
 }

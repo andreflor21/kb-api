@@ -2,50 +2,72 @@ import { User, Prisma } from '@prisma/client';
 import { prisma } from '@/lib/prisma';
 import { UsersRepository } from '../users-repository';
 import { AuthService } from '../../http/services/AuthService';
+import { hash } from 'bcryptjs';
 class PrismaUsersRepository implements UsersRepository {
-    async createUser(data: Prisma.UserCreateInput): Promise<User> {
+    async createUser(
+        data: Prisma.UserCreateInput
+    ): Promise<Omit<User, 'password'>> {
+        data.password = await hash(data.password, 10);
         const user = await prisma.user.create({ data });
-        return user;
+        const { password, ...userWithoutPassword } = user;
+        return userWithoutPassword;
     }
 
-    async getUserById(id: string): Promise<User | null> {
-        const user = await prisma.user.findUnique({ where: { id } });
-        if (user) return user;
-        else return null;
+    async getUserById(id: string): Promise<Omit<User, 'password'> | null> {
+        const user = await prisma.user.findUnique({
+            where: { id },
+        });
+        if (!user) return null;
+
+        const { password, ...userWithoutPassword } = user;
+        return userWithoutPassword;
     }
 
-    async getUserByToken(token: string): Promise<User | null> {
+    async getUserByToken(
+        token: string
+    ): Promise<Omit<User, 'password'> | null> {
         const user = await prisma.user.findFirst({
             where: { tokenReset: token },
         });
-        if (user) return user;
-        else return null;
+        if (!user) return null;
+
+        const { password, ...userWithoutPassword } = user;
+        return userWithoutPassword;
     }
 
-    async getUserByEmail(email: string): Promise<User | null> {
+    async getUserByEmail(
+        email: string
+    ): Promise<Omit<User, 'password'> | null> {
         const user = await prisma.user.findUnique({
             where: { email },
         });
-        if (user) return user;
-        else return null;
+        if (!user) return null;
+
+        const { password, ...userWithoutPassword } = user;
+        return userWithoutPassword;
     }
 
-    async getUsers(): Promise<User[]> {
+    async getUsers(): Promise<Omit<User, 'password'>[]> {
         const users = await prisma.user.findMany();
 
-        return users;
+        return users.map(
+            ({ password, ...userWithoutPassword }) => userWithoutPassword
+        );
     }
 
     async updateUser(
         id: string,
         data: Prisma.UserUpdateInput
-    ): Promise<User | null> {
+    ): Promise<Omit<User, 'password'> | null> {
         const user = await prisma.user.update({
             where: { id },
             data,
         });
 
-        return user;
+        if (!user) return null;
+
+        const { password, ...userWithoutPassword } = user;
+        return userWithoutPassword;
     }
     async deleteUser(id: string): Promise<void> {
         const checkUser = await prisma.user.findUnique({
@@ -60,8 +82,8 @@ class PrismaUsersRepository implements UsersRepository {
         const checkUser = await prisma.user.findUnique({
             where: { id },
         });
-        const authService = new AuthService(this, '');
-        const hashedPassword = await authService.hashPassword(password);
+
+        const hashedPassword = await hash(password, 10);
 
         if (checkUser) {
             await prisma.user.update({
@@ -75,8 +97,7 @@ class PrismaUsersRepository implements UsersRepository {
         const checkUser = await prisma.user.findFirst({
             where: { tokenReset: token },
         });
-        const authService = new AuthService(this, '');
-        const hashedPassword = await authService.hashPassword(password);
+        const hashedPassword = await hash(password, 10);
 
         if (checkUser) {
             await prisma.user.update({

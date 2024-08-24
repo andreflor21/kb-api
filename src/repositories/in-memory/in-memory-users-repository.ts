@@ -3,33 +3,11 @@ import { User, Prisma } from '@prisma/client';
 import { randomUUID } from 'node:crypto';
 import { hash } from 'bcryptjs';
 import { UserNotFoundError } from '@/shared/errors/user-not-found-error';
+import AppError from '@/shared/errors/app-error';
+import { ExpiredTokenError } from '@/shared/errors/expired-token-error';
+
 class InMemoryUsersRepository implements UsersRepository {
     private users: User[] = [];
-
-    public async deleteUser(id: string): Promise<void> {
-        this.users = this.users.filter((user) => user.id != id);
-    }
-
-    public async getUsers(): Promise<User[]> {
-        return this.users;
-    }
-
-    public async getUserById(id: string): Promise<User | null> {
-        const findUser = this.users.find((user) => user.id === id);
-
-        return findUser ? findUser : null;
-    }
-    public async getUserByToken(token: string): Promise<User | null> {
-        const findUser = this.users.find((user) => user.tokenReset === token);
-
-        return findUser ? findUser : null;
-    }
-
-    public async getUserByEmail(email: string): Promise<User | null> {
-        const findUser = this.users.find((user) => user.email === email);
-
-        return findUser ? findUser : null;
-    }
 
     public async updateUser(
         id: string,
@@ -58,7 +36,8 @@ class InMemoryUsersRepository implements UsersRepository {
 
             this.users[this.users.map((x) => x.id).indexOf(id)] = updatedUser;
 
-            return findUser;
+            const { password, ...userWithoutPassword } = updatedUser;
+            return updatedUser;
         } else {
             return null;
         }
@@ -85,6 +64,7 @@ class InMemoryUsersRepository implements UsersRepository {
 
         this.users.push(newUser);
 
+        const { password, ...userWithoutPassword } = newUser;
         return newUser;
     }
 
@@ -92,8 +72,27 @@ class InMemoryUsersRepository implements UsersRepository {
         token: string,
         password: string
     ): Promise<void> {
-        throw new Error('Method not implemented.');
+        const findUser = this.users.find((user) => user.tokenReset === token);
+
+        if (findUser) {
+            const now = new Date();
+            const expires = new Date(
+                findUser.tokenResetExpires ? findUser.tokenResetExpires : ''
+            );
+            if (now > expires) throw new ExpiredTokenError();
+
+            findUser.password = await hash(password, 10);
+            findUser.tokenReset = null;
+            findUser.tokenResetExpires = null;
+            findUser.changePassword = false;
+
+            this.users[this.users.map((x) => x.id).indexOf(findUser.id)] =
+                findUser;
+        } else {
+            throw new UserNotFoundError();
+        }
     }
+
     public async changePassword(id: string, password: string): Promise<void> {
         const findUser = this.users.find((user) => user.id === id);
 
@@ -104,12 +103,69 @@ class InMemoryUsersRepository implements UsersRepository {
             throw new UserNotFoundError();
         }
     }
+
     public async updateToken(
         id: string,
         token: string,
         date: Date
     ): Promise<void> {
-        throw new Error('Method not implemented.');
+        const findUser = this.users.find((user) => user.id === id);
+
+        if (findUser) {
+            findUser.tokenReset = token;
+            findUser.tokenResetExpires = date;
+            findUser.changePassword = true;
+
+            this.users[this.users.map((x) => x.id).indexOf(id)] = findUser;
+        } else {
+            throw new UserNotFoundError();
+        }
+    }
+
+    public async deleteUser(id: string): Promise<void> {
+        if (!this.users.find((user) => user.id === id)) {
+            throw new UserNotFoundError();
+        }
+        this.users = this.users.filter((user) => user.id !== id);
+    }
+
+    public async getUsers(): Promise<User[]> {
+        return this.users;
+    }
+
+    public async getUserById(id: string): Promise<User | null> {
+        if (!id) throw new AppError('Id must be provided', 400);
+        const findUser = this.users.find((user) => user.id === id);
+
+        if (findUser) {
+            const { password, ...userWithoutPassword } = findUser;
+            return findUser;
+        }
+
+        return null;
+    }
+    public async getUserByToken(token: string): Promise<User | null> {
+        if (!token) throw new AppError('Token must be provided', 400);
+        const findUser = this.users.find((user) => user.tokenReset === token);
+
+        if (findUser) {
+            const { password, ...userWithoutPassword } = findUser;
+            return findUser;
+        }
+
+        return null;
+    }
+
+    public async getUserByEmail(email: string): Promise<User | null> {
+        if (!email) throw new AppError('Email must be provided', 400);
+
+        const findUser = this.users.find((user) => user.email === email);
+        if (findUser) {
+            const { password, ...userWithoutPassword } = findUser;
+            return findUser;
+        }
+
+        return null;
     }
 }
 
