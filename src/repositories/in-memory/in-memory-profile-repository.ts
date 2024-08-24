@@ -1,6 +1,6 @@
-import { IProfileRepository } from '../profile-repository';
+import { IProfileRepository } from '../profiles-repository';
 import { Profile } from '../../entities/Profile';
-import { v4 as uuid } from 'uuid';
+import { randomUUID } from 'node:crypto';
 import { AuthService } from '../../http/services/AuthService';
 
 class FakeProfileRepository implements IProfileRepository {
