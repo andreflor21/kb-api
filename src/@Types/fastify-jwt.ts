@@ -2,9 +2,9 @@ import '@fastify/jwt';
 
 declare module '@fastify/jwt' {
     export interface FastifyJWT {
-        usuario: {
+        user: {
             sub: string;
-            perfil: string;
+            profile: string;
         };
     }
 }
