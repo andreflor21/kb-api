@@ -1,9 +1,9 @@
 import { Prisma, PrismaClient } from '@prisma/client';
-import { IUserRepository } from './IUserRepository';
-import { User } from '../entities/User';
-import { AuthService } from '../http/services/AuthService';
-import { serializeUser } from '../infra/serializers/UserSerializer';
-import AppError from '../shared/errors/AppError';
+import { IUserRepository } from '../user-repository';
+import { User } from '../../entities/User';
+import { AuthService } from '../../http/services/AuthService';
+import { serializeUser } from '../../infra/serializers/UserSerializer';
+import AppError from '../../shared/errors/app-error';
 class PrismaUserRepository implements IUserRepository {
     private prisma: PrismaClient;
 

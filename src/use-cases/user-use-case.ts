@@ -1,6 +1,6 @@
-import { IUserRepository } from '../repositories/IUserRepository';
+import { IUserRepository } from '../repositories/user-repository';
 import { User } from '../entities/User';
-import AppError from '../shared/errors/AppError';
+import AppError from '../shared/errors/app-error';
 class UserUseCase {
     constructor(private userRepository: IUserRepository) {}
 

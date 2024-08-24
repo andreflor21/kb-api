@@ -1,7 +1,7 @@
-import { IUserRepository } from './IUserRepository';
-import { User } from '../entities/User';
+import { IUserRepository } from '../user-repository';
+import { User } from '../../entities/User';
 import { v4 as uuid } from 'uuid';
-import { AuthService } from '../http/services/AuthService';
+import { AuthService } from '../../http/services/AuthService';
 class FakeUserRepository implements IUserRepository {
     private users: User[] = [];
 

@@ -1,7 +1,7 @@
-import { IProfileRepository } from './IProfileRepository';
-import { Profile } from '../entities/Profile';
+import { IProfileRepository } from '../profile-repository';
+import { Profile } from '../../entities/Profile';
 import { v4 as uuid } from 'uuid';
-import { AuthService } from '../http/services/AuthService';
+import { AuthService } from '../../http/services/AuthService';
 
 class FakeProfileRepository implements IProfileRepository {
     private profiles: Profile[] = [];
