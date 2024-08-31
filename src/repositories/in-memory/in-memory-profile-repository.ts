@@ -1,19 +1,19 @@
 import { ProfilesRepository } from '../profiles-repository';
-import { Profile, Prisma } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import { randomUUID } from 'node:crypto';
-
-class InMemoryProfileRepository implements ProfilesRepository {
-    private profiles: Profile[] = [];
+import { ProfileExtended } from '@/@Types/profileExtended';
+export class InMemoryProfileRepository implements ProfilesRepository {
+    private profiles: ProfileExtended[] = [];
 
     public async deleteProfile(id: string): Promise<void> {
         this.profiles = this.profiles.filter((profile) => profile.id != id);
     }
 
-    public async getProfiles(): Promise<Profile[]> {
+    public async getProfiles(): Promise<ProfileExtended[]> {
         return this.profiles;
     }
 
-    public async getProfileById(id: string): Promise<Profile | null> {
+    public async getProfileById(id: string): Promise<ProfileExtended | null> {
         const profile = this.profiles.find((profile) => profile.id == id);
 
         return profile ? profile : null;
@@ -22,7 +22,7 @@ class InMemoryProfileRepository implements ProfilesRepository {
     public async updateProfile(
         id: string,
         data: Prisma.ProfileUpdateInput
-    ): Promise<Profile | null> {
+    ): Promise<ProfileExtended | null> {
         const findProfile = this.profiles.find((profile) => profile.id == id);
 
         if (findProfile) {
@@ -39,10 +39,12 @@ class InMemoryProfileRepository implements ProfilesRepository {
 
     public async createProfile(
         data: Prisma.ProfileCreateInput
-    ): Promise<Profile> {
-        const newProfile: Profile = {
+    ): Promise<ProfileExtended> {
+        const newProfile: ProfileExtended = {
             id: randomUUID(),
             description: data.description,
+            routes: [],
+            users: [],
         };
 
         this.profiles.push(newProfile);
@@ -53,12 +55,23 @@ class InMemoryProfileRepository implements ProfilesRepository {
     public async duplicateProfile(
         id: string,
         description: string
-    ): Promise<Profile | null> {
+    ): Promise<ProfileExtended | null> {
         const originProfile = this.profiles.find((profile) => profile.id == id);
 
         if (originProfile) {
-            originProfile.description = description;
-            const newProfile = this.createProfile(originProfile);
+            const newProfile = this.createProfile({
+                description,
+                routes: {
+                    connect: originProfile.routes.map((route) => ({
+                        id: route.id,
+                    })),
+                },
+                users: {
+                    connect: originProfile.users.map((user) => ({
+                        id: user.id,
+                    })),
+                },
+            });
 
             return newProfile;
         } else {
@@ -69,10 +82,34 @@ class InMemoryProfileRepository implements ProfilesRepository {
     public async linkProfileToRoute(
         id: string,
         routeId: string
-    ): Promise<void> {}
+    ): Promise<void> {
+        const profile = this.profiles.find((profile) => profile.id == id);
+
+        if (profile) {
+            profile.routes.push({ id: routeId });
+        }
+    }
 
     public async unlinkProfileToRoute(
         id: string,
         routeId: string
-    ): Promise<void> {}
+    ): Promise<void> {
+        const profile = this.profiles.find((profile) => profile.id == id);
+
+        if (profile) {
+            profile.routes = profile.routes.filter(
+                (route) => route.id != routeId
+            );
+        }
+    }
+
+    public async getProfileByDescription(
+        description: string
+    ): Promise<ProfileExtended | null> {
+        const profile = this.profiles.find(
+            (profile) => profile.description == description
+        );
+
+        return profile ? profile : null;
+    }
 }
