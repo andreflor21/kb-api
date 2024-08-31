@@ -17,7 +17,7 @@ describe('Create User Use Case', () => {
         await sut.execute({
             name: 'John Doe',
             email: 'johndoe@example.com',
-            pwd: '123456',
+            password: '123456',
             cpf: '12345678901',
             birthdate: new Date().toISOString(),
             code: '123456',
@@ -35,7 +35,7 @@ describe('Create User Use Case', () => {
         await sut.execute({
             name: 'John Doe',
             email: 'johndoe@example.com',
-            pwd: '123456',
+            password: '123456',
             cpf: '12345678901',
             birthdate: new Date().toISOString(),
             code: '123456',
@@ -45,7 +45,7 @@ describe('Create User Use Case', () => {
             sut.execute({
                 name: 'John Doe 2',
                 email: 'johndoe@example.com',
-                pwd: '123456',
+                password: '123456',
                 cpf: '12345678901',
                 birthdate: new Date().toISOString(),
                 code: '123456',
@@ -58,13 +58,13 @@ describe('Create User Use Case', () => {
         const { user } = await sut.execute({
             name: 'John Doe',
             email: 'johndoe@example.com',
-            pwd: '123456',
+            password: '123456',
             cpf: '12345678901',
             birthdate: new Date().toISOString(),
             code: '123456',
             profileId: randomUUID(),
         });
 
-        expect(user.password).toBeUndefined();
+        expect(user.hashedPassword).toBeUndefined();
     });
 });

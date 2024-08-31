@@ -29,14 +29,13 @@ class InMemoryUsersRepository implements UsersRepository {
                 changePassword: findUser.changePassword,
                 createdAt: findUser.createdAt,
                 id: findUser.id,
-                password: findUser.password,
+                hashedPassword: findUser.hashedPassword,
                 tokenReset: findUser.tokenReset,
                 tokenResetExpires: findUser.tokenResetExpires,
             };
 
             this.users[this.users.map((x) => x.id).indexOf(id)] = updatedUser;
 
-            const { password, ...userWithoutPassword } = updatedUser;
             return updatedUser;
         } else {
             return null;
@@ -44,13 +43,11 @@ class InMemoryUsersRepository implements UsersRepository {
     }
 
     public async createUser(data: Prisma.UserCreateInput): Promise<User> {
-        const hashedPassword = await hash(data.password, 10);
-
         const newUser: User = {
             id: randomUUID(),
             name: data.name,
             email: data.email,
-            password: hashedPassword,
+            hashedPassword: data.hashedPassword,
             cpf: data.cpf ?? null,
             code: data.code ?? null,
             birthdate: data.birthdate ? new Date(data.birthdate) : null,
@@ -63,14 +60,12 @@ class InMemoryUsersRepository implements UsersRepository {
         };
 
         this.users.push(newUser);
-
-        const { password, ...userWithoutPassword } = newUser;
         return newUser;
     }
 
     public async recoverPassword(
         token: string,
-        password: string
+        hashedPassword: string
     ): Promise<void> {
         const findUser = this.users.find((user) => user.tokenReset === token);
 
@@ -81,7 +76,7 @@ class InMemoryUsersRepository implements UsersRepository {
             );
             if (now > expires) throw new ExpiredTokenError();
 
-            findUser.password = await hash(password, 10);
+            findUser.hashedPassword = hashedPassword;
             findUser.tokenReset = null;
             findUser.tokenResetExpires = null;
             findUser.changePassword = false;
@@ -93,11 +88,14 @@ class InMemoryUsersRepository implements UsersRepository {
         }
     }
 
-    public async changePassword(id: string, password: string): Promise<void> {
+    public async changePassword(
+        id: string,
+        hashedPassword: string
+    ): Promise<void> {
         const findUser = this.users.find((user) => user.id === id);
 
         if (findUser) {
-            findUser.password = await hash(password, 10);
+            findUser.hashedPassword = hashedPassword;
             this.users[this.users.map((x) => x.id).indexOf(id)] = findUser;
         } else {
             throw new UserNotFoundError();
@@ -137,35 +135,20 @@ class InMemoryUsersRepository implements UsersRepository {
         if (!id) throw new AppError('Id must be provided', 400);
         const findUser = this.users.find((user) => user.id === id);
 
-        if (findUser) {
-            const { password, ...userWithoutPassword } = findUser;
-            return findUser;
-        }
-
-        return null;
+        return findUser ?? null;
     }
     public async getUserByToken(token: string): Promise<User | null> {
         if (!token) throw new AppError('Token must be provided', 400);
         const findUser = this.users.find((user) => user.tokenReset === token);
 
-        if (findUser) {
-            const { password, ...userWithoutPassword } = findUser;
-            return findUser;
-        }
-
-        return null;
+        return findUser ?? null;
     }
 
     public async getUserByEmail(email: string): Promise<User | null> {
         if (!email) throw new AppError('Email must be provided', 400);
 
         const findUser = this.users.find((user) => user.email === email);
-        if (findUser) {
-            const { password, ...userWithoutPassword } = findUser;
-            return findUser;
-        }
-
-        return null;
+        return findUser ?? null;
     }
 }
 

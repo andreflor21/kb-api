@@ -1,5 +1,4 @@
 import { UsersRepository } from '@/repositories/users-repository';
-import { UserNotFoundError } from '@/shared/errors/user-not-found-error';
 import { hash } from 'bcryptjs';
 
 interface RecoverPasswordUseCaseRequest {
@@ -14,6 +13,7 @@ export class RecoverPasswordUseCase {
         token,
         password,
     }: RecoverPasswordUseCaseRequest): Promise<void> {
-        await this.usersRepository.recoverPassword(token, password);
+        const hashedPassword = await hash(password, 10);
+        await this.usersRepository.recoverPassword(token, hashedPassword);
     }
 }
