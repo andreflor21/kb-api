@@ -2,7 +2,7 @@ import { UsersRepository } from '@/repositories/users-repository';
 import { User } from '@prisma/client';
 
 interface ListUsersUseCaseResponse {
-    users: Omit<User, 'password'>[];
+    users: Omit<User, 'hashedPassword'>[];
 }
 
 export class ListUsersUseCase {
@@ -10,7 +10,9 @@ export class ListUsersUseCase {
 
     async execute(): Promise<ListUsersUseCaseResponse> {
         const users = await this.usersRepository.getUsers();
-
-        return { users };
+        if (!users) {
+            return { users: [] };
+        }
+        return { users: users.map(({ hashedPassword, ...user }) => user) };
     }
 }

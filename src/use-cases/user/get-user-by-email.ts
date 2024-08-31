@@ -6,7 +6,7 @@ interface GetUserByEmailUseCaseRequest {
 }
 
 interface GetUserByEmailUseCaseResponse {
-    user: Omit<User, 'password'> | null;
+    user: Omit<User, 'hashedPassword'> | null;
 }
 
 export class GetUserByEmailUseCase {
@@ -14,9 +14,12 @@ export class GetUserByEmailUseCase {
 
     async execute({
         email,
-    }: GetUserByEmailUseCaseRequest): Promise<GetUserByEmailUseCaseResponse | null> {
+    }: GetUserByEmailUseCaseRequest): Promise<GetUserByEmailUseCaseResponse> {
         const user = await this.usersRepository.getUserByEmail(email);
-
-        return { user };
+        if (!user) {
+            return { user: null };
+        }
+        const { hashedPassword, ...userWithoutPassword } = user;
+        return { user: userWithoutPassword };
     }
 }
