@@ -1,9 +1,8 @@
-import { IProfileRepository } from '../profiles-repository';
-import { Profile } from '../../entities/Profile';
+import { ProfilesRepository } from '../profiles-repository';
+import { Profile, Prisma } from '@prisma/client';
 import { randomUUID } from 'node:crypto';
-import { AuthService } from '../../http/services/AuthService';
 
-class FakeProfileRepository implements IProfileRepository {
+class InMemoryProfileRepository implements ProfilesRepository {
     private profiles: Profile[] = [];
 
     public async deleteProfile(id: string): Promise<void> {
@@ -22,14 +21,13 @@ class FakeProfileRepository implements IProfileRepository {
 
     public async updateProfile(
         id: string,
-        profile: Profile
+        data: Prisma.ProfileUpdateInput
     ): Promise<Profile | null> {
         const findProfile = this.profiles.find((profile) => profile.id == id);
 
         if (findProfile) {
-            findProfile.descricao = profile.descricao
-                ? profile.descricao
-                : findProfile.descricao;
+            findProfile.description =
+                (data.description as string) ?? findProfile.description;
 
             this.profiles[this.profiles.map((x) => x.id).indexOf(id)] =
                 findProfile;
@@ -39,26 +37,27 @@ class FakeProfileRepository implements IProfileRepository {
         }
     }
 
-    public async createProfile(profile: Profile): Promise<Profile> {
-        const newProfile = new Profile();
-        Object.assign(newProfile, {
-            id: uuid(),
-            descricao: profile.descricao,
-        });
+    public async createProfile(
+        data: Prisma.ProfileCreateInput
+    ): Promise<Profile> {
+        const newProfile: Profile = {
+            id: randomUUID(),
+            description: data.description,
+        };
 
-        this.profiles.push(profile);
+        this.profiles.push(newProfile);
 
         return newProfile;
     }
 
     public async duplicateProfile(
         id: string,
-        descricao: string
+        description: string
     ): Promise<Profile | null> {
         const originProfile = this.profiles.find((profile) => profile.id == id);
 
         if (originProfile) {
-            originProfile.descricao = descricao;
+            originProfile.description = description;
             const newProfile = this.createProfile(originProfile);
 
             return newProfile;
@@ -66,4 +65,14 @@ class FakeProfileRepository implements IProfileRepository {
             return null;
         }
     }
+
+    public async linkProfileToRoute(
+        id: string,
+        routeId: string
+    ): Promise<void> {}
+
+    public async unlinkProfileToRoute(
+        id: string,
+        routeId: string
+    ): Promise<void> {}
 }

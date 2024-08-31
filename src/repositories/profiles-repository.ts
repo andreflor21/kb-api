@@ -1,11 +1,22 @@
-import { Profile } from '../entities/Profile';
-
-export interface IProfileRepository {
-    createProfile(profile: Profile): Promise<Profile>;
-    getProfileById(id: string): Promise<Profile | null>;
+import { Prisma, Profile, User, Routes } from '@prisma/client';
+import { ProfileExtended } from '@/@Types/profileExtended';
+export interface ProfilesRepository {
+    createProfile(data: Prisma.ProfileCreateInput): Promise<ProfileExtended>;
+    getProfileById(id: string): Promise<ProfileExtended | null>;
+    getProfileByDescription(
+        description: string
+    ): Promise<ProfileExtended | null>;
     getProfiles(): Promise<Profile[]>;
-    updateProfile(id: string, profile: Profile): Promise<Profile | null>;
+    updateProfile(
+        id: string,
+        data: Prisma.ProfileUpdateInput
+    ): Promise<ProfileExtended | null>;
     deleteProfile(id: string): Promise<void>;
-    duplicateProfile(id: string, descricao: string): Promise<Profile | null>;
+    duplicateProfile(
+        id: string,
+        description: string
+    ): Promise<ProfileExtended | null>;
+    linkProfileToRoute(id: string, routeId: string): Promise<void>;
+    unlinkProfileToRoute(id: string, routeId: string): Promise<void>;
     // Adicione outros métodos necessários aqui
 }
