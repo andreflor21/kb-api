@@ -36,7 +36,7 @@ model User {
   cpf               String?    @unique @db.VarChar(14)
   code              String?    @db.VarChar(50)
   birthdate         DateTime?  @db.Date
-  password          String     @db.VarChar(255)
+  hashedPassword    String     @map("hashed_password") @db.VarChar(255)
   createdAt         DateTime   @default(now()) @map("created_at") @db.DateTime(0)
   active            Boolean    @default(true)
   changePassword    Boolean    @default(false) @map("change_password")
