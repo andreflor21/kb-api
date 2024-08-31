@@ -4,7 +4,7 @@ import { makeGetUserByEmailUseCase } from '@/use-cases/factories/user/make-get-u
 import { makeUpdateTokenUseCase } from '@/use-cases/factories/user/make-update-token-use-case';
 import { sendMail } from '@/shared/email/SendEmail';
 import { UserNotFoundError } from '@/shared/errors/user-not-found-error';
-import crypto from 'crypto';
+import { randomUUID } from 'crypto';
 import path from 'path';
 
 interface TemplateResetPassword {
@@ -28,7 +28,7 @@ export async function forgotPassword(
         const updateToken = makeUpdateTokenUseCase();
         const { user } = await getUserByEmail.execute({ email });
         if (user) {
-            const token = crypto.randomBytes(20).toString('hex');
+            const token = randomUUID();
             const expireDate = new Date();
             expireDate.setHours(expireDate.getHours() + 1);
 

@@ -13,7 +13,7 @@ import { updateUserStatus } from './update-user-status';
 export async function userRoutes(app: FastifyInstance) {
     app.post('/login', authenticateUser);
     app.post('/forgot-password', forgotPassword);
-    app.post('/:token_id', recoverPassword);
+    app.post('/reset-password/:token_id', recoverPassword);
 
     app.get('/users', { onRequest: verifyJwt }, listUsers);
     app.post('/users/new', createUser);
