@@ -1,0 +1,1301 @@
+{
+	"info": {
+		"_postman_id": "f7b99b38-894f-4154-930e-85b1aa52ccea",
+		"name": "Kanban V2",
+		"description": "# Main Changes\n\n### Ids from auto increment to uuid",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17079290",
+		"_collection_link": "https://crimson-crescent-164413.postman.co/workspace/a3f000e6-94c5-4244-b26d-fa5facaabfd2/collection/17079290-f7b99b38-894f-4154-930e-85b1aa52ccea?action=share&source=collection_link&creator=17079290"
+	},
+	"item": [
+		{
+			"name": "Usuário",
+			"item": [
+				{
+					"name": "Novo Usuario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Usuario\",\r\n    \"email\": \"kanban@email.com\",\r\n    \"password\": \"123456\",\r\n    \"perfil\": \"b7ae3086-e3bd-49bc-ab67-df9929bf3650\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/users/new",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"new"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar Usuario",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Usuario 2\",\r\n    \"email\": \"kanban@email.com\",\r\n    \"cpf\": \"123.456.789-09\",\r\n    \"birthdate\": \"1990-01-01T00:00:00Z\"\r\n,    \"code\": \"12345\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/users/{{usuario_id}}/edit",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"{{usuario_id}}",
+								"edit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar Usuario",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users/{{usuario_id}}/delete",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"{{usuario_id}}",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Trocar Senha",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/users/{{usuario_id}}/change-password",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"{{usuario_id}}",
+								"change-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar usuario",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users/{{usuario_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"{{usuario_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar usuarios",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Esqueci Minha Senha",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"token_senha\", pm.response.json().token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"kanban@email.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/forgot-password",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"forgot-password"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Perfil",
+			"item": [
+				{
+					"name": "Criar perfil",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\": \"Admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/profiles/new",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"profiles",
+								"new"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Duplicar perfil",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\": \"Admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/profiles/{{perfil_id}}/duplicate",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"profiles",
+								"{{perfil_id}}",
+								"duplicate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar Perfil",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/perfil/{{perfil_id}}/delete",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"perfil",
+								"{{perfil_id}}",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Vincular Rotas",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/perfil/{{perfil_id}}/rotas/link",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"perfil",
+								"{{perfil_id}}",
+								"rotas",
+								"link"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Desvincular Rota",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/profiles/{{perfil_id}}/routes/{{rota_id}}/unlink",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"profiles",
+								"{{perfil_id}}",
+								"routes",
+								"{{rota_id}}",
+								"unlink"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Vincular Rota",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/profiles/{{perfil_id}}/routes/{{rota_id}}/link",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"profiles",
+								"{{perfil_id}}",
+								"routes",
+								"{{rota_id}}",
+								"link"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Dados do Perfil",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/profiles/{{perfil_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"profiles",
+								"{{perfil_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Rotas do perfil",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/profiles/{{perfil_id}}/routes",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"profiles",
+								"{{perfil_id}}",
+								"routes"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Rotas",
+			"item": [
+				{
+					"name": "Rotas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/routes",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"routes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Atualiza Rota",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/routes/{{rota_id}}/edit",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"routes",
+								"{{rota_id}}",
+								"edit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Novas Rotas",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n{     \r\n    \"description\": \"Dados do Usuário\",\r\n    \"path\": \"/users/:usuario_id\",\r\n    \"method\": \"get\"\r\n},\r\n{     \r\n    \"description\": \"Atualizar Usuário\",\r\n    \"path\": \"/users/:usuario_id\",\r\n    \"method\": \"patch\"\r\n},\r\n{     \r\n    \"description\": \"Deletar Usuário\",\r\n    \"path\": \"/users/:usuario_id\",\r\n    \"method\": \"delete\"\r\n},\r\n{     \r\n    \"description\": \"Status do Usuário\",\r\n    \"path\": \"/users/:usuario_id/status\",\r\n    \"method\": \"put\"\r\n},\r\n{     \r\n    \"description\": \"Trocar de Senha do Usuário\",\r\n    \"path\": \"/users/:usuario_id/nova-senha\",\r\n    \"method\": \"patch\"\r\n},\r\n{     \r\n    \"description\": \"Usuários\",\r\n    \"path\": \"/users\",\r\n    \"method\": \"get\"\r\n},\r\n{     \r\n    \"description\": \"Novo Perfil\",\r\n    \"path\": \"/perfil/new\",\r\n    \"method\": \"post\"\r\n},\r\n{     \r\n    \"description\": \"Perfis\",\r\n    \"path\": \"/perfil\",\r\n    \"method\": \"get\"\r\n},\r\n{     \r\n    \"description\": \"Dados do Perfil\",\r\n    \"path\": \"/perfil/:perfil_id\",\r\n    \"method\": \"get\"\r\n},\r\n{     \r\n    \"description\": \"Atualizar Perfil\",\r\n    \"path\": \"/perfil/:perfil_id\",\r\n    \"method\": \"patch\"\r\n},\r\n{     \r\n    \"description\": \"Deletar Perfil\",\r\n    \"path\": \"/perfil/:perfil_id\",\r\n    \"method\": \"delete\"\r\n},\r\n{     \r\n    \"description\": \"Vincular Rota ao Perfil\",\r\n    \"path\": \"/perfil/:perfil_id/rota/:rota_id\",\r\n    \"method\": \"post\"\r\n}]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/routes/new",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"routes",
+								"new"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Seções",
+			"item": [
+				{
+					"name": "Tipos",
+					"item": [
+						{
+							"name": "Tipos de Seção",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/sections/types",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"sections",
+										"types"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Novo Tipo",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"description\": \"Almoxarifado\",\r\n    \"abreviation\": \"ALM\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/sections/types/new",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"sections",
+										"types",
+										"new"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Atualizar Tipo",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"description\": \"Almoxarifado\",\r\n    \"abreviation\": \"A\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/sections/types/{{tipo_id}}/edit",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"sections",
+										"types",
+										"{{tipo_id}}",
+										"edit"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Tipo de Seção",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/sections/types/{{tipo_id}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"sections",
+										"types",
+										"{{tipo_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Deletar Tipo",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/sections/types/{{tipo_id}}/delete",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"sections",
+										"types",
+										"{{tipo_id}}",
+										"delete"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Buscar Seções",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/sections",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"sections"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar Seção",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/sections/{{secao_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"sections",
+								"{{secao_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Nova Seção",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\": \"Entrega\",\r\n    \"code\": \"002\",\r\n    \"branchMatrixCode\": \"0001\",\r\n    \"ERPcode\": null,\r\n    \"sectionType\": {\r\n        \"abreviation\": \"A\",\r\n        \"description\": \"Almoxarifado\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/sections/new",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"sections",
+								"new"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar Seção",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\": \"Recebimento\",\r\n    \"code\": \"001\",\r\n    \"branchMatrixCode\": \"0002\",\r\n    \"ERPcode\": null,\r\n    \"sectionTypeId\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/sections/{{secao_id}}/edit",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"sections",
+								"{{secao_id}}",
+								"edit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ativar/Destativar Seção",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"active\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/sections/{{secao_id}}/status",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"sections",
+								"{{secao_id}}",
+								"status"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Fornecedores",
+			"item": [
+				{
+					"name": "Endereços",
+					"item": [
+						{
+							"name": "Tipos",
+							"item": [
+								{
+									"name": "Novo Tipo de Endereço",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"description\": \"Entrega\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/suppliers/addresses/types/new",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"suppliers",
+												"addresses",
+												"types",
+												"new"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Atualizar Tipo",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"description\": \"Entrega\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base_url}}/suppliers/addresses/types/{{tipo_id}}/edit",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"suppliers",
+												"addresses",
+												"types",
+												"{{tipo_id}}",
+												"edit"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Deletar Tipo",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/suppliers/addresses/types/{{tipo_id}}/delete",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"suppliers",
+												"addresses",
+												"types",
+												"{{tipo_id}}",
+												"delete"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Novo endereço",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/suppliers/{{forn_id}}/addresses/new",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"suppliers",
+										"{{forn_id}}",
+										"addresses",
+										"new"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Atualizar endereço",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"lograd\": \"Rua A\",\r\n    \"number\": \"01\",\r\n    \"complement\": null,\r\n    \"district\": \"centro\",\r\n    \"state\":\"PR\",\r\n    \"zipcode\": \"80000-000\",\r\n    \"city\": \"curitiba\",\r\n    \"addressType\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/suppliers/{{forn_id}}/addresses/{{tipo_id}}/edit",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"suppliers",
+										"{{forn_id}}",
+										"addresses",
+										"{{tipo_id}}",
+										"edit"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Deletar Endereço",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/suppliers/{{forn_id}}/addresses/{{tipo_id}}/delete",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"suppliers",
+										"{{forn_id}}",
+										"addresses",
+										"{{tipo_id}}",
+										"delete"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Buscar Fornecedores",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/suppliers",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"suppliers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Novo Fornecedor",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"code\": \"001\",\r\n    \"ERPcode\": \"001\",\r\n    \"name\": \"Fornecedor A\",\r\n    \"cnpj\": \"00.000.000/0001-00\",\r\n    \"fone\": null,\r\n    \"email\": null,\r\n    \"userId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/suppliers/new",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"suppliers",
+								"new"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar Fornecedor",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"code\": \"001\",\r\n    \"ERPcode\": null,\r\n    \"name\": \"Fornecedor A\",\r\n    \"cnpj\": \"00.000.000/0001-00\",\r\n    \"fone\": null,\r\n    \"email\": null,\r\n    \"userId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/suppliers/{{forn_id}}/edit",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"suppliers",
+								"{{forn_id}}",
+								"edit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Status Fornecedor",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"active\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/suppliers/{{forn_id}}/status",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"suppliers",
+								"{{forn_id}}",
+								"status"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar Fornecedor",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/suppliers/{{forn_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"suppliers",
+								"{{forn_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Exportar",
+			"item": [
+				{
+					"name": "suppliers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/export/suppliers",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"export",
+								"suppliers"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Importar",
+			"item": [
+				{
+					"name": "suppliers",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/Users/andreflor/Downloads/suppliers (6).csv"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/import/suppliers",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"import",
+								"suppliers"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"token\", pm.response.json().token);\r",
+							"pm.collectionVariables.set(\"usuario_id\", pm.response.json().user_id);\r",
+							"pm.collectionVariables.set(\"perfil_id\", pm.response.json().perfil);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"kanban@email.com\",\r\n    \"password\": \"123457\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/login",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Recuperar Senha",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"password\": \"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/{{token_senha}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"{{token_senha}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:3000"
+		},
+		{
+			"key": "usuario_id",
+			"value": "user-uuid"
+		},
+		{
+			"key": "token_senha",
+			"value": "token-uuid"
+		},
+		{
+			"key": "perfil_id",
+			"value": "profile-uuid"
+		},
+		{
+			"key": "tipo_id",
+			"value": "type-uuid"
+		},
+		{
+			"key": "secao_id",
+			"value": "section-uuid"
+		},
+		{
+			"key": "token",
+			"value": ""
+		},
+		{
+			"key": "rota_id",
+			"value": "route-uuid"
+		},
+		{
+			"key": "forn_id",
+			"value": "supplier-uuid"
+		}
+	]
+}
