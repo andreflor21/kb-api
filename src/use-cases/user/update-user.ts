@@ -1,4 +1,5 @@
 import { UsersRepository } from '@/repositories/users-repository';
+import { UserAlreadyExistsError } from '@/shared/errors/user-already-exists-error';
 import { UserNotFoundError } from '@/shared/errors/user-not-found-error';
 import { User } from '@prisma/client';
 
@@ -31,6 +32,14 @@ export class UpdateUserUseCase {
         const user = await this.usersRepository.getUserById(id);
         if (!user) {
             throw new UserNotFoundError();
+        }
+        if (email) {
+            const userByEmail = await this.usersRepository.getUserByEmail(
+                email
+            );
+            if (userByEmail && userByEmail.id !== user.id) {
+                throw new UserAlreadyExistsError();
+            }
         }
 
         const updatedUser = await this.usersRepository.updateUser(id, {
