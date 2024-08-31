@@ -1,7 +1,7 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
 import { z } from 'zod';
-import { makeGetUserByEmailUseCase } from '@/use-cases/factories/make-get-user-by-email-use-case';
-import { makeUpdateTokenUseCase } from '@/use-cases/factories/make-update-token-use-case';
+import { makeGetUserByEmailUseCase } from '@/use-cases/factories/user/make-get-user-by-email-use-case';
+import { makeUpdateTokenUseCase } from '@/use-cases/factories/user/make-update-token-use-case';
 import { sendMail } from '@/shared/email/SendEmail';
 import { UserNotFoundError } from '@/shared/errors/user-not-found-error';
 import crypto from 'crypto';

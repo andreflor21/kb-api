@@ -1,4 +1,4 @@
-import { makeListUsersUseCase } from '@/use-cases/factories/make-list-users-use-case';
+import { makeListUsersUseCase } from '@/use-cases/factories/user/make-list-users-use-case';
 import { FastifyRequest, FastifyReply } from 'fastify';
 
 export async function listUsers(req: FastifyRequest, res: FastifyReply) {

@@ -1,6 +1,6 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
 import { z } from 'zod';
-import { makeUpdateUserStatusUseCase } from '@/use-cases/factories/make-update-user-status-use-case';
+import { makeUpdateUserStatusUseCase } from '@/use-cases/factories/user/make-update-user-status-use-case';
 import { UserNotFoundError } from '@/shared/errors/user-not-found-error';
 
 export async function updateUserStatus(

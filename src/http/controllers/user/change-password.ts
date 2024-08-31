@@ -1,6 +1,6 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
 import { z } from 'zod';
-import { makeChangePasswordUseCase } from '@/use-cases/factories/make-change-password-use-case';
+import { makeChangePasswordUseCase } from '@/use-cases/factories/user/make-change-password-use-case';
 import { UserNotFoundError } from '@/shared/errors/user-not-found-error';
 import { hash } from 'bcryptjs';
 

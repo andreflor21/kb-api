@@ -1,6 +1,6 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
 import { z } from 'zod';
-import { makeRecoverPasswordUseCase } from '@/use-cases/factories/make-recover-password-use-case';
+import { makeRecoverPasswordUseCase } from '@/use-cases/factories/user/make-recover-password-use-case';
 import { UserNotFoundError } from '@/shared/errors/user-not-found-error';
 import { ExpiredTokenError } from '@/shared/errors/expired-token-error';
 

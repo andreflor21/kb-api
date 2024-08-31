@@ -1,6 +1,6 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
 import { z } from 'zod';
-import { makeGetUserByIdUseCase } from '@/use-cases/factories/make-get-user-by-id-use-case';
+import { makeGetUserByIdUseCase } from '@/use-cases/factories/user/make-get-user-by-id-use-case';
 import { UserNotFoundError } from '@/shared/errors/user-not-found-error';
 
 export async function getUserById(req: FastifyRequest, res: FastifyReply) {

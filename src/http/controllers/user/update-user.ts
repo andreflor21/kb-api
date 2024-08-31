@@ -1,6 +1,6 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
 import { z } from 'zod';
-import { makeUpdateUserUseCase } from '@/use-cases/factories/make-update-user-use-case';
+import { makeUpdateUserUseCase } from '@/use-cases/factories/user/make-update-user-use-case';
 import { UserNotFoundError } from '@/shared/errors/user-not-found-error';
 import { UserAlreadyExistsError } from '@/shared/errors/user-already-exists-error';
 

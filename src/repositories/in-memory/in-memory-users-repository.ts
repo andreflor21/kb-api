@@ -150,6 +150,17 @@ class InMemoryUsersRepository implements UsersRepository {
         const findUser = this.users.find((user) => user.email === email);
         return findUser ?? null;
     }
+
+    public async updateUserStatus(id: string, status: boolean): Promise<void> {
+        const findUser = this.users.find((user) => user.id === id);
+
+        if (findUser) {
+            findUser.active = status;
+            this.users[this.users.map((x) => x.id).indexOf(id)] = findUser;
+        } else {
+            throw new UserNotFoundError();
+        }
+    }
 }
 
 export { InMemoryUsersRepository };

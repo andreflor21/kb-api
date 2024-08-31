@@ -2,7 +2,7 @@ import { FastifyRequest, FastifyReply } from 'fastify';
 import { z } from 'zod';
 import { UserNotFoundError } from '@/shared/errors/user-not-found-error';
 import { InvalidCredentialsError } from '@/shared/errors/invalid-credentcials-error';
-import { makeAuthenticateUseCase } from '@/use-cases/factories/make-authenticate-use-case';
+import { makeAuthenticateUseCase } from '@/use-cases/factories/user/make-authenticate-use-case';
 
 export async function authenticateUser(
     request: FastifyRequest,

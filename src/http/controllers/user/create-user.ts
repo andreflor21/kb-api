@@ -1,7 +1,7 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
 import { z } from 'zod';
 import { UserAlreadyExistsError } from '@/shared/errors/user-already-exists-error';
-import { makeCreateUserUseCase } from '@/use-cases/factories/make-create-user-use-case';
+import { makeCreateUserUseCase } from '@/use-cases/factories/user/make-create-user-use-case';
 
 export async function createUser(request: FastifyRequest, reply: FastifyReply) {
     const { name, email, password, cpf, birthdate, code, profileId } = z
