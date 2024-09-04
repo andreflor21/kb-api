@@ -1,0 +1,13 @@
+version: '3.3'
+
+services:
+    kanban-db:
+        image: mysql:latest
+        ports:
+            - 3306:3306
+        restart: always
+        environment:
+            MYSQL_DATABASE: 'kanban'
+            MYSQL_USER: 'kanban'
+            MYSQL_PASSWORD: '0eWnXUF08a45nd1e'
+            MYSQL_ROOT_PASSWORD: 'root'

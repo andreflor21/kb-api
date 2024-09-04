@@ -10,110 +10,110 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Rotas {
-  id        String   @id @default(uuid())
-  descricao String   @db.VarChar(100)
-  caminho   String   @db.VarChar(100)
-  metodo    String?  @db.VarChar(10)
-  perfis    Perfil[] @relation("PerfilToRotas")
+model Routes {
+  id          String    @id @default(uuid())
+  description String    @db.VarChar(100)
+  path        String    @db.VarChar(100)
+  method      String?   @db.VarChar(10)
+  profile     Profile[] @relation("ProfileToRoutes")
 
-  @@map("rotas")
+  @@map("routes")
 }
 
-model Perfil {
-  id        String     @id @default(uuid())
-  descricao String     @db.VarChar(100)
-  usuarios  Usuarios[]
-  rotas     Rotas[]    @relation("PerfilToRotas")
+model Profile {
+  id          String   @id @default(uuid())
+  description String   @db.VarChar(100)
+  users       User[]
+  routes      Routes[] @relation("ProfileToRoutes")
 
-  @@map("perfil")
+  @@map("profiles")
 }
 
-model Usuarios {
-  id                String         @id @default(uuid())
-  nome              String         @db.VarChar(100)
-  email             String         @unique @db.VarChar(100)
-  cpf               String?        @unique @db.VarChar(14)
-  codigo            String?        @db.VarChar(50)
-  dtNascimento      DateTime?      @map("dt_nascimento") @db.Date
-  senha             String         @db.VarChar(255)
-  dtCadastro        DateTime       @default(now()) @map("dt_cadastro") @db.DateTime(0)
-  ativo             Boolean        @default(true)
-  trocaSenha        Boolean        @default(false) @map("troca_senha")
-  perfilId          String         @map("perfil_id")
-  tokenReset        String?        @map("token_reset") @db.VarChar(200)
-  tokenResetExpires DateTime?      @map("token_reset_expires") @db.DateTime(0)
-  fornecedores      Fornecedores[]
-  perfil            Perfil         @relation(fields: [perfilId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+model User {
+  id                String     @id @default(uuid())
+  name              String     @db.VarChar(100)
+  email             String     @unique @db.VarChar(100)
+  cpf               String?    @unique @db.VarChar(14)
+  code              String?    @db.VarChar(50)
+  birthdate         DateTime?  @db.Date
+  hashedPassword    String     @map("hashed_password") @db.VarChar(255)
+  createdAt         DateTime   @default(now()) @map("created_at") @db.DateTime(0)
+  active            Boolean    @default(true)
+  changePassword    Boolean    @default(false) @map("change_password")
+  profileId         String     @map("profile_id")
+  tokenReset        String?    @map("token_reset") @db.VarChar(200)
+  tokenResetExpires DateTime?  @map("token_reset_expires") @db.DateTime(0)
+  suppliers         Supplier[]
+  profile           Profile    @relation(fields: [profileId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-  @@index([perfilId], map: "usuarios_perfil_id_fkey")
-  @@map("usuarios")
+  @@index([profileId], map: "users_profile_id_fkey")
+  @@map("users")
 }
 
-model TipoSecao {
-  id         String  @id @default(uuid())
-  abreviacao String? @unique @db.VarChar(10)
-  descricao  String  @unique @db.VarChar(100)
-  secao      Secao[]
+model SectionType {
+  id          String    @id @default(uuid())
+  abrev       String?   @unique @db.VarChar(10)
+  description String    @unique @db.VarChar(100)
+  section     Section[]
 
-  @@map("tipo_secao")
+  @@map("section_types")
 }
 
-model Secao {
-  id                 String    @id @default(uuid())
-  descricao          String    @unique @db.VarChar(100)
-  codigo             String    @map("codigo") @db.VarChar(10)
-  codigoMatrizFilial String    @map("codigo_matriz_filial") @db.VarChar(10)
-  codigoERP          String?   @map("codigo_erp") @db.VarChar(10)
-  tipoSecaoId        String    @map("tipo_secao_id")
-  ativo              Boolean   @default(true)
-  tipoSecao          TipoSecao @relation(fields: [tipoSecaoId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+model Section {
+  id               String      @id @default(uuid())
+  description      String      @unique @db.VarChar(100)
+  code             String      @db.VarChar(10)
+  branchMatrixCode String      @map("brnach_matrix_code") @db.VarChar(10)
+  ERPcode          String?     @map("erp_code") @db.VarChar(10)
+  sectionTypeId    String      @map("section_type_id")
+  active           Boolean     @default(true)
+  sectionType      SectionType @relation(fields: [sectionTypeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-  @@index([tipoSecaoId], map: "secao_tipo_secao_id_fkey")
-  @@map("secao")
+  @@index([sectionTypeId], map: "section_section_type_id_fkey")
+  @@map("sections")
 }
 
-model Fornecedores {
-  id          String               @id @default(uuid())
-  codigo      String               @map("codigo") @db.VarChar(10)
-  codigoERP   String               @map("codigo_erp") @db.VarChar(10)
-  nome        String               @db.VarChar(100)
-  cnpj        String               @unique @db.VarChar(14)
-  usuarioId   String?              @map("usuario_resp_id")
-  fone        String?              @db.VarChar(10)
-  email       String?              @db.VarChar(50)
-  ativo       Boolean              @default(true)
-  dtCadastro  DateTime             @default(now()) @map("dt_cadastro") @db.DateTime(0)
-  enderecos   EnderecoFornecedor[]
-  usuarioResp Usuarios?            @relation(fields: [usuarioId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+model Supplier {
+  id        String            @id @default(uuid())
+  code      String            @map("code") @db.VarChar(10)
+  ERPCode   String            @map("erp_code") @db.VarChar(10)
+  name      String            @db.VarChar(100)
+  cnpj      String            @unique @db.VarChar(14)
+  userId    String?           @map("user_resp_id")
+  fone      String?           @db.VarChar(10)
+  email     String?           @db.VarChar(50)
+  active    Boolean           @default(true)
+  createdAt DateTime          @default(now()) @map("created_at") @db.DateTime(0)
+  addresses SupplierAddress[]
+  userResp  User?             @relation(fields: [userId], references: [id], onDelete: SetNull, onUpdate: NoAction)
 
-  @@index([usuarioId], map: "fornecedores_usuarioId_fkey")
-  @@map("fornecedores")
+  @@index([userId], map: "supplier_user_id_fkey")
+  @@map("suppliers")
 }
 
-model EnderecoFornecedor {
-  id             String        @id @default(uuid())
-  lograd         String        @db.VarChar(100)
-  numero         String        @db.VarChar(20)
-  complemento    String?       @db.VarChar(100)
-  bairro         String        @db.VarChar(100)
-  cidade         String        @db.VarChar(100)
-  uf             String        @db.VarChar(2)
-  cep            String        @db.VarChar(9)
-  fornecedorId   String        @map("fornecedor_id")
-  tipoEnderecoId String?       @map("tipo_endereco_id")
-  fornecedor     Fornecedores  @relation(fields: [fornecedorId], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  tipoEndereco   TipoEndereco? @relation(fields: [tipoEnderecoId], references: [id], onUpdate: NoAction)
+model SupplierAddress {
+  id            String       @id @default(uuid())
+  lograd        String       @db.VarChar(100)
+  number        String       @db.VarChar(20)
+  complement    String?      @db.VarChar(100)
+  district      String       @db.VarChar(100)
+  city          String       @db.VarChar(100)
+  state         String       @db.VarChar(2)
+  zipcode       String       @db.VarChar(9)
+  supplierId    String       @map("supplier_id")
+  addressTypeId String?      @map("address_type_id")
+  supplier      Supplier     @relation(fields: [supplierId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  addressType   AddressType? @relation(fields: [addressTypeId], references: [id], onUpdate: NoAction)
 
-  @@index([fornecedorId], map: "endereco_fornecedor_fornecedor_id_fkey")
-  @@index([tipoEnderecoId], map: "endereco_fornecedor_tipo_endereco_id_fkey")
-  @@map("endereco_fornecedor")
+  @@index([supplierId], map: "supplier_address_supplier_id_fkey")
+  @@index([addressTypeId], map: "supplier_address_address_type_id_fkey")
+  @@map("supplier_addresses")
 }
 
-model TipoEndereco {
-  id        String               @id @default(uuid())
-  descricao String               @db.VarChar(50)
-  enderecos EnderecoFornecedor[]
+model AddressType {
+  id          String            @id @default(uuid())
+  description String            @db.VarChar(50)
+  addresses   SupplierAddress[]
 
-  @@map("tipo_endereco")
+  @@map("address_types")
 }
