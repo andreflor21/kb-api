@@ -46,7 +46,9 @@ export class CreateUserUseCase {
             profile: { connect: { id: profileId } },
         });
 
-        const { hashedPassword, ...userWithoutPassword } = user;
-        return { user: userWithoutPassword };
+        const userCopy: Partial<User> = structuredClone(user);
+        delete userCopy.hashedPassword;
+
+        return { user: userCopy };
     }
 }
