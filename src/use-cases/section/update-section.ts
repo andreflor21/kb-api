@@ -1,4 +1,5 @@
 import { SectionsRepository } from '@/repositories/sections-repository';
+import { SectionNotFoundError } from '@/shared/errors/section-not-found-error';
 import { Section } from '@prisma/client';
 
 interface UpdateSectionUseCaseRequest {
@@ -36,7 +37,7 @@ export class UpdateSectionUseCase {
                 },
             },
         });
-
+        if (!section) throw new SectionNotFoundError();
         return { section };
     }
 }

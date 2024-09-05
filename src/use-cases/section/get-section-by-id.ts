@@ -1,4 +1,5 @@
 import { SectionsRepository } from '@/repositories/sections-repository';
+import { SectionNotFoundError } from '@/shared/errors/section-not-found-error';
 import { Section } from '@prisma/client';
 
 interface GetSectionByIdUseCaseRequest {
@@ -16,7 +17,7 @@ export class GetSectionByIdUseCase {
         id,
     }: GetSectionByIdUseCaseRequest): Promise<GetSectionByIdUseCaseResponse> {
         const section = await this.sectionsRepository.getSectionById(id);
-
+        if (!section) throw new SectionNotFoundError();
         return { section };
     }
 }

@@ -6,9 +6,7 @@ export interface AddressRepository {
     ): Promise<SupplierAddress>;
     getAddressById(id: string): Promise<SupplierAddress | null>;
     getAddresses(): Promise<SupplierAddress[]>;
-    getAddressesBySupplierId(
-        supplierId: string
-    ): Promise<SupplierAddress[] | null>;
+    getAddressesBySupplierId(supplierId: string): Promise<SupplierAddress[]>;
     updateAddress(
         id: string,
         data: Prisma.SupplierAddressUpdateInput
