@@ -3,6 +3,7 @@ import { AuthenticateUseCase } from '@/use-cases/auth/authenticate';
 import { InvalidCredentialsError } from '@/shared/errors/invalid-credentcials-error';
 import { expect, describe, it, beforeEach } from 'vitest';
 import { randomUUID } from 'crypto';
+import { hash } from 'bcryptjs';
 
 let usersRepository: InMemoryUsersRepository;
 let sut: AuthenticateUseCase;
@@ -17,7 +18,7 @@ describe('Authenticate Use Case', () => {
         await usersRepository.createUser({
             name: 'John Doe',
             email: 'johndoe@example.com',
-            password: '123456',
+            hashedPassword: await hash('123456', 10),
             cpf: '12345678901',
             birthdate: new Date().toISOString(),
             code: '123456',
@@ -47,7 +48,7 @@ describe('Authenticate Use Case', () => {
         await usersRepository.createUser({
             name: 'John Doe',
             email: 'johndoe@example.com',
-            password: '123456',
+            hashedPassword: await hash('123456', 10),
             cpf: '12345678901',
             birthdate: new Date().toISOString(),
             code: '123456',

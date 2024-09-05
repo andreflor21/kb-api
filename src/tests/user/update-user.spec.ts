@@ -1,6 +1,7 @@
-import { UpdateUserUseCase } from './update-user';
+import { UpdateUserUseCase } from '@/use-cases/user/update-user';
 import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users-repository';
 import { UserNotFoundError } from '@/shared/errors/user-not-found-error';
+import { hash } from 'bcryptjs';
 import { randomUUID } from 'crypto';
 import { beforeEach, describe, expect, it } from 'vitest';
 describe('UpdateUserUseCase', () => {
@@ -16,7 +17,10 @@ describe('UpdateUserUseCase', () => {
         const user = await usersRepository.createUser({
             name: `User 1`,
             email: `email1@example.com`,
-            password: Math.random().toString(36).substring(7),
+            hashedPassword: await hash(
+                Math.random().toString(36).substring(7),
+                10
+            ),
             cpf: Math.random().toString(36).substring(11),
             birthdate: new Date().toISOString(),
             code: Math.random().toString(36).substring(6),

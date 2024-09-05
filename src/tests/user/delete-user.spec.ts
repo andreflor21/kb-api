@@ -1,8 +1,9 @@
 import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users-repository';
 import { expect, describe, it, beforeEach } from 'vitest';
 import { randomUUID } from 'crypto';
-import { DeleteUserUseCase } from './delete-user';
+import { DeleteUserUseCase } from '@/use-cases/user/delete-user';
 import { UserNotFoundError } from '@/shared/errors/user-not-found-error';
+import { hash } from 'bcryptjs';
 
 let usersRepository: InMemoryUsersRepository;
 let sut: DeleteUserUseCase;
@@ -17,7 +18,7 @@ describe('Delete User Use Case', () => {
         const user = await usersRepository.createUser({
             name: 'John Doe',
             email: 'johndoe@example.com',
-            password: '123456',
+            hashedPassword: await hash('123456', 10),
             cpf: '12345678901',
             birthdate: new Date().toISOString(),
             code: '123456',
@@ -39,7 +40,7 @@ describe('Delete User Use Case', () => {
         await usersRepository.createUser({
             name: 'Jane Doe',
             email: 'janedoe@example.com',
-            password: '123456',
+            hashedPassword: await hash('123456', 10),
             cpf: '12345678901',
             birthdate: new Date().toISOString(),
             code: '123456',
@@ -54,7 +55,7 @@ describe('Delete User Use Case', () => {
         const user1 = await usersRepository.createUser({
             name: 'User One',
             email: 'userone@example.com',
-            password: '123456',
+            hashedPassword: await hash('123456', 10),
             cpf: '12345678901',
             birthdate: new Date().toISOString(),
             code: '123456',
@@ -64,7 +65,7 @@ describe('Delete User Use Case', () => {
         const user2 = await usersRepository.createUser({
             name: 'User Two',
             email: 'usertwo@example.com',
-            password: '123456',
+            hashedPassword: await hash('123456', 10),
             cpf: '12345678901',
             birthdate: new Date().toISOString(),
             code: '123456',

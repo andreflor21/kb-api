@@ -1,5 +1,5 @@
 import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users-repository';
-import { GetUserByEmailUseCase } from './get-user-by-email';
+import { GetUserByEmailUseCase } from '@/use-cases/user/get-user-by-email';
 import { randomUUID } from 'crypto';
 import { beforeEach, describe, expect, it } from 'vitest';
 

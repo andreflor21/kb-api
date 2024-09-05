@@ -1,4 +1,4 @@
-import { ChangePasswordUseCase } from './change-password';
+import { ChangePasswordUseCase } from '../../use-cases/user/change-password';
 import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users-repository';
 import { UserNotFoundError } from '@/shared/errors/user-not-found-error';
 import { hash } from 'bcryptjs';
@@ -18,7 +18,7 @@ describe('Change Password Use Case', () => {
         const user = await usersRepository.createUser({
             name: 'John Doe',
             email: 'johndoe@example.com',
-            password: '123456',
+            hashedPassword: await hash('123456', 10),
             cpf: '12345678901',
             birthdate: new Date().toISOString(),
             code: '123456',
@@ -32,7 +32,7 @@ describe('Change Password Use Case', () => {
 
         const updatedUser = usersRepository.getUserById(user.id);
         expect(updatedUser).toBeDefined();
-        expect(await hash('newPassword', 8)).not.toEqual(user.password);
+        expect(await hash('newPassword', 8)).not.toEqual(user.hashedPassword);
     });
 
     it('should throw UserNotFoundError if user does not exist', async () => {

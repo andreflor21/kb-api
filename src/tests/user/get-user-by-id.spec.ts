@@ -1,7 +1,8 @@
 import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users-repository';
 import { randomUUID } from 'crypto';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { GetUserByIdUseCase } from './get-user-by-id';
+import { GetUserByIdUseCase } from '@/use-cases/user/get-user-by-id';
+import { hash } from 'bcryptjs';
 
 let usersRepository: InMemoryUsersRepository;
 let sut: GetUserByIdUseCase;
@@ -16,7 +17,7 @@ describe('Get user by Id use case', () => {
         const user = await usersRepository.createUser({
             name: 'John Doe',
             email: 'johndoe@example.com',
-            password: '123456',
+            hashedPassword: await hash('123456', 10),
             cpf: '12345678901',
             birthdate: new Date().toISOString(),
             code: '123456',
