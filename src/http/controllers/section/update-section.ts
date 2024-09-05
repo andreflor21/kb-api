@@ -11,10 +11,7 @@ export async function updateSection(
         code: z.string().min(3),
         ERPcode: z.string().min(3),
         branchMatrixCode: z.string().min(3),
-        sectionType: {
-            description: z.string().min(3),
-            abreviation: z.string().min(3),
-        },
+        sectionType: z.string().uuid(),
     });
     const { id } = z.object({ id: z.string().uuid() }).parse(request.params);
     const { description, code, ERPcode, branchMatrixCode, sectionType } =

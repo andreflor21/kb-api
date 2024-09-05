@@ -5,7 +5,7 @@ interface CreateSectionUseCaseRequest {
     description: string;
     code: string;
     branchMatrixCode: string;
-    ERPcode: string;
+    ERPcode: string | null;
     sectionType: {
         description: string;
         abreviation: string;
@@ -34,7 +34,7 @@ export class CreateSectionUseCase {
             sectionType: {
                 connectOrCreate: {
                     where: {
-                        description: sectionType.abreviation,
+                        description: sectionType.description,
                     },
                     create: {
                         description: sectionType.description,

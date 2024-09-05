@@ -7,17 +7,17 @@ export async function updateSectionStatus(
     reply: FastifyReply
 ) {
     const updateSectionStatusSchema = z.object({
-        status: z.boolean(),
+        active: z.boolean(),
     });
     const { id } = z.object({ id: z.string().uuid() }).parse(request.params);
-    const { status } = updateSectionStatusSchema.parse(request.body);
+    const { active } = updateSectionStatusSchema.parse(request.body);
 
     const updateSectionStatus = makeUpdateSectionStatusUseCase();
 
     try {
         const updatedSection = await updateSectionStatus.execute({
             id,
-            status,
+            active,
         });
 
         reply.status(200).send(updatedSection);

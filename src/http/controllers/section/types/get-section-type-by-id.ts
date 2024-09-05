@@ -7,7 +7,7 @@ export async function getSectionTypeById(
     reply: FastifyReply
 ) {
     const { id } = z.object({ id: z.string().uuid() }).parse(request.params);
-
+    console.log(request.params);
     const getSectionTypeById = makeGetSectionTypeByIdUseCase();
 
     try {

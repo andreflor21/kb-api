@@ -9,12 +9,12 @@ export async function createSection(
     const createSectionSchema = z.object({
         description: z.string().min(3),
         code: z.string().min(3),
-        ERPcode: z.string().min(3),
+        ERPcode: z.string().min(3).or(z.null()),
         branchMatrixCode: z.string().min(3),
-        sectionType: {
+        sectionType: z.object({
             description: z.string().min(3),
-            abreviation: z.string().min(3),
-        },
+            abreviation: z.string(),
+        }),
     });
 
     const { description, code, ERPcode, branchMatrixCode, sectionType } =

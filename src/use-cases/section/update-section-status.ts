@@ -2,7 +2,7 @@ import { SectionsRepository } from '@/repositories/sections-repository';
 
 interface UpdateSectionStatusUseCaseRequest {
     id: string;
-    status: boolean;
+    active: boolean;
 }
 
 export class UpdateSectionStatusUseCase {
@@ -10,8 +10,8 @@ export class UpdateSectionStatusUseCase {
 
     async execute({
         id,
-        status,
+        active,
     }: UpdateSectionStatusUseCaseRequest): Promise<void> {
-        await this.sectionsRepository.updateSectionStatus(id, status);
+        await this.sectionsRepository.updateSectionStatus(id, active);
     }
 }
