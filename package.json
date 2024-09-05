@@ -3,6 +3,9 @@
     "version": "1.5.0",
     "description": "",
     "main": "index.js",
+    "prisma": {
+        "seed": "ts-node prisma/seed.ts"
+    },
     "scripts": {
         "dev": "tsx watch src/server.ts",
         "start": "node build/server.js",
