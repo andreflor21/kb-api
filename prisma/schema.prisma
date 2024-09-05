@@ -78,9 +78,10 @@ model Supplier {
   code      String            @map("code") @db.VarChar(10)
   ERPCode   String            @map("erp_code") @db.VarChar(10)
   name      String            @db.VarChar(100)
+  legalName String            @map("legal_name") @db.VarChar(100)
   cnpj      String            @unique @db.VarChar(14)
   userId    String?           @map("user_resp_id")
-  fone      String?           @db.VarChar(10)
+  fone      String?           @db.VarChar(20)
   email     String?           @db.VarChar(50)
   active    Boolean           @default(true)
   createdAt DateTime          @default(now()) @map("created_at") @db.DateTime(0)
@@ -112,7 +113,7 @@ model SupplierAddress {
 
 model AddressType {
   id          String            @id @default(uuid())
-  description String            @db.VarChar(50)
+  description String            @unique @db.VarChar(50)
   addresses   SupplierAddress[]
 
   @@map("address_types")
