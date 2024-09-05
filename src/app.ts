@@ -6,6 +6,7 @@ import env from '@/env';
 import { userRoutes } from './http/controllers/user/routes';
 import { routesRoutes } from './http/controllers/routes/routes';
 import { profileRoutes } from './http/controllers/profile/routes';
+import { sectionRoutes } from './http/controllers/section/routes';
 
 export const app = fastify();
 app.ready(() => {
@@ -27,6 +28,7 @@ app.register(fastifyCookie);
 app.register(userRoutes);
 app.register(profileRoutes);
 app.register(routesRoutes);
+app.register(sectionRoutes);
 
 app.setErrorHandler((error, _, reply) => {
     if (error instanceof ZodError) {

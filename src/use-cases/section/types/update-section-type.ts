@@ -11,7 +11,7 @@ interface UpdateSectionTypeUseCaseResponse {
     sectionType: Partial<SectionType> | null;
 }
 
-export class UpadateSectionTypeUseCase {
+export class UpdateSectionTypeUseCase {
     constructor(private sectionTypesRepository: SectionTypesRepository) {}
 
     async execute({
