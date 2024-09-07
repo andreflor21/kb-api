@@ -28,12 +28,10 @@ export class PrismaAddressRepository implements AddressRepository {
 
     async getAddressesBySupplierId(
         supplierId: string
-    ): Promise<SupplierAddress[] | null> {
+    ): Promise<SupplierAddress[]> {
         const addresses = await prisma.supplierAddress.findMany({
             where: { supplierId },
         });
-
-        if (!addresses) return null;
 
         return addresses;
     }

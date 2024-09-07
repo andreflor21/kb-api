@@ -8,7 +8,7 @@ interface CreateAddressTypeRequest {
 interface CreateAddressTypeResponse {
     addressType: AddressType;
 }
-export class CreateAddressType {
+export class CreateAddressTypeUseCase {
     constructor(private addressTypesRepository: AddressTypesRepository) {}
 
     async execute({

@@ -9,7 +9,7 @@ interface UpdateAddressTypeResponse {
     addressType: AddressType | null;
 }
 
-export class UpdateAddressType {
+export class UpdateAddressTypeUseCase {
     constructor(private addressTypesRepository: AddressTypesRepository) {}
 
     async execute({

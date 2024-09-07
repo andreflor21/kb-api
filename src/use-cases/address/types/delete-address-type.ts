@@ -5,7 +5,7 @@ interface DeleteAddressTypeRequest {
     id: string;
 }
 
-export class DeleteAddressType {
+export class DeleteAddressTypeUseCase {
     constructor(private addressTypesRepository: AddressTypesRepository) {}
 
     async execute({ id }: DeleteAddressTypeRequest): Promise<void> {

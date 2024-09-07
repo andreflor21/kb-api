@@ -8,7 +8,7 @@ interface CreateAddressUseCaseRequest {
     city: string;
     state: string;
     zipcode: string;
-    complement: string;
+    complement: string | null;
     supplierId: string;
     addressType: {
         description: string;

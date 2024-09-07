@@ -10,7 +10,7 @@ interface UpdateAddressUseCaseRequest {
     city: string;
     state: string;
     zipcode: string;
-    complement: string;
+    complement: string | null;
     addressType: {
         description: string;
     };
