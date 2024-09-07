@@ -10,7 +10,7 @@ import { updateAddressType } from './types/update-address-type';
 import { deleteAddressType } from './types/delete-address-type';
 
 export async function addressRoutes(app: FastifyInstance) {
-    const prefix = '/suppliers/:supplierId/addresses';
+    const prefix = '/:supplierId/addresses';
     app.get(prefix, { onRequest: verifyJwt }, getAddressBySupplierId);
     app.post(`${prefix}/new`, { onRequest: verifyJwt }, createAddress);
     app.get(`${prefix}/:addressId`, { onRequest: verifyJwt }, getAddressById);
