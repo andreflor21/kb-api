@@ -106,7 +106,7 @@ async function main() {
             },
         },
     });
-    console.log({ admin, user, kanban, bob });
+    console.log({ admin, user, kanban, bob, section, addressType, supplier });
 }
 main()
     .then(async () => {
