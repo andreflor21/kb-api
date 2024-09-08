@@ -7,7 +7,7 @@ import { userRoutes } from './http/controllers/user/routes';
 import { routesRoutes } from './http/controllers/routes/routes';
 import { profileRoutes } from './http/controllers/profile/routes';
 import { sectionRoutes } from './http/controllers/section/routes';
-import { addressRoutes } from './http/controllers/supplier/address/routes';
+import { supplierRoutes } from './http/controllers/supplier/routes';
 
 export const app = fastify();
 app.ready(() => {
@@ -30,7 +30,7 @@ app.register(userRoutes);
 app.register(profileRoutes);
 app.register(routesRoutes);
 app.register(sectionRoutes);
-app.register(addressRoutes);
+app.register(supplierRoutes);
 
 app.setErrorHandler((error, _, reply) => {
     if (error instanceof ZodError) {
