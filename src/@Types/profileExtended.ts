@@ -1,6 +1,6 @@
 import { Profile, User, Routes } from '@prisma/client';
 
-export interface ProfileExtended extends Profile {
+export type ProfileExtended = {
     users: Partial<User>[];
     routes: Partial<Routes>[];
-}
+} & Profile;

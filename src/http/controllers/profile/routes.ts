@@ -10,7 +10,7 @@ export async function profileRoutes(app: FastifyInstance) {
     app.get('/profiles', { onRequest: verifyJwt }, listProfiles);
     app.get('/profiles/:id', { onRequest: verifyJwt }, getProfileById);
     app.get('/profiles/duplicate', { onRequest: verifyJwt }, duplicateProfile);
-    app.post('/profiles/new', { onRequest: verifyJwt }, createProfile);
+    app.post('/profiles/new', createProfile);
     app.post(
         '/profiles/:id/routes/:routeId/link',
         { onRequest: verifyJwt },

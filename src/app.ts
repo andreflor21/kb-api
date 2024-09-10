@@ -1,11 +1,14 @@
 import fastifyJwt from '@fastify/jwt';
 import fastifyCookie from '@fastify/cookie';
+import cors from '@fastify/cors';
 import fastify from 'fastify';
 import { ZodError } from 'zod';
 import env from '@/env';
 import { userRoutes } from './http/controllers/user/routes';
 import { routesRoutes } from './http/controllers/routes/routes';
 import { profileRoutes } from './http/controllers/profile/routes';
+import { sectionRoutes } from './http/controllers/section/routes';
+import { supplierRoutes } from './http/controllers/supplier/routes';
 
 export const app = fastify();
 app.ready(() => {
@@ -21,12 +24,15 @@ app.register(fastifyJwt, {
         expiresIn: '10m',
     },
 });
+app.register(cors, {});
 
 app.register(fastifyCookie);
 
 app.register(userRoutes);
 app.register(profileRoutes);
 app.register(routesRoutes);
+app.register(sectionRoutes);
+app.register(supplierRoutes);
 
 app.setErrorHandler((error, _, reply) => {
     if (error instanceof ZodError) {
