@@ -1,6 +1,6 @@
+import { UserExtended } from '@/@Types/userExtended';
 import { UsersRepository } from '@/repositories/users-repository';
 import { InvalidCredentialsError } from '@/shared/errors/invalid-credentcials-error';
-import { User } from '@prisma/client';
 import { compare } from 'bcryptjs';
 
 interface AuthenticateUseCaseRequest {
@@ -9,7 +9,7 @@ interface AuthenticateUseCaseRequest {
 }
 
 interface AuthenticateUseCaseResponse {
-    user: User;
+    user: UserExtended;
 }
 
 export class AuthenticateUseCase {
@@ -23,11 +23,15 @@ export class AuthenticateUseCase {
             throw new InvalidCredentialsError();
         }
 
-        const passwordMatch = await compare(data.password, user.hashedPassword);
+        const passwordMatch = await compare(
+            data.password,
+            user.hashedPassword as string
+        );
         if (!passwordMatch) {
             throw new InvalidCredentialsError();
         }
-
-        return { user };
+        const { hashedPassword, profileId, ...userWithoutPassword } =
+            structuredClone(user);
+        return { user: userWithoutPassword };
     }
 }

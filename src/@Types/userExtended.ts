@@ -4,4 +4,4 @@ export type UserExtended = {
     profile?: {
         routes?: Partial<Routes>[];
     } & Partial<Profile>;
-} & User;
+} & Partial<User>;
