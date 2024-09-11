@@ -9,11 +9,38 @@ import { routesRoutes } from './http/controllers/routes/routes';
 import { profileRoutes } from './http/controllers/profile/routes';
 import { sectionRoutes } from './http/controllers/section/routes';
 import { supplierRoutes } from './http/controllers/supplier/routes';
+import { logger } from 'handlebars';
 
-export const app = fastify();
-app.ready(() => {
-    console.log(app.printRoutes());
+export const app = fastify({
+    logger: {
+        level: 'info', // Log level (you can use 'debug' for more detailed logs)
+        serializers: {
+            req(req) {
+                return {
+                    method: req.method,
+                    url: req.url,
+                    headers: req.headers,
+                };
+            },
+            res(res) {
+                return {
+                    statusCode: res.statusCode,
+                };
+            },
+        },
+    },
 });
+
+// app.addHook('onRequest', (request, reply, done) => {
+//     request.log.info({ req: request }, 'Incoming request');
+//     done();
+// });
+
+// app.addHook('onResponse', (request, reply, done) => {
+//     request.log.info({ res: reply }, 'Response sent');
+//     done();
+// });
+
 app.register(fastifyJwt, {
     secret: env.JWT_SECRET,
     cookie: {

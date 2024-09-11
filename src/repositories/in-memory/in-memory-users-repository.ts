@@ -1,13 +1,15 @@
 import { UsersRepository } from '../users-repository';
 import { User, Prisma } from '@prisma/client';
+import { UserExtended } from '@/@Types/userExtended';
 import { randomUUID } from 'node:crypto';
 import { hash } from 'bcryptjs';
 import { UserNotFoundError } from '@/shared/errors/user-not-found-error';
 import AppError from '@/shared/errors/app-error';
 import { ExpiredTokenError } from '@/shared/errors/expired-token-error';
+import { profile } from 'node:console';
 
 class InMemoryUsersRepository implements UsersRepository {
-    private users: User[] = [];
+    private users: UserExtended[] = [];
 
     public async updateUser(
         id: string,
@@ -32,6 +34,7 @@ class InMemoryUsersRepository implements UsersRepository {
                 hashedPassword: findUser.hashedPassword,
                 tokenReset: findUser.tokenReset,
                 tokenResetExpires: findUser.tokenResetExpires,
+                profile: findUser.profile,
             };
 
             this.users[this.users.map((x) => x.id).indexOf(id)] = updatedUser;
@@ -144,7 +147,7 @@ class InMemoryUsersRepository implements UsersRepository {
         return findUser ?? null;
     }
 
-    public async getUserByEmail(email: string): Promise<User | null> {
+    public async getUserByEmail(email: string): Promise<UserExtended | null> {
         if (!email) throw new AppError('Email must be provided', 400);
 
         const findUser = this.users.find((user) => user.email === email);

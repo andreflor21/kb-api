@@ -1,9 +1,9 @@
 import { Prisma, User } from '@prisma/client';
-
+import { UserExtended } from '@/@Types/userExtended';
 export interface UsersRepository {
     createUser(data: Prisma.UserCreateInput): Promise<User>;
     getUserById(id: string): Promise<User | null>;
-    getUserByEmail(email: string): Promise<User | null>;
+    getUserByEmail(email: string): Promise<UserExtended | null>;
     getUserByToken(token: string): Promise<User | null>;
     getUsers(): Promise<User[]>;
     updateUser(id: string, data: Prisma.UserUpdateInput): Promise<User | null>;

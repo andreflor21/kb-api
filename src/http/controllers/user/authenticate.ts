@@ -37,7 +37,7 @@ export async function authenticateUser(
                 path: '/',
             })
             .status(200)
-            .send({ token });
+            .send({ token, user });
     } catch (error) {
         if (
             error instanceof UserNotFoundError ||

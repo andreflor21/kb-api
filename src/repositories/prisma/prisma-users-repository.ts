@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma';
 import { UsersRepository } from '../users-repository';
 import { ExpiredTokenError } from '@/shared/errors/expired-token-error';
 import { UserNotFoundError } from '@/shared/errors/user-not-found-error';
+import { UserExtended } from '@/@Types/userExtended';
 
 class PrismaUsersRepository implements UsersRepository {
     async createUser(data: Prisma.UserCreateInput): Promise<User> {
@@ -28,9 +29,25 @@ class PrismaUsersRepository implements UsersRepository {
         return user;
     }
 
-    async getUserByEmail(email: string): Promise<User | null> {
+    async getUserByEmail(email: string): Promise<UserExtended | null> {
         const user = await prisma.user.findUnique({
             where: { email },
+            include: {
+                profile: {
+                    select: {
+                        id: true,
+                        description: true,
+                        routes: {
+                            select: {
+                                id: true,
+                                path: true,
+                                method: true,
+                                description: true,
+                            },
+                        },
+                    },
+                },
+            },
         });
         if (!user) return null;
 
