@@ -9,6 +9,7 @@ import { recoverPassword } from './recover-password';
 import { forgotPassword } from './forgot-password';
 import { deleteUser } from './delete-user';
 import { updateUserStatus } from './update-user-status';
+import { updateUser } from './update-user';
 
 export async function userRoutes(app: FastifyInstance) {
     app.post('/login', authenticateUser);
@@ -18,7 +19,7 @@ export async function userRoutes(app: FastifyInstance) {
     app.post('/users/new', createUser);
     app.get('/users', { onRequest: verifyJwt }, listUsers);
     app.get('/users/:id', { onRequest: verifyJwt }, getUserById);
-    app.patch('/users/:id/edit', { onRequest: verifyJwt }, getUserById);
+    app.patch('/users/:id/edit', { onRequest: verifyJwt }, updateUser);
     app.patch(
         '/users/:id/change-password',
         { onRequest: verifyJwt },
