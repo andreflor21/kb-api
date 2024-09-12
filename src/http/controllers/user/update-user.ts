@@ -3,33 +3,37 @@ import { z } from 'zod';
 import { makeUpdateUserUseCase } from '@/use-cases/factories/user/make-update-user-use-case';
 import { UserNotFoundError } from '@/shared/errors/user-not-found-error';
 import { UserAlreadyExistsError } from '@/shared/errors/user-already-exists-error';
+import { hash } from 'bcryptjs';
 
-export async function updateUserStatus(
-    request: FastifyRequest,
-    reply: FastifyReply
-) {
-    const updateUserStatus = makeUpdateUserUseCase();
+export async function updateUser(request: FastifyRequest, reply: FastifyReply) {
+    const updateUser = makeUpdateUserUseCase();
     const { id } = z
         .object({
             id: z.string().uuid(),
         })
         .parse(request.params);
-    const { name, email, cpf, birthdate, code, profileId } = z
+    const { name, email, password, cpf, birthdate, code, profileId } = z
         .object({
-            name: z.string(),
-            email: z.string().email(),
-            cpf: z.string(),
-            birthdate: z.coerce.date(),
-            code: z.string(),
-            profileId: z.string().uuid(),
+            name: z.string().optional(),
+            email: z.string().email().optional(),
+            password: z.string().min(6).optional(),
+            cpf: z.string().optional(),
+            birthdate: z.coerce.date().optional(),
+            code: z.string().optional(),
+            profileId: z.string().uuid().optional(),
         })
         .parse(request.body);
 
     try {
-        await updateUserStatus.execute({
+        let hashedPassword;
+        if (password) {
+            hashedPassword = await hash(password, 10);
+        }
+        await updateUser.execute({
             id,
             name,
             email,
+            hashedPassword,
             cpf,
             birthdate,
             code,
