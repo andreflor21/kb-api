@@ -6,14 +6,36 @@ import { UserNotFoundError } from '@/shared/errors/user-not-found-error';
 import { UserExtended } from '@/@Types/userExtended';
 
 class PrismaUsersRepository implements UsersRepository {
-    async createUser(data: Prisma.UserCreateInput): Promise<User> {
-        const user = await prisma.user.create({ data });
+    async createUser(data: Prisma.UserCreateInput): Promise<UserExtended> {
+        const user = await prisma.user.create({
+            data,
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                cpf: true,
+                birthdate: true,
+                code: true,
+                profileId: true,
+                active: true,
+            },
+        });
         return user;
     }
 
-    async getUserById(id: string): Promise<User | null> {
+    async getUserById(id: string): Promise<UserExtended | null> {
         const user = await prisma.user.findUnique({
             where: { id },
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                cpf: true,
+                birthdate: true,
+                code: true,
+                profileId: true,
+                active: true,
+            },
         });
         if (!user) return null;
 
@@ -63,10 +85,20 @@ class PrismaUsersRepository implements UsersRepository {
     async updateUser(
         id: string,
         data: Prisma.UserUpdateInput
-    ): Promise<User | null> {
+    ): Promise<UserExtended | null> {
         const user = await prisma.user.update({
             where: { id },
             data,
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                cpf: true,
+                birthdate: true,
+                code: true,
+                profileId: true,
+                active: true,
+            },
         });
 
         if (!user) return null;
