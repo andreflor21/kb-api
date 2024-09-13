@@ -52,3 +52,56 @@ export async function updateUser(request: FastifyRequest, reply: FastifyReply) {
         }
     }
 }
+
+export const updateUserSchema = {
+    schema: {
+        tags: ['Usuários'],
+        body: {
+            type: 'object',
+            required: ['name', 'email', 'profileId'],
+            properties: {
+                name: { type: 'string' },
+                email: { type: 'string' },
+                cpf: { type: 'string' },
+                birthdate: { type: 'string', format: 'date-time' },
+                code: { type: 'string' },
+                profileId: { type: 'string' },
+            },
+        },
+        response: {
+            204: {
+                type: 'object',
+            },
+            404: {
+                type: 'object',
+                properties: {
+                    message: { type: 'string' },
+                },
+            },
+            400: {
+                type: 'object',
+                properties: {
+                    message: { type: 'string' },
+                },
+            },
+            500: {
+                type: 'object',
+                properties: {
+                    message: { type: 'string' },
+                },
+            },
+        },
+        params: {
+            type: 'object',
+            required: ['id'],
+            properties: {
+                id: { type: 'string' },
+            },
+        },
+        security: [
+            {
+                BearerAuth: [],
+            },
+        ],
+    },
+};

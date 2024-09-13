@@ -1,30 +1,50 @@
 import { FastifyInstance } from 'fastify';
 import { verifyJwt } from '@/http/middleware/verifyJwt';
-import { authenticateUser } from './authenticate';
-import { createUser } from './create-user';
-import { getUserById } from './get-user-by-id';
-import { changePassword } from './change-password';
-import { listUsers } from './list-users';
-import { recoverPassword } from './recover-password';
-import { forgotPassword } from './forgot-password';
-import { deleteUser } from './delete-user';
-import { updateUserStatus } from './update-user-status';
-import { updateUser } from './update-user';
+import { authenticateUser, authenticateUserSchema } from './authenticate';
+import { createUser, createUserSchema } from './create-user';
+import { getUserById, getUserByIdSchema } from './get-user-by-id';
+import { changePassword, changePasswordSchema } from './change-password';
+import { listUsers, listUsersSchema } from './list-users';
+import { recoverPassword, recoverPasswordSchema } from './recover-password';
+import { forgotPassword, forgotPasswordSchema } from './forgot-password';
+import { deleteUser, deleteUserSchema } from './delete-user';
+import { updateUserStatus, updateUserStatusSchema } from './update-user-status';
+import { updateUser, updateUserSchema } from './update-user';
 
 export async function userRoutes(app: FastifyInstance) {
-    app.post('/login', authenticateUser);
-    app.post('/forgot-password', forgotPassword);
-    app.post('/reset-password/:token_id', recoverPassword);
+    app.post('/login', authenticateUserSchema, authenticateUser);
+    app.post('/forgot-password', forgotPasswordSchema, forgotPassword);
+    app.post(
+        '/reset-password/:token_id',
+        recoverPasswordSchema,
+        recoverPassword
+    );
 
-    app.post('/users/new', createUser);
-    app.get('/users', { onRequest: verifyJwt }, listUsers);
-    app.get('/users/:id', { onRequest: verifyJwt }, getUserById);
-    app.patch('/users/:id/edit', { onRequest: verifyJwt }, updateUser);
+    app.post('/users/new', createUserSchema, createUser);
+    app.get('/users', listUsersSchema, listUsers);
+    app.get(
+        '/users/:id',
+        { onRequest: verifyJwt, schema: getUserByIdSchema.schema },
+        getUserById
+    );
+    app.patch(
+        '/users/:id/edit',
+        { onRequest: verifyJwt, schema: updateUserSchema.schema },
+        updateUser
+    );
     app.patch(
         '/users/:id/change-password',
-        { onRequest: verifyJwt },
+        { onRequest: verifyJwt, schema: changePasswordSchema.schema },
         changePassword
     );
-    app.delete('/users/:id/delete', { onRequest: verifyJwt }, deleteUser);
-    app.put('/users/:id/status', { onRequest: verifyJwt }, updateUserStatus);
+    app.delete(
+        '/users/:id/delete',
+        { onRequest: verifyJwt, schema: deleteUserSchema.schema },
+        deleteUser
+    );
+    app.put(
+        '/users/:id/status',
+        { onRequest: verifyJwt, schema: updateUserStatusSchema.schema },
+        updateUserStatus
+    );
 }
