@@ -23,3 +23,32 @@ export async function deleteUser(request: FastifyRequest, reply: FastifyReply) {
         }
     }
 }
+
+export const deleteUserSchema = {
+    schema: {
+        tags: ['Usuários'],
+        params: {
+            type: 'object',
+            required: ['id'],
+            properties: {
+                id: { type: 'string' },
+            },
+        },
+        response: {
+            204: {
+                type: 'object',
+            },
+            404: {
+                type: 'object',
+                properties: {
+                    message: { type: 'string' },
+                },
+            },
+        },
+        security: [
+            {
+                BearerAuth: [],
+            },
+        ],
+    },
+};

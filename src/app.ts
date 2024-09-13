@@ -9,7 +9,9 @@ import { routesRoutes } from './http/controllers/routes/routes';
 import { profileRoutes } from './http/controllers/profile/routes';
 import { sectionRoutes } from './http/controllers/section/routes';
 import { supplierRoutes } from './http/controllers/supplier/routes';
-import { logger } from 'handlebars';
+import { fastifySwagger } from '@fastify/swagger';
+import { fastifySwaggerUi } from '@fastify/swagger-ui';
+import { swaggerOptions, swaggerUiOptions } from './shared/docs/swagger';
 
 export const app = fastify({
     logger: {
@@ -31,30 +33,20 @@ export const app = fastify({
     },
 });
 
-// app.addHook('onRequest', (request, reply, done) => {
-//     request.log.info({ req: request }, 'Incoming request');
-//     done();
-// });
-
-// app.addHook('onResponse', (request, reply, done) => {
-//     request.log.info({ res: reply }, 'Response sent');
-//     done();
-// });
-
 app.register(fastifyJwt, {
     secret: env.JWT_SECRET,
-    cookie: {
-        cookieName: 'refreshToken',
-        signed: false,
-    },
     sign: {
         expiresIn: '10m',
     },
 });
+
 app.register(cors, {});
 
-app.register(fastifyCookie);
+app.register(fastifySwagger, swaggerOptions);
+app.register(fastifySwaggerUi, swaggerUiOptions);
 
+app.register(fastifyCookie);
+/* Rotas */
 app.register(userRoutes);
 app.register(profileRoutes);
 app.register(routesRoutes);

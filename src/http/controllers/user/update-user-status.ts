@@ -31,3 +31,39 @@ export async function updateUserStatus(
         }
     }
 }
+
+export const updateUserStatusSchema = {
+    schema: {
+        tags: ['Usuários'],
+        params: {
+            type: 'object',
+            required: ['id'],
+            properties: {
+                id: { type: 'string' },
+            },
+        },
+        body: {
+            type: 'object',
+            required: ['status'],
+            properties: {
+                status: { type: 'boolean' },
+            },
+        },
+        response: {
+            204: {
+                type: 'object',
+            },
+            404: {
+                type: 'object',
+                properties: {
+                    message: { type: 'string' },
+                },
+            },
+        },
+        security: [
+            {
+                BearerAuth: [],
+            },
+        ],
+    },
+};

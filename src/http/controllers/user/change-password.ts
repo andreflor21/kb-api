@@ -33,3 +33,39 @@ export async function changePassword(
         }
     }
 }
+
+export const changePasswordSchema = {
+    schema: {
+        tags: ['Usuários'],
+        params: {
+            type: 'object',
+            required: ['id'],
+            properties: {
+                id: { type: 'string' },
+            },
+        },
+        body: {
+            type: 'object',
+            required: ['password'],
+            properties: {
+                password: { type: 'string' },
+            },
+        },
+        response: {
+            204: {
+                type: 'object',
+            },
+            404: {
+                type: 'object',
+                properties: {
+                    message: { type: 'string' },
+                },
+            },
+        },
+        security: [
+            {
+                BearerAuth: [],
+            },
+        ],
+    },
+};

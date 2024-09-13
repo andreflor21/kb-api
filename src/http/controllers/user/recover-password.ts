@@ -35,3 +35,34 @@ export async function recoverPassword(
         }
     }
 }
+
+export const recoverPasswordSchema = {
+    schema: {
+        tags: ['Usuários'],
+        params: {
+            type: 'object',
+            required: ['token_id'],
+            properties: {
+                token_id: { type: 'string' },
+            },
+        },
+        body: {
+            type: 'object',
+            required: ['password'],
+            properties: {
+                password: { type: 'string' },
+            },
+        },
+        response: {
+            204: {
+                type: 'object',
+            },
+            404: {
+                type: 'object',
+                properties: {
+                    message: { type: 'string' },
+                },
+            },
+        },
+    },
+};

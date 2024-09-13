@@ -62,3 +62,32 @@ export async function forgotPassword(
         reply.status(500).send();
     }
 }
+
+export const forgotPasswordSchema = {
+    schema: {
+        tags: ['Usuários'],
+        body: {
+            type: 'object',
+            required: ['email'],
+            properties: {
+                email: { type: 'string' },
+            },
+        },
+        response: {
+            200: {
+                type: 'object',
+                properties: {
+                    message: { type: 'string' },
+                    token: { type: 'string' },
+                    expires: { type: 'string', format: 'date-time' },
+                },
+            },
+            404: {
+                type: 'object',
+                properties: {
+                    message: { type: 'string' },
+                },
+            },
+        },
+    },
+};
