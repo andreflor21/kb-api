@@ -5,7 +5,7 @@ import { FastifySwaggerUiOptions } from '@fastify/swagger-ui';
 export const swaggerOptions: SwaggerOptions = {
     swagger: {
         info: {
-            title: 'Kanban API', // Change API name
+            title: 'Kanban API', // Nome da Api
             description: 'Documentação oficial do software Kanban', // Add API description
             version: '1.0.0', // API version
         },

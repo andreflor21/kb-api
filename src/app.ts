@@ -41,9 +41,12 @@ app.register(fastifyJwt, {
 });
 
 app.register(cors, {});
-
-app.register(fastifySwagger, swaggerOptions);
-app.register(fastifySwaggerUi, swaggerUiOptions);
+try {
+    app.register(fastifySwagger, swaggerOptions);
+    app.register(fastifySwaggerUi, swaggerUiOptions);
+} catch (error) {
+    console.error('Error with Swagger registration:', error);
+}
 
 app.register(fastifyCookie);
 /* Rotas */

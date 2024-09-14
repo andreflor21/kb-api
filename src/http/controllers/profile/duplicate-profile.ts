@@ -31,3 +31,63 @@ export async function duplicateProfile(
         }
     }
 }
+
+export const duplicateProfileSchema = {
+    tags: ['Perfil'],
+    security: [
+        {
+            BearerAuth: [],
+        },
+    ],
+    body: {
+        type: 'object',
+        properties: {
+            description: { type: 'string' },
+            profileId: { type: 'string' },
+        },
+        required: ['description', 'profileId'],
+    },
+    response: {
+        201: {
+            type: 'object',
+            properties: {
+                id: { type: 'string' },
+                description: { type: 'string' },
+                users: {
+                    type: 'array',
+                    items: {
+                        type: 'object',
+                        properties: {
+                            id: { type: 'string' },
+                            name: { type: 'string' },
+                            email: { type: 'string' },
+                        },
+                    },
+                },
+                routes: {
+                    type: 'array',
+                    items: {
+                        type: 'object',
+                        properties: {
+                            id: { type: 'string' },
+                            description: { type: 'string' },
+                            createdAt: { type: 'string' },
+                        },
+                    },
+                },
+            },
+        },
+        400: {
+            type: 'object',
+            properties: {
+                message: { type: 'string' },
+            },
+        },
+        404: {
+            type: 'object',
+            properties: {
+                message: { type: 'string' },
+            },
+        },
+    },
+};

@@ -29,3 +29,58 @@ export async function getProfileById(
         }
     }
 }
+
+export const getProfileByIdSchema = {
+    tags: ['Perfil'],
+    security: [
+        {
+            BearerAuth: [],
+        },
+    ],
+    params: {
+        type: 'object',
+        properties: {
+            id: { type: 'string', format: 'uuid' },
+        },
+        required: ['id'],
+    },
+    response: {
+        200: {
+            type: 'object',
+            properties: {
+                id: { type: 'string' },
+                description: { type: 'string' },
+                users: {
+                    type: 'array',
+                    items: {
+                        type: 'object',
+                        properties: {
+                            id: { type: 'string' },
+                            name: { type: 'string' },
+                            email: { type: 'string' },
+                        },
+                    },
+                },
+                routes: {
+                    type: 'array',
+                    items: {
+                        type: 'object',
+                        properties: {
+                            id: { type: 'string' },
+                            title: { type: 'string' },
+                            description: { type: 'string' },
+                            createdAt: { type: 'string' },
+                            updatedAt: { type: 'string' },
+                        },
+                    },
+                },
+            },
+        },
+        404: {
+            type: 'object',
+            properties: {
+                message: { type: 'string' },
+            },
+        },
+    },
+};
