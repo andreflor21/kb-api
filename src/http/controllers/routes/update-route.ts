@@ -1,6 +1,7 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
 import { z } from 'zod';
 import { makeUpdateRouteUseCase } from '@/use-cases/factories/routes/make-update-route-use-case';
+import path from 'node:path';
 
 export const updateRoute = async (
     request: FastifyRequest,
@@ -28,4 +29,41 @@ export const updateRoute = async (
     } catch (error) {
         reply.status(500).send();
     }
+};
+
+export const updateRouteSchema = {
+    tags: ['Rotas'],
+    security: [{ BearerAuth: [] }],
+    params: {
+        type: 'object',
+        properties: {
+            id: { type: 'string' },
+        },
+        required: ['id'],
+    },
+    body: {
+        type: 'object',
+        properties: {
+            description: { type: 'string' },
+            path: { type: 'string' },
+            method: { type: 'string' },
+        },
+    },
+    response: {
+        200: {
+            type: 'object',
+            properties: {
+                id: { type: 'string' },
+                description: { type: 'string' },
+                path: { type: 'string' },
+                method: { type: 'string' },
+            },
+        },
+        404: {
+            type: 'object',
+            properties: {
+                message: { type: 'string' },
+            },
+        },
+    },
 };
