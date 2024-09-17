@@ -46,29 +46,31 @@ export const createProfileSchema = {
     },
     response: {
         201: {
-            type: 'object',
-            properties: {
-                id: { type: 'string' },
-                description: { type: 'string' },
-                users: {
-                    type: 'array',
-                    items: {
-                        type: 'object',
-                        properties: {
-                            id: { type: 'string' },
-                            name: { type: 'string' },
-                            email: { type: 'string' },
+            profile: {
+                type: 'object',
+                properties: {
+                    id: { type: 'string' },
+                    description: { type: 'string' },
+                    users: {
+                        type: 'array',
+                        items: {
+                            type: 'object',
+                            properties: {
+                                id: { type: 'string' },
+                                name: { type: 'string' },
+                                email: { type: 'string' },
+                            },
                         },
                     },
-                },
-                routes: {
-                    type: 'array',
-                    items: {
-                        type: 'object',
-                        properties: {
-                            id: { type: 'string' },
-                            description: { type: 'string' },
-                            method: { type: 'string' },
+                    routes: {
+                        type: 'array',
+                        items: {
+                            type: 'object',
+                            properties: {
+                                id: { type: 'string' },
+                                description: { type: 'string' },
+                                method: { type: 'string' },
+                            },
                         },
                     },
                 },

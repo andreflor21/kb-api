@@ -1,8 +1,8 @@
+import { ProfileExtended } from '@/@Types/profileExtended';
 import { ProfilesRepository } from '@/repositories/profiles-repository';
-import { Profile } from '@prisma/client';
 
 interface ListProfilesUseCaseResponse {
-    profiles: Profile[];
+    profiles: ProfileExtended[];
 }
 
 export class ListProfilesUseCase {
