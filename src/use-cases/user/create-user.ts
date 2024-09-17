@@ -11,6 +11,7 @@ interface CreateUserUseCaseRequest {
     birthdate: string | Date | null;
     code: string | null;
     profileId: string;
+    active?: boolean;
 }
 
 interface CreateUserUseCaseResponse {
@@ -28,6 +29,7 @@ export class CreateUserUseCase {
         birthdate,
         code,
         profileId,
+        active = false,
     }: CreateUserUseCaseRequest): Promise<CreateUserUseCaseResponse> {
         const userWithSameEmail = await this.usersRepository.getUserByEmail(
             email
@@ -44,6 +46,7 @@ export class CreateUserUseCase {
             birthdate,
             code,
             profile: { connect: { id: profileId } },
+            active,
         });
 
         const userCopy: Partial<User> = structuredClone(user);
