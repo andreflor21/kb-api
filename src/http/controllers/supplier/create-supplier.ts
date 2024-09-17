@@ -38,3 +38,44 @@ export async function createSupplier(
         reply.status(500).send();
     }
 }
+
+export const createSupplierSchema = {
+    tags: ['Fornecedores'],
+    security: [{ BearerAuth: [] }],
+    body: {
+        type: 'object',
+        properties: {
+            name: { type: 'string' },
+            cnpj: { type: 'string' },
+            email: { type: 'string' },
+            fone: { type: 'string' },
+            legalName: { type: 'string' },
+            ERPcode: { type: 'string' },
+            code: { type: 'string' },
+            userId: { type: 'string' },
+        },
+        required: ['name', 'cnpj', 'legalName', 'ERPcode', 'code'],
+    },
+    response: {
+        201: {
+            type: 'object',
+            properties: {
+                id: { type: 'string' },
+                name: { type: 'string' },
+                cnpj: { type: 'string' },
+                email: { type: 'string' },
+                fone: { type: 'string' },
+                legalName: { type: 'string' },
+                ERPcode: { type: 'string' },
+                code: { type: 'string' },
+                userId: { type: 'string' },
+            },
+        },
+        400: {
+            type: 'object',
+            properties: {
+                message: { type: 'string' },
+            },
+        },
+    },
+};

@@ -22,3 +22,25 @@ export async function deleteAddress(
         reply.status(500).send();
     }
 }
+
+export const deleteAddressSchema = {
+    tags: ['Fonecedores', 'Endereços'],
+    security: [{ BearerAuth: [] }],
+    params: {
+        type: 'object',
+        properties: {
+            addressId: { type: 'string', format: 'uuid' },
+            supplierId: { type: 'string', format: 'uuid' },
+        },
+    },
+    response: {
+        204: {
+            description: 'Success',
+            type: 'null',
+        },
+        500: {
+            description: 'Internal Server Error',
+            type: 'null',
+        },
+    },
+};

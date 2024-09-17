@@ -11,3 +11,46 @@ export async function listProfiles(
 
     reply.status(200).send(profiles);
 }
+
+export const listProfilesSchema = {
+    tags: ['Perfil'],
+    security: [
+        {
+            BearerAuth: [],
+        },
+    ],
+    response: {
+        200: {
+            type: 'array',
+            items: {
+                type: 'object',
+                properties: {
+                    id: { type: 'string' },
+                    description: { type: 'string' },
+                    users: {
+                        type: 'array',
+                        items: {
+                            type: 'object',
+                            properties: {
+                                id: { type: 'string' },
+                                name: { type: 'string' },
+                                email: { type: 'string' },
+                            },
+                        },
+                    },
+                    routes: {
+                        type: 'array',
+                        items: {
+                            type: 'object',
+                            properties: {
+                                id: { type: 'string' },
+                                description: { type: 'string' },
+                                method: { type: 'string' },
+                            },
+                        },
+                    },
+                },
+            },
+        },
+    },
+};
