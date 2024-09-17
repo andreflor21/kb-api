@@ -2,6 +2,7 @@ import { FastifyRequest, FastifyReply } from 'fastify';
 import { z } from 'zod';
 import { UserAlreadyExistsError } from '@/shared/errors/user-already-exists-error';
 import { makeCreateUserUseCase } from '@/use-cases/factories/user/make-create-user-use-case';
+import { sendNewUserEmail } from '@/http/utils/send-new-user-email';
 
 export async function createUser(request: FastifyRequest, reply: FastifyReply) {
     const { name, email, password, cpf, birthdate, code, profileId } = z
@@ -19,7 +20,7 @@ export async function createUser(request: FastifyRequest, reply: FastifyReply) {
     const createUser = makeCreateUserUseCase();
 
     try {
-        const newUser = await createUser.execute({
+        const { user } = await createUser.execute({
             name,
             email,
             password,
@@ -28,13 +29,26 @@ export async function createUser(request: FastifyRequest, reply: FastifyReply) {
             code: code ?? null,
             profileId,
         });
-
-        reply.status(201).send(newUser);
+        if (user) {
+            const ret = await sendNewUserEmail({
+                id: user.id as string,
+                email,
+                name,
+            });
+            if (ret.statusCode == 200) {
+                reply.status(201).send({
+                    user,
+                    message: ret.message,
+                    token: ret.token,
+                    expires: ret.expires,
+                });
+            } else {
+                reply.status(ret.statusCode).send({ message: ret.message });
+            }
+        }
     } catch (error) {
         if (error instanceof UserAlreadyExistsError) {
-            reply.status(409).send();
-        } else {
-            reply.status(500).send();
+            reply.status(409).send({ message: error.message });
         }
     }
 }
@@ -101,6 +115,9 @@ export const createUserSchema = {
                             },
                         },
                     },
+                    message: { type: 'string' },
+                    token: { type: 'string' },
+                    expires: { type: 'string', format: 'date-time' },
                 },
                 example: {
                     user: {
@@ -124,6 +141,9 @@ export const createUserSchema = {
                             ],
                         },
                     },
+                    message: 'string',
+                    token: 'string',
+                    expires: '2023-01-01T00:00:00.000Z',
                 },
             },
         },
