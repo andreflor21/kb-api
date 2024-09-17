@@ -21,3 +21,26 @@ export async function deleteSupplier(
         reply.status(500).send();
     }
 }
+
+export const deleteSupplierSchema = {
+    tags: ['Fornecedores'],
+    security: [{ BearerAuth: [] }],
+    params: {
+        type: 'object',
+        properties: {
+            supplierId: { type: 'string' },
+        },
+        required: ['supplierId'],
+    },
+    response: {
+        204: {
+            type: 'null',
+        },
+        404: {
+            type: 'object',
+            properties: {
+                message: { type: 'string' },
+            },
+        },
+    },
+};

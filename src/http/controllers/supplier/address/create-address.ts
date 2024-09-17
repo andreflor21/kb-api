@@ -53,3 +53,70 @@ export async function createAddress(
         reply.status(500).send();
     }
 }
+
+export const createAddressSchema = {
+    tags: ['Fonecedores', 'Endereços'],
+    security: [{ BearerAuth: [] }],
+    body: {
+        type: 'object',
+        properties: {
+            lograd: { type: 'string' },
+            number: { type: 'string' },
+            zipcode: { type: 'string' },
+            city: { type: 'string' },
+            state: { type: 'string' },
+            district: { type: 'string' },
+            complement: { type: ['string', 'null'] },
+            addressType: {
+                type: 'object',
+                properties: {
+                    description: { type: 'string' },
+                },
+            },
+        },
+        required: [
+            'lograd',
+            'number',
+            'zipcode',
+            'city',
+            'state',
+            'district',
+            'addressType',
+        ],
+    },
+    params: {
+        type: 'object',
+        properties: {
+            supplierId: { type: 'string' },
+        },
+        required: ['supplierId'],
+    },
+    response: {
+        201: {
+            type: 'object',
+            properties: {
+                supplierId: { type: 'string' },
+                id: { type: 'string' },
+                lograd: { type: 'string' },
+                number: { type: 'string' },
+                zipcode: { type: 'string' },
+                city: { type: 'string' },
+                state: { type: 'string' },
+                district: { type: 'string' },
+                complement: { type: ['string', 'null'] },
+                addressType: {
+                    type: 'object',
+                    properties: {
+                        description: { type: 'string' },
+                    },
+                },
+            },
+        },
+        404: {
+            type: 'object',
+            properties: {
+                message: { type: 'string' },
+            },
+        },
+    },
+};
