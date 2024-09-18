@@ -46,18 +46,6 @@ export const listUsersSchema = {
                                 properties: {
                                     id: { type: 'string' },
                                     description: { type: 'string' },
-                                    routes: {
-                                        type: 'array',
-                                        items: {
-                                            type: 'object',
-                                            properties: {
-                                                id: { type: 'string' },
-                                                description: {
-                                                    type: 'string',
-                                                },
-                                            },
-                                        },
-                                    },
                                 },
                             },
                         },

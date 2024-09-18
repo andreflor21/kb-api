@@ -70,7 +70,7 @@ export const updateUserSchema = {
         },
         response: {
             204: {
-                type: 'object',
+                type: 'null',
             },
             404: {
                 type: 'object',
