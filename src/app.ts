@@ -1,5 +1,6 @@
 import fastifyJwt from '@fastify/jwt';
 import fastifyCookie from '@fastify/cookie';
+import rateLimit from '@fastify/rate-limit';
 import cors from '@fastify/cors';
 import fastify from 'fastify';
 import { ZodError } from 'zod';
@@ -30,6 +31,22 @@ export const app = fastify({
                 };
             },
         },
+    },
+});
+
+app.register(rateLimit, {
+    max: 10,
+    timeWindow: '1 minute',
+    keyGenerator: (req) => {
+        return req.ip;
+    },
+    errorResponseBuilder: (req, context) => {
+        return {
+            statusCode: 429,
+            error: 'Too Many Requests',
+            message:
+                'You have reached the maximum number of requests allowed in one minute.',
+        };
     },
 });
 
@@ -64,7 +81,6 @@ app.setErrorHandler((error, _, reply) => {
     }
 
     if (env.NODE_ENV !== 'production') {
-        console.error(error);
         return reply
             .status(error.statusCode ?? 400)
             .send({ message: error.message });
