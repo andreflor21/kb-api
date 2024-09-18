@@ -21,8 +21,8 @@ importers:
         specifier: ^10.0.0
         version: 10.0.0
       '@fastify/swagger':
-        specifier: ^8.15.0
-        version: 8.15.0
+        specifier: ^9.0.0
+        version: 9.0.0
       '@fastify/swagger-ui':
         specifier: ^5.0.1
         version: 5.0.1
@@ -41,6 +41,9 @@ importers:
       fastify:
         specifier: ^4.27.0
         version: 4.28.1
+      fastify-rate-limit:
+        specifier: ^5.9.0
+        version: 5.9.0
       handlebars:
         specifier: ^4.7.8
         version: 4.7.8
@@ -480,8 +483,8 @@ packages:
   '@fastify/swagger-ui@5.0.1':
     resolution: {integrity: sha512-nCDV5l0OTziK8nIeHaLZ30ENFFftZ4Pcs7GHDcqOO6Jp3qSnyOsqBg1/EosM+d1mrCvH4vSlM09xolkjrbuJQQ==}
 
-  '@fastify/swagger@8.15.0':
-    resolution: {integrity: sha512-zy+HEEKFqPMS2sFUsQU5X0MHplhKJvWeohBwTCkBAJA/GDYGLGUWQaETEhptiqxK7Hs0fQB9B4MDb3pbwIiCwA==}
+  '@fastify/swagger@9.0.0':
+    resolution: {integrity: sha512-E7TQbBCbhvS2djGLxJ7t2OFbhc2F+KCsOZCNhh6xQIlJxq9H4ZR5KuLKG+vn6COVqkLxRVUOZ9qtbbzdf5Jfqw==}
 
   '@humanwhocodes/module-importer@1.0.1':
     resolution: {integrity: sha512-bxveV4V8v5Yb4ncFTT3rPSgZBOpCkjfK0y4oVVVJwIuDVBRMDXrPyXRL988i5ap9m9bnyEEjWfm5WkBmtffLfA==}
@@ -1155,11 +1158,21 @@ packages:
     resolution: {integrity: sha512-KH6p+Z8AKPXnmA7+Iz2Lh8ARCMr+8WNPVludm1LGkZoD2MjY6LVnRMtTKhkdzI+jr0RzQWXKzKyBJm1zoHEL4Q==}
     engines: {node: '>=0.10.0'}
 
+  fastify-plugin@3.0.1:
+    resolution: {integrity: sha512-qKcDXmuZadJqdTm6vlCqioEbyewF60b/0LOFCcYN1B6BIZGlYJumWWOYs70SFYLDAH4YqdE1cxH/RKMG7rFxgA==}
+
   fastify-plugin@4.5.1:
     resolution: {integrity: sha512-stRHYGeuqpEZTL1Ef0Ovr2ltazUT9g844X5z/zEBFLG8RYlpDiOCIG+ATvYEp+/zmc7sN29mcIMp8gvYplYPIQ==}
 
   fastify-plugin@5.0.0:
     resolution: {integrity: sha512-0725fmH/yYi8ugsjszLci+lLnGBK6cG+WSxM7edY2OXJEU7gr2JiGBoieL2h9mhTych1vFsEfXsAsGGDJ/Rd5w==}
+
+  fastify-rate-limit@5.8.0:
+    resolution: {integrity: sha512-sln2ZbEG1cb0Ok4pn+tXrZIU0zJUWEimANWB/Bq+z/Ad5fBys9YsmCySrPqhUdBcZHwk9ymX22wbgZvvNLokyQ==}
+
+  fastify-rate-limit@5.9.0:
+    resolution: {integrity: sha512-v+w/Q7wUWEdefvhUtqEhUyjg4DThjGQTlfYDOR0tgave6MbsBnCwZhRoEF1mVVa3mLb4eHXY9WH8TaRDvZt8Lg==}
+    deprecated: Please use @fastify/rate-limit@6.0.0 instead
 
   fastify@4.28.1:
     resolution: {integrity: sha512-kFWUtpNr4i7t5vY2EJPCN2KgMVpuqfU4NjnJNCgiNB900oiDeYqaNDRcAfeBbOF5hGixixxcKnOU4KN9z6QncQ==}
@@ -1907,6 +1920,9 @@ packages:
     engines: {node: '>=16.13'}
     hasBin: true
 
+  process-warning@1.0.0:
+    resolution: {integrity: sha512-du4wfLyj4yCZq1VupnVSZmRsPJsNuxoDQFdCFHLaYiEbFBD7QE0a+I4D7hOxrVnh78QE/YipFAj9lXHiXocV+Q==}
+
   process-warning@3.0.0:
     resolution: {integrity: sha512-mqn0kFRl0EoqhnL0GQ0veqFHyIN1yig9RHh/InzORTUiZHFRAur+aMtRkELNwGs9aNwKS6tg/An4NYBPGwvtzQ==}
 
@@ -2216,6 +2232,10 @@ packages:
 
   thread-stream@3.1.0:
     resolution: {integrity: sha512-OqyPZ9u96VohAyMfJykzmivOrY2wfMSf3C5TtFJVgN+Hm6aj+voFhlK+kZEIv2FBh1X6Xp3DlnCOfEQ3B2J86A==}
+
+  tiny-lru@8.0.2:
+    resolution: {integrity: sha512-ApGvZ6vVvTNdsmt676grvCkUCGwzG9IqXma5Z07xJgiC5L7akUMof5U8G2JTI9Rz/ovtVhJBlY6mNhEvtjzOIg==}
+    engines: {node: '>=6'}
 
   tinybench@2.9.0:
     resolution: {integrity: sha512-0+DUvqWMValLmha6lr4kD8iAMK1HzV0/aKnCtWb9v9641TnP/MFb7Pc2bxoxQjTXAErryXVgUOfv2YqNllqGeg==}
@@ -2741,9 +2761,9 @@ snapshots:
       rfdc: 1.4.1
       yaml: 2.5.1
 
-  '@fastify/swagger@8.15.0':
+  '@fastify/swagger@9.0.0':
     dependencies:
-      fastify-plugin: 4.5.1
+      fastify-plugin: 5.0.0
       json-schema-resolver: 2.0.0
       openapi-types: 12.1.3
       rfdc: 1.4.1
@@ -3547,9 +3567,22 @@ snapshots:
     dependencies:
       reusify: 1.0.4
 
+  fastify-plugin@3.0.1: {}
+
   fastify-plugin@4.5.1: {}
 
   fastify-plugin@5.0.0: {}
+
+  fastify-rate-limit@5.8.0:
+    dependencies:
+      fastify-plugin: 3.0.1
+      ms: 2.1.3
+      tiny-lru: 8.0.2
+
+  fastify-rate-limit@5.9.0:
+    dependencies:
+      fastify-rate-limit-deprecated: fastify-rate-limit@5.8.0
+      process-warning: 1.0.0
 
   fastify@4.28.1:
     dependencies:
@@ -4286,6 +4319,8 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.3
 
+  process-warning@1.0.0: {}
+
   process-warning@3.0.0: {}
 
   process-warning@4.0.0: {}
@@ -4624,6 +4659,8 @@ snapshots:
   thread-stream@3.1.0:
     dependencies:
       real-require: 0.2.0
+
+  tiny-lru@8.0.2: {}
 
   tinybench@2.9.0: {}
 
