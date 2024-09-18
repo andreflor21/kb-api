@@ -14,14 +14,15 @@ export async function createSupplier(
         legalName: z.string().max(100),
         ERPcode: z.string().max(100),
         code: z.string().max(100),
-        userId: z.string().uuid().or(z.null()),
+        users: z.array(z.string().uuid()),
     });
 
-    const { name, cnpj, email, fone, legalName, ERPcode, code, userId } =
+    const { name, cnpj, email, fone, legalName, ERPcode, code, users } =
         createSupplierBodySchema.parse(request.body);
 
     try {
         const createSupplier = makeCreateSupplierUseCase();
+
         const newSupplier = await createSupplier.execute({
             name,
             cnpj,
@@ -30,7 +31,7 @@ export async function createSupplier(
             legalName,
             ERPCode: ERPcode,
             code,
-            userId,
+            users,
         });
 
         return reply.status(201).send(newSupplier);
@@ -38,3 +39,73 @@ export async function createSupplier(
         reply.status(500).send();
     }
 }
+
+export const createSupplierSchema = {
+    tags: ['Fornecedores'],
+    security: [{ BearerAuth: [] }],
+    body: {
+        type: 'object',
+        properties: {
+            name: { type: 'string' },
+            cnpj: { type: 'string' },
+            email: { type: 'string' },
+            fone: { type: 'string' },
+            legalName: { type: 'string' },
+            ERPcode: { type: 'string' },
+            code: { type: 'string' },
+            users: { type: 'array', items: { type: 'string' } },
+        },
+        required: ['name', 'cnpj', 'legalName', 'ERPcode', 'code'],
+    },
+    response: {
+        201: {
+            supplier: {
+                type: 'object',
+                properties: {
+                    id: { type: 'string' },
+                    name: { type: 'string' },
+                    cnpj: { type: 'string' },
+                    email: { type: 'string' },
+                    fone: { type: 'string' },
+                    legalName: { type: 'string' },
+                    ERPcode: { type: 'string' },
+                    code: { type: 'string' },
+                    created_at: { type: 'string', format: 'date-time' },
+                    users: {
+                        type: 'array',
+                        items: {
+                            type: 'object',
+                            properties: {
+                                id: { type: 'string' },
+                                name: { type: 'string' },
+                            },
+                        },
+                    },
+                    addresses: {
+                        type: 'array',
+                        items: {
+                            type: 'object',
+                            properties: {
+                                id: { type: 'string' },
+                                lograd: { type: 'string' },
+                                number: { type: 'string' },
+                                complement: { type: 'string' },
+                                district: { type: 'string' },
+                                city: { type: 'string' },
+                                state: { type: 'string' },
+                                cep: { type: 'string' },
+                            },
+                        },
+                    },
+                },
+            },
+        },
+        400: {
+            type: 'object',
+            properties: {
+                message: { type: 'string' },
+                errors: { type: 'array', items: { type: 'object' } }, // To handle multiple errors
+            },
+        },
+    },
+};

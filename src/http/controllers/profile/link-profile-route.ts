@@ -1,7 +1,7 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
 import { z } from 'zod';
-import { ProfileAlreadyExistsError } from '@/shared/errors/profile-already-exists-error';
 import { makeLinkProfileToRouteUseCase } from '@/use-cases/factories/profile/make-link-profile-route-use-case';
+import { ProfileNotFoundError } from '@/shared/errors/profile-not-found-error';
 
 export async function linkProfileToRoute(
     request: FastifyRequest,
@@ -29,10 +29,38 @@ export async function linkProfileToRoute(
 
         reply.status(204).send();
     } catch (error) {
-        if (error instanceof ProfileAlreadyExistsError) {
+        if (error instanceof ProfileNotFoundError) {
             reply.status(error.statusCode).send({ message: error.message });
         } else {
             reply.status(500).send();
         }
     }
 }
+
+export const linkProfileToRouteSchema = {
+    tags: ['Perfil'],
+    security: [
+        {
+            BearerAuth: [],
+        },
+    ],
+    params: {
+        type: 'object',
+        properties: {
+            id: { type: 'string', format: 'uuid' },
+            routeId: { type: 'string', format: 'uuid' },
+        },
+        required: ['id', 'routeId'],
+    },
+    response: {
+        204: {
+            type: 'null',
+        },
+        404: {
+            type: 'object',
+            properties: {
+                message: { type: 'string' },
+            },
+        },
+    },
+};

@@ -11,3 +11,20 @@ export const listRoutes = async (_: FastifyRequest, reply: FastifyReply) => {
         reply.status(500).send();
     }
 };
+
+export const listRoutesSchema = {
+    tags: ['Rotas'],
+    security: [{ BearerAuth: [] }],
+    response: {
+        200: {
+            type: 'array',
+            items: {
+                type: 'object',
+                properties: {
+                    id: { type: 'string' },
+                    description: { type: 'string' },
+                },
+            },
+        },
+    },
+};

@@ -21,3 +21,65 @@ export async function getSupplierById(
         reply.status(500).send();
     }
 }
+
+export const getSupplierByIdSchema = {
+    tags: ['Fornecedores'],
+    security: [{ BearerAuth: [] }],
+    params: {
+        type: 'object',
+        properties: {
+            supplierId: { type: 'string' },
+        },
+        required: ['supplierId'],
+    },
+    response: {
+        200: {
+            supplier: {
+                type: 'object',
+                properties: {
+                    id: { type: 'string' },
+                    name: { type: 'string' },
+                    email: { type: 'string' },
+                    fone: { type: 'string' },
+                    cnpj: { type: 'string' },
+                    ERPcode: { type: 'string' },
+                    legalName: { type: 'string' },
+                    code: { type: 'string' },
+                    created_at: { type: 'string', format: 'date-time' },
+                    users: {
+                        type: 'array',
+                        items: {
+                            type: 'object',
+                            properties: {
+                                id: { type: 'string' },
+                                name: { type: 'string' },
+                            },
+                        },
+                    },
+                    addresses: {
+                        type: 'array',
+                        items: {
+                            type: 'object',
+                            properties: {
+                                id: { type: 'string' },
+                                lograd: { type: 'string' },
+                                number: { type: 'string' },
+                                complement: { type: 'string' },
+                                district: { type: 'string' },
+                                city: { type: 'string' },
+                                state: { type: 'string' },
+                                zipcode: { type: 'string' },
+                            },
+                        },
+                    },
+                },
+            },
+        },
+        404: {
+            type: 'object',
+            properties: {
+                message: { type: 'string' },
+            },
+        },
+    },
+};

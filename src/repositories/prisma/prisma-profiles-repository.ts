@@ -55,7 +55,7 @@ export class PrismaProfilesRepository implements ProfilesRepository {
         });
     }
 
-    public async getProfiles(): Promise<Profile[]> {
+    public async getProfiles(): Promise<ProfileExtended[]> {
         return await prisma.profile.findMany({
             include: {
                 routes: true,
