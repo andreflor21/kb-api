@@ -51,7 +51,7 @@ export const updateUserStatusSchema = {
         },
         response: {
             204: {
-                type: 'object',
+                type: 'null',
             },
             404: {
                 type: 'object',

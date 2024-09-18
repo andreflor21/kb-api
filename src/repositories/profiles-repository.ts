@@ -6,7 +6,7 @@ export interface ProfilesRepository {
     getProfileByDescription(
         description: string
     ): Promise<ProfileExtended | null>;
-    getProfiles(): Promise<Profile[]>;
+    getProfiles(): Promise<ProfileExtended[]>;
     updateProfile(
         id: string,
         data: Prisma.ProfileUpdateInput

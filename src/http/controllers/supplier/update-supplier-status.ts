@@ -30,3 +30,33 @@ export async function updateSupplierStatus(
         reply.status(500).send();
     }
 }
+
+export const updateSupplierStatusSchema = {
+    tags: ['Fornecedores'],
+    security: [{ BearerAuth: [] }],
+    body: {
+        type: 'object',
+        properties: {
+            status: { type: 'boolean' },
+        },
+        required: ['status'],
+    },
+    params: {
+        type: 'object',
+        properties: {
+            supplierId: { type: 'string' },
+        },
+        required: ['supplierId'],
+    },
+    response: {
+        204: {
+            type: 'null',
+        },
+        404: {
+            type: 'object',
+            properties: {
+                message: { type: 'string' },
+            },
+        },
+    },
+};

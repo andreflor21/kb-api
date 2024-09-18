@@ -43,7 +43,7 @@ model User {
   profileId         String     @map("profile_id")
   tokenReset        String?    @map("token_reset") @db.VarChar(200)
   tokenResetExpires DateTime?  @map("token_reset_expires") @db.DateTime(0)
-  suppliers         Supplier[]
+  suppliers         Supplier[] @relation("UserToSupplier")
   profile           Profile    @relation(fields: [profileId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@index([profileId], map: "users_profile_id_fkey")
@@ -80,17 +80,15 @@ model Supplier {
   name         String                 @db.VarChar(100)
   legalName    String                 @map("legal_name") @db.VarChar(100)
   cnpj         String                 @unique @db.VarChar(14)
-  userId       String?                @map("user_resp_id")
   fone         String?                @db.VarChar(20)
   email        String?                @db.VarChar(50)
   active       Boolean                @default(true)
   createdAt    DateTime               @default(now()) @map("created_at") @db.DateTime(0)
   addresses    SupplierAddress[]
-  userResp     User?                  @relation(fields: [userId], references: [id], onDelete: SetNull, onUpdate: NoAction)
+  users        User[]                 @relation("UserToSupplier")
   products     Product[]
   deliveryDays SupplierDeliveryDays[]
 
-  @@index([userId], map: "supplier_user_id_fkey")
   @@map("suppliers")
 }
 

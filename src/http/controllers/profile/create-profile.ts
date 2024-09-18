@@ -29,3 +29,58 @@ export async function createProfile(
         }
     }
 }
+
+export const createProfileSchema = {
+    tags: ['Perfil'],
+    security: [
+        {
+            BearerAuth: [],
+        },
+    ],
+    body: {
+        type: 'object',
+        properties: {
+            description: { type: 'string' },
+        },
+        required: ['description'],
+    },
+    response: {
+        201: {
+            profile: {
+                type: 'object',
+                properties: {
+                    id: { type: 'string' },
+                    description: { type: 'string' },
+                    users: {
+                        type: 'array',
+                        items: {
+                            type: 'object',
+                            properties: {
+                                id: { type: 'string' },
+                                name: { type: 'string' },
+                                email: { type: 'string' },
+                            },
+                        },
+                    },
+                    routes: {
+                        type: 'array',
+                        items: {
+                            type: 'object',
+                            properties: {
+                                id: { type: 'string' },
+                                description: { type: 'string' },
+                                method: { type: 'string' },
+                            },
+                        },
+                    },
+                },
+            },
+        },
+        400: {
+            type: 'object',
+            properties: {
+                message: { type: 'string' },
+            },
+        },
+    },
+};

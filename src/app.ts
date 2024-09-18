@@ -36,14 +36,17 @@ export const app = fastify({
 app.register(fastifyJwt, {
     secret: env.JWT_SECRET,
     sign: {
-        expiresIn: '10m',
+        expiresIn: '1d',
     },
 });
 
 app.register(cors, {});
-
-app.register(fastifySwagger, swaggerOptions);
-app.register(fastifySwaggerUi, swaggerUiOptions);
+try {
+    app.register(fastifySwagger, swaggerOptions);
+    app.register(fastifySwaggerUi, swaggerUiOptions);
+} catch (error) {
+    console.error('Error with Swagger registration:', error);
+}
 
 app.register(fastifyCookie);
 /* Rotas */
@@ -57,12 +60,16 @@ app.setErrorHandler((error, _, reply) => {
     if (error instanceof ZodError) {
         return reply
             .status(400)
-            .send({ message: 'Validation error.', issues: error.format() });
+            .send({ message: 'Validation error.', errors: error.formErrors });
     }
 
     if (env.NODE_ENV !== 'production') {
         console.error(error);
+        return reply
+            .status(error.statusCode ?? 400)
+            .send({ message: error.message });
     } else {
+        console.error(error);
         // TODO: Here we should log to a external tool like DataDog/NewRelic/Sentry
     }
 
