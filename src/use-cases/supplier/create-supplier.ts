@@ -9,7 +9,7 @@ type CreateSupplierUseCaseRequest = {
     ERPCode: string;
     fone: string | null;
     email: string | null;
-    userId: string | null;
+    users: string[];
 };
 
 type CreateSupplierUseCaseResponse = {
@@ -27,35 +27,18 @@ export class CreateSupplierUseCase {
         ERPCode,
         fone,
         email,
-        userId,
+        users,
     }: CreateSupplierUseCaseRequest): Promise<CreateSupplierUseCaseResponse> {
-        if (!userId) {
-            const supplier = await this.supplierRepository.createSupplier({
-                code,
-                cnpj,
-                name,
-                legalName,
-                ERPCode,
-                fone,
-                email,
-            });
-            return { supplier };
-        } else {
-            const supplier = await this.supplierRepository.createSupplier({
-                code,
-                cnpj,
-                name,
-                legalName,
-                ERPCode,
-                fone,
-                email,
-                userResp: {
-                    connect: {
-                        id: userId,
-                    },
-                },
-            });
-            return { supplier };
-        }
+        const supplier = await this.supplierRepository.createSupplier({
+            code,
+            cnpj,
+            name,
+            legalName,
+            ERPCode,
+            fone,
+            email,
+            users: { connect: users.map((id) => ({ id })) },
+        });
+        return { supplier };
     }
 }

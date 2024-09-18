@@ -1,21 +1,30 @@
 import { SupplierRepository } from '../supplier-repository';
-import { Supplier } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import { prisma } from '@/lib/prisma';
 import { SupplierAlreadyExistsError } from '@/shared/errors/supplier-already-exists-error';
 import { SupplierNotFoundError } from '@/shared/errors/supplier-not-found-error';
 import { SupplierExtended } from '@/@Types/SupplierExtended';
 
 export class PrismaSupplierRepository implements SupplierRepository {
-    async createSupplier(data: Supplier): Promise<SupplierExtended> {
+    async createSupplier(
+        data: Prisma.SupplierCreateInput
+    ): Promise<SupplierExtended> {
         const checkSupplier = await prisma.supplier.findUnique({
             where: { cnpj: data.cnpj },
         });
         if (checkSupplier) {
             throw new SupplierAlreadyExistsError();
         }
+
         return await prisma.supplier.create({
             data,
             include: {
+                users: {
+                    select: {
+                        id: true,
+                        name: true,
+                    },
+                },
                 addresses: {
                     select: {
                         id: true,
@@ -26,10 +35,16 @@ export class PrismaSupplierRepository implements SupplierRepository {
         });
     }
 
-    async getSupplierById(id: string): Promise<SupplierExtended | null> {
+    async getSupplierById(id: string): Promise<SupplierExtended> {
         const supplier = await prisma.supplier.findUnique({
             where: { id },
             include: {
+                users: {
+                    select: {
+                        id: true,
+                        name: true,
+                    },
+                },
                 addresses: {
                     select: {
                         id: true,
@@ -45,6 +60,12 @@ export class PrismaSupplierRepository implements SupplierRepository {
     async getSuppliers(): Promise<SupplierExtended[]> {
         return await prisma.supplier.findMany({
             include: {
+                users: {
+                    select: {
+                        id: true,
+                        name: true,
+                    },
+                },
                 addresses: {
                     select: {
                         id: true,
@@ -55,11 +76,20 @@ export class PrismaSupplierRepository implements SupplierRepository {
         });
     }
 
-    async updateSupplier(data: Supplier): Promise<SupplierExtended | null> {
+    async updateSupplier(
+        id: string,
+        data: Prisma.SupplierUpdateInput
+    ): Promise<SupplierExtended | null> {
         const supplier = await prisma.supplier.update({
-            where: { id: data.id },
+            where: { id },
             data,
             include: {
+                users: {
+                    select: {
+                        id: true,
+                        name: true,
+                    },
+                },
                 addresses: {
                     select: {
                         id: true,
@@ -80,6 +110,12 @@ export class PrismaSupplierRepository implements SupplierRepository {
             where: { id },
             data: { active: status },
             include: {
+                users: {
+                    select: {
+                        id: true,
+                        name: true,
+                    },
+                },
                 addresses: {
                     select: {
                         id: true,

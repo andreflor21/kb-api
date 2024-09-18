@@ -60,12 +60,16 @@ app.setErrorHandler((error, _, reply) => {
     if (error instanceof ZodError) {
         return reply
             .status(400)
-            .send({ message: 'Validation error.', issues: error.format() });
+            .send({ message: 'Validation error.', errors: error.formErrors });
     }
 
     if (env.NODE_ENV !== 'production') {
         console.error(error);
+        return reply
+            .status(error.statusCode ?? 400)
+            .send({ message: error.message });
     } else {
+        console.error(error);
         // TODO: Here we should log to a external tool like DataDog/NewRelic/Sentry
     }
 

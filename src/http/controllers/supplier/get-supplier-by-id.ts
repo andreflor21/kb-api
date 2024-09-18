@@ -34,31 +34,42 @@ export const getSupplierByIdSchema = {
     },
     response: {
         200: {
-            type: 'object',
-            properties: {
-                id: { type: 'string' },
-                name: { type: 'string' },
-                email: { type: 'string' },
-                fone: { type: 'string' },
-                cnpj: { type: 'string' },
-                ERPcode: { type: 'string' },
-                legalName: { type: 'string' },
-                code: { type: 'string' },
-                userId: { type: 'string' },
-                created_at: { type: 'string' },
-                addresses: {
-                    type: 'array',
-                    items: {
-                        type: 'object',
-                        properties: {
-                            id: { type: 'string' },
-                            lograd: { type: 'string' },
-                            number: { type: 'string' },
-                            complement: { type: 'string' },
-                            district: { type: 'string' },
-                            city: { type: 'string' },
-                            state: { type: 'string' },
-                            zipcode: { type: 'string' },
+            supplier: {
+                type: 'object',
+                properties: {
+                    id: { type: 'string' },
+                    name: { type: 'string' },
+                    email: { type: 'string' },
+                    fone: { type: 'string' },
+                    cnpj: { type: 'string' },
+                    ERPcode: { type: 'string' },
+                    legalName: { type: 'string' },
+                    code: { type: 'string' },
+                    created_at: { type: 'string', format: 'date-time' },
+                    users: {
+                        type: 'array',
+                        items: {
+                            type: 'object',
+                            properties: {
+                                id: { type: 'string' },
+                                name: { type: 'string' },
+                            },
+                        },
+                    },
+                    addresses: {
+                        type: 'array',
+                        items: {
+                            type: 'object',
+                            properties: {
+                                id: { type: 'string' },
+                                lograd: { type: 'string' },
+                                number: { type: 'string' },
+                                complement: { type: 'string' },
+                                district: { type: 'string' },
+                                city: { type: 'string' },
+                                state: { type: 'string' },
+                                zipcode: { type: 'string' },
+                            },
                         },
                     },
                 },

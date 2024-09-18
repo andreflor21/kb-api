@@ -1,10 +1,13 @@
-import { Prisma, Supplier } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import { SupplierExtended } from '@/@Types/SupplierExtended';
+import { SupplierCreateInput } from '@/@Types/SupplierCreateInput';
+import { SupplierUpdateInput } from '@/@Types/SupplierUpdateInput';
 export interface SupplierRepository {
     createSupplier(data: Prisma.SupplierCreateInput): Promise<SupplierExtended>;
-    getSupplierById(id: string): Promise<SupplierExtended | null>;
+    getSupplierById(id: string): Promise<SupplierExtended>;
     getSuppliers(): Promise<SupplierExtended[]>;
     updateSupplier(
+        id: string,
         data: Prisma.SupplierUpdateInput
     ): Promise<SupplierExtended | null>;
     updateSupplierStatus(
