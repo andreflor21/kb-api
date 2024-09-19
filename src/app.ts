@@ -35,7 +35,7 @@ export const app = fastify({
 });
 
 app.register(rateLimit, {
-    max: 10,
+    max: 100,
     timeWindow: '1 minute',
     keyGenerator: (req) => {
         return req.ip;
