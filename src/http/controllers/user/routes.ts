@@ -1,4 +1,3 @@
-import rateLimit from '@fastify/rate-limit';
 import { FastifyInstance } from 'fastify';
 import { verifyJwt } from '@/http/middleware/verifyJwt';
 import { authenticateUser, authenticateUserSchema } from './authenticate';
@@ -13,10 +12,6 @@ import { updateUserStatus, updateUserStatusSchema } from './update-user-status';
 import { updateUser, updateUserSchema } from './update-user';
 
 export async function userRoutes(app: FastifyInstance) {
-    app.register(rateLimit, {
-        max: 100, // maximum of 100 requests
-        timeWindow: '15 minutes', // per 15 minutes
-    });
     app.post(
         '/login',
         {
@@ -36,7 +31,6 @@ export async function userRoutes(app: FastifyInstance) {
         recoverPasswordSchema,
         recoverPassword
     );
-
     app.post('/users/new', createUserSchema, createUser);
     app.get(
         '/users',

@@ -25,19 +25,16 @@ export async function recoverPassword(
         .parse(request.body);
 
     try {
-        await recoverPassword
-            .execute({ token: token_id, password })
-            .then(async () => {
-                const { user } = await getUserByToken.execute({
-                    token: token_id,
-                });
-                if (user)
-                    await updateUserStatus.execute({
-                        id: user.id,
-                        status: true,
-                    });
+        const { user } = await getUserByToken.execute({
+            token: token_id,
+        });
+        if (user) {
+            await recoverPassword.execute({ token: token_id, password });
+            await updateUserStatus.execute({
+                id: user.id,
+                status: true,
             });
-
+        }
         reply.status(204).send();
     } catch (error) {
         if (

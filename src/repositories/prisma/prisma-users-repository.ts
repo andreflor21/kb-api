@@ -47,7 +47,6 @@ class PrismaUsersRepository implements UsersRepository {
             where: { tokenReset: token },
         });
         if (!user) return null;
-
         return user;
     }
 
