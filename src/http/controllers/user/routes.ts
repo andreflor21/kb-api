@@ -38,7 +38,11 @@ export async function userRoutes(app: FastifyInstance) {
     );
 
     app.post('/users/new', createUserSchema, createUser);
-    app.get('/users', listUsersSchema, listUsers);
+    app.get(
+        '/users',
+        { onRequest: verifyJwt, schema: listUsersSchema.schema },
+        listUsers
+    );
     app.get(
         '/users/:id',
         { onRequest: verifyJwt, schema: getUserByIdSchema.schema },
