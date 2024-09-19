@@ -13,6 +13,7 @@ interface UpdateUserUseCaseRequest {
     password?: string | null;
     code?: string | null;
     profileId?: string;
+    active?: boolean;
 }
 
 interface UpdateUserUseCaseResponse {
@@ -31,6 +32,7 @@ export class UpdateUserUseCase {
         hashedPassword,
         code,
         profileId,
+        active,
     }: UpdateUserUseCaseRequest): Promise<UpdateUserUseCaseResponse> {
         const user = await this.usersRepository.getUserById(id);
         if (!user) {
@@ -52,6 +54,7 @@ export class UpdateUserUseCase {
             cpf: cpf ?? user.cpf,
             birthdate: birthdate ?? user.birthdate,
             code: code ?? user.code,
+            active: active ?? user.active,
             profile: { connect: { id: profileId ?? user.profileId } },
         });
         return { user: updatedUser };
