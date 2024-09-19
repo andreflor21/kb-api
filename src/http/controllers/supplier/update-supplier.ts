@@ -68,10 +68,7 @@ export const updateSupplierSchema = {
             users: {
                 type: 'array',
                 items: {
-                    type: 'object',
-                    properties: {
-                        id: { type: 'string' },
-                    },
+                    type: 'string',
                 },
             },
         },
