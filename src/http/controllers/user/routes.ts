@@ -1,5 +1,5 @@
+import rateLimit from '@fastify/rate-limit';
 import { FastifyInstance } from 'fastify';
-import fastifyRateLimit from 'fastify-rate-limit';
 import { verifyJwt } from '@/http/middleware/verifyJwt';
 import { authenticateUser, authenticateUserSchema } from './authenticate';
 import { createUser, createUserSchema } from './create-user';
@@ -13,19 +13,23 @@ import { updateUserStatus, updateUserStatusSchema } from './update-user-status';
 import { updateUser, updateUserSchema } from './update-user';
 
 export async function userRoutes(app: FastifyInstance) {
-    app.register(fastifyRateLimit, {
+    app.register(rateLimit, {
         max: 100, // maximum of 100 requests
-        timeWindow: '15 minutes' // per 15 minutes
+        timeWindow: '15 minutes', // per 15 minutes
     });
-    app.post('/login', {
-        schema: authenticateUserSchema,
-        config: {
-            rateLimit: {
-                max: 5, // maximum of 5 requests
-                timeWindow: '1 minute' // per minute
-            }
-        }
-    }, authenticateUser);
+    app.post(
+        '/login',
+        {
+            schema: authenticateUserSchema.schema,
+            config: {
+                rateLimit: {
+                    max: 5, // maximum of 5 requests
+                    timeWindow: '1 minute', // per minute
+                },
+            },
+        },
+        authenticateUser
+    );
     app.post('/forgot-password', forgotPasswordSchema, forgotPassword);
     app.post(
         '/reset-password/:token_id',
