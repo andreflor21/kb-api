@@ -94,6 +94,7 @@ export const createUserSchema = {
                                 type: 'string',
                                 format: 'date-time',
                             },
+                            active: { type: 'boolean' },
                             profile: {
                                 type: 'object',
                                 properties: {

@@ -34,6 +34,7 @@ export const listUsersSchema = {
                                     type: 'string',
                                     format: 'date-time',
                                 },
+                                active: { type: 'boolean' },
                                 changePassword: { type: 'boolean' },
                                 tokenReset: { type: 'string' },
                                 tokenResetExpires: {
