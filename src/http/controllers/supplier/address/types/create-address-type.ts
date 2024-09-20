@@ -24,3 +24,34 @@ export async function createAddressType(
         reply.status(500).send();
     }
 }
+export const createAddressTypeSchema = {
+    tags: ['Tipos de Endereços'],
+    security: [{ BearerAuth: [] }],
+    body: {
+        type: 'object',
+        properties: {
+            description: { type: 'string' },
+        },
+    },
+    response: {
+        201: {
+            type: 'object',
+            properties: {
+                id: { type: 'string' },
+                description: { type: 'string' },
+            },
+        },
+        400: {
+            type: 'object',
+            properties: {
+                message: { type: 'string' },
+            },
+        },
+        500: {
+            type: 'object',
+            properties: {
+                message: { type: 'string' },
+            },
+        },
+    },
+};

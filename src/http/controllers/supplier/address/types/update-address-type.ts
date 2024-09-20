@@ -22,8 +22,36 @@ export async function updateAddressType(
             description,
         });
 
-        reply.status(201).send(addressType);
+        reply.status(204).send();
     } catch (error) {
         reply.status(500).send();
     }
 }
+
+export const updateAddressTypeSchema = {
+    tags: ['Tipos de Endereços'],
+    security: [{ BearerAuth: [] }],
+    body: {
+        type: 'object',
+        properties: {
+            description: { type: 'string' },
+        },
+    },
+    params: {
+        type: 'object',
+        properties: {
+            addressTypeId: { type: 'string', format: 'uuid' },
+        },
+    },
+    response: {
+        204: {
+            description: 'Success',
+        },
+        500: {
+            type: 'object',
+            properties: {
+                message: { type: 'string' },
+            },
+        },
+    },
+};

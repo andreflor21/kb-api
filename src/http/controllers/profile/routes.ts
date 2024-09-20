@@ -21,7 +21,7 @@ export async function profileRoutes(app: FastifyInstance) {
         getProfileById
     );
     app.post(
-        '/profiles/duplicate',
+        '/profiles/:id/duplicate',
         { onRequest: verifyJwt, schema: duplicateProfileSchema },
         duplicateProfile
     );

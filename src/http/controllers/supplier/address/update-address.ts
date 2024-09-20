@@ -51,7 +51,7 @@ export async function updateAddress(
         if (!updatedAddress) {
             throw new AddressNotFoundError();
         }
-        return reply.status(200).send(updatedAddress);
+        return reply.status(204).send();
     } catch (error) {
         if (error instanceof AddressNotFoundError) {
             return reply.status(error.statusCode).send(error.message);
@@ -59,3 +59,45 @@ export async function updateAddress(
         return reply.status(500).send();
     }
 }
+
+export const updateAddressSchema = {
+    tags: ['Fornecedores', 'Endereços'],
+    security: [{ BearerAuth: [] }],
+    body: {
+        type: 'object',
+        properties: {
+            lograd: { type: 'string' },
+            number: { type: 'string' },
+            zipcode: { type: 'string' },
+            city: { type: 'string' },
+            state: { type: 'string' },
+            district: { type: 'string' },
+            complement: { type: 'string' },
+            addressType: {
+                type: 'object',
+                properties: {
+                    description: { type: 'string' },
+                },
+            },
+        },
+    },
+    params: {
+        type: 'object',
+        properties: {
+            supplierId: { type: 'string' },
+            addressId: { type: 'string' },
+        },
+        required: ['supplierId', 'addressId'],
+    },
+    response: {
+        204: {
+            type: 'null',
+        },
+        400: {
+            type: 'object',
+            properties: {
+                message: { type: 'string' },
+            },
+        },
+    },
+};

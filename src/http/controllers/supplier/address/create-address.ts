@@ -55,7 +55,7 @@ export async function createAddress(
 }
 
 export const createAddressSchema = {
-    tags: ['Fonecedores', 'Endereços'],
+    tags: ['Fornecedores', 'Endereços'],
     security: [{ BearerAuth: [] }],
     body: {
         type: 'object',

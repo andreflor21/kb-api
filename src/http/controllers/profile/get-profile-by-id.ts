@@ -46,32 +46,35 @@ export const getProfileByIdSchema = {
     },
     response: {
         200: {
-            profile: {
-                type: 'object',
-                properties: {
-                    id: { type: 'string' },
-                    description: { type: 'string' },
-                    users: {
-                        type: 'array',
-                        items: {
-                            type: 'object',
-                            properties: {
-                                id: { type: 'string' },
-                                name: { type: 'string' },
-                                email: { type: 'string' },
+            type: 'object',
+            properties: {
+                profile: {
+                    type: 'object',
+                    properties: {
+                        id: { type: 'string' },
+                        description: { type: 'string' },
+                        users: {
+                            type: 'array',
+                            items: {
+                                type: 'object',
+                                properties: {
+                                    id: { type: 'string' },
+                                    name: { type: 'string' },
+                                    email: { type: 'string' },
+                                },
                             },
                         },
-                    },
-                    routes: {
-                        type: 'array',
-                        items: {
-                            type: 'object',
-                            properties: {
-                                id: { type: 'string' },
-                                title: { type: 'string' },
-                                description: { type: 'string' },
-                                createdAt: { type: 'string' },
-                                updatedAt: { type: 'string' },
+                        routes: {
+                            type: 'array',
+                            items: {
+                                type: 'object',
+                                properties: {
+                                    id: { type: 'string' },
+                                    title: { type: 'string' },
+                                    description: { type: 'string' },
+                                    createdAt: { type: 'string' },
+                                    updatedAt: { type: 'string' },
+                                },
                             },
                         },
                     },

@@ -21,32 +21,35 @@ export const listProfilesSchema = {
     ],
     response: {
         200: {
-            profiles: {
-                type: 'array',
-                items: {
-                    type: 'object',
-                    properties: {
-                        id: { type: 'string' },
-                        description: { type: 'string' },
-                        users: {
-                            type: 'array',
-                            items: {
-                                type: 'object',
-                                properties: {
-                                    id: { type: 'string' },
-                                    name: { type: 'string' },
-                                    email: { type: 'string' },
+            type: 'object',
+            properties: {
+                profiles: {
+                    type: 'array',
+                    items: {
+                        type: 'object',
+                        properties: {
+                            id: { type: 'string' },
+                            description: { type: 'string' },
+                            users: {
+                                type: 'array',
+                                items: {
+                                    type: 'object',
+                                    properties: {
+                                        id: { type: 'string' },
+                                        name: { type: 'string' },
+                                        email: { type: 'string' },
+                                    },
                                 },
                             },
-                        },
-                        routes: {
-                            type: 'array',
-                            items: {
-                                type: 'object',
-                                properties: {
-                                    id: { type: 'string' },
-                                    description: { type: 'string' },
-                                    method: { type: 'string' },
+                            routes: {
+                                type: 'array',
+                                items: {
+                                    type: 'object',
+                                    properties: {
+                                        id: { type: 'string' },
+                                        description: { type: 'string' },
+                                        method: { type: 'string' },
+                                    },
                                 },
                             },
                         },

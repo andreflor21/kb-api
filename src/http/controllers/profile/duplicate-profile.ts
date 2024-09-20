@@ -7,20 +7,17 @@ export async function duplicateProfile(
     request: FastifyRequest,
     reply: FastifyReply
 ) {
-    const { description, profileId } = z
+    const { id } = z.object({ id: z.string().uuid() }).parse(request.params);
+    const { description } = z
         .object({
             description: z.string().min(3),
-            profileId: z.string().uuid(),
         })
         .parse(request.body);
 
     const duplicateProfile = makeDuplicateProfileUseCase();
 
     try {
-        const newProfile = await duplicateProfile.execute(
-            profileId,
-            description
-        );
+        const newProfile = await duplicateProfile.execute(id, description);
 
         reply.status(201).send(newProfile);
     } catch (error) {
@@ -39,40 +36,49 @@ export const duplicateProfileSchema = {
             BearerAuth: [],
         },
     ],
+    params: {
+        type: 'object',
+        properties: {
+            id: { type: 'string', format: 'uuid' },
+        },
+        required: ['id'],
+    },
     body: {
         type: 'object',
         properties: {
             description: { type: 'string' },
-            profileId: { type: 'string' },
         },
-        required: ['description', 'profileId'],
+        required: ['description'],
     },
     response: {
         201: {
-            profile: {
-                type: 'object',
-                properties: {
-                    id: { type: 'string' },
-                    description: { type: 'string' },
-                    users: {
-                        type: 'array',
-                        items: {
-                            type: 'object',
-                            properties: {
-                                id: { type: 'string' },
-                                name: { type: 'string' },
-                                email: { type: 'string' },
+            type: 'object',
+            properties: {
+                profile: {
+                    type: 'object',
+                    properties: {
+                        id: { type: 'string' },
+                        description: { type: 'string' },
+                        users: {
+                            type: 'array',
+                            items: {
+                                type: 'object',
+                                properties: {
+                                    id: { type: 'string' },
+                                    name: { type: 'string' },
+                                    email: { type: 'string' },
+                                },
                             },
                         },
-                    },
-                    routes: {
-                        type: 'array',
-                        items: {
-                            type: 'object',
-                            properties: {
-                                id: { type: 'string' },
-                                description: { type: 'string' },
-                                createdAt: { type: 'string' },
+                        routes: {
+                            type: 'array',
+                            items: {
+                                type: 'object',
+                                properties: {
+                                    id: { type: 'string' },
+                                    description: { type: 'string' },
+                                    createdAt: { type: 'string' },
+                                },
                             },
                         },
                     },
