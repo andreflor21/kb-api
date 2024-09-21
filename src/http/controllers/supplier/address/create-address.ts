@@ -94,6 +94,7 @@ export const createAddressSchema = {
     response: {
         201: {
             type: 'object',
+            description: 'Success',
             properties: {
                 supplierId: { type: 'string' },
                 id: { type: 'string' },
@@ -114,6 +115,14 @@ export const createAddressSchema = {
         },
         404: {
             type: 'object',
+            description: 'Not Found',
+            properties: {
+                message: { type: 'string' },
+            },
+        },
+        403: {
+            type: 'object',
+            description: 'Forbidden',
             properties: {
                 message: { type: 'string' },
             },

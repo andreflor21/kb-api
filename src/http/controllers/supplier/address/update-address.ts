@@ -59,3 +59,65 @@ export async function updateAddress(
         return reply.status(500).send();
     }
 }
+
+export const updateAddressSchema = {
+    tags: ['Fornecedores', 'Endereços'],
+    security: [{ BearerAuth: [] }],
+    body: {
+        type: 'object',
+        properties: {
+            lograd: { type: 'string' },
+            number: { type: 'string' },
+            zipcode: { type: 'string' },
+            city: { type: 'string' },
+            state: { type: 'string' },
+            district: { type: 'string' },
+            complement: { type: 'string' },
+            addressType: {
+                type: 'object',
+                properties: {
+                    description: { type: 'string' },
+                },
+            },
+        },
+    },
+    params: {
+        type: 'object',
+        properties: {
+            supplierId: { type: 'string' },
+            addressId: { type: 'string' },
+        },
+        required: ['supplierId', 'addressId'],
+    },
+    response: {
+        204: {
+            type: 'null',
+            description: 'Success',
+        },
+        400: {
+            type: 'object',
+            description: 'Bad Request',
+            properties: {
+                message: { type: 'string' },
+            },
+        },
+        404: {
+            type: 'object',
+            description: 'Not Found',
+            properties: {
+                message: { type: 'string' },
+            },
+        },
+        500: {
+            type: 'null',
+            description: 'Internal Server Error',
+        },
+        403: {
+            type: 'object',
+            description: 'Forbidden',
+            properties: {
+                message: { type: 'string' },
+            },
+        },
+    },
+};

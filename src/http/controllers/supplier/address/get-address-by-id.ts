@@ -55,6 +55,7 @@ export const getAddressByIdSchema = {
         },
         404: {
             type: 'object',
+            description: 'Not Found',
             properties: {
                 message: { type: 'string' },
             },
@@ -62,6 +63,13 @@ export const getAddressByIdSchema = {
         500: {
             description: 'Internal Server Error',
             type: 'null',
+        },
+        403: {
+            type: 'object',
+            description: 'Forbidden',
+            properties: {
+                message: { type: 'string' },
+            },
         },
     },
 };

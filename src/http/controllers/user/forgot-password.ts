@@ -88,6 +88,13 @@ export const forgotPasswordSchema = {
                     message: { type: 'string' },
                 },
             },
+            403: {
+                type: 'object',
+                description: 'Forbidden',
+                properties: {
+                    message: { type: 'string' },
+                },
+            },
         },
     },
 };

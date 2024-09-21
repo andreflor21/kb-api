@@ -55,10 +55,19 @@ export const recoverPasswordSchema = {
         },
         response: {
             204: {
-                type: 'object',
+                description: 'Success',
+                type: 'null',
             },
             404: {
                 type: 'object',
+                description: 'Not Found',
+                properties: {
+                    message: { type: 'string' },
+                },
+            },
+            403: {
+                type: 'object',
+                description: 'Forbidden',
                 properties: {
                     message: { type: 'string' },
                 },

@@ -70,21 +70,32 @@ export const updateUserSchema = {
         },
         response: {
             204: {
-                type: 'object',
+                description: 'Success',
+                type: 'null',
             },
             404: {
+                description: 'Not Found',
                 type: 'object',
                 properties: {
                     message: { type: 'string' },
                 },
             },
             400: {
+                description: 'Bad Request',
                 type: 'object',
                 properties: {
                     message: { type: 'string' },
                 },
             },
+            403: {
+                type: 'object',
+                description: 'Forbidden',
+                properties: {
+                    message: { type: 'string' },
+                },
+            },
             500: {
+                description: 'Internal Server Error',
                 type: 'object',
                 properties: {
                     message: { type: 'string' },

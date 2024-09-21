@@ -20,8 +20,54 @@ export async function updateSectionStatus(
             active,
         });
 
-        reply.status(200).send(updatedSection);
+        reply.status(204).send();
     } catch (error) {
         reply.status(500).send();
     }
 }
+
+export const updateSectionStatusSchema = {
+    tags: ['Seções'],
+    security: [{ BearerAuth: [] }],
+    params: {
+        type: 'object',
+        properties: {
+            id: { type: 'string' },
+        },
+        required: ['id'],
+    },
+    body: {
+        type: 'object',
+        properties: {
+            active: { type: 'boolean' },
+        },
+        required: ['active'],
+    },
+    response: {
+        204: {
+            description: 'Success',
+            type: 'null',
+        },
+        404: {
+            description: 'Not Found',
+            type: 'object',
+            properties: {
+                message: { type: 'string' },
+            },
+        },
+        401: {
+            description: 'Unauthorized',
+            type: 'object',
+            properties: {
+                message: { type: 'string' },
+            },
+        },
+        403: {
+            description: 'Forbidden',
+            type: 'object',
+            properties: {
+                message: { type: 'string' },
+            },
+        },
+    },
+};

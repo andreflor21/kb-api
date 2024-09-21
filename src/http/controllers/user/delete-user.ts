@@ -36,10 +36,26 @@ export const deleteUserSchema = {
         },
         response: {
             204: {
-                type: 'object',
+                type: 'null',
+                description: 'Success',
             },
             404: {
                 type: 'object',
+                description: 'Not Found',
+                properties: {
+                    message: { type: 'string' },
+                },
+            },
+            403: {
+                type: 'object',
+                description: 'Forbidden',
+                properties: {
+                    message: { type: 'string' },
+                },
+            },
+            401: {
+                type: 'object',
+                description: 'Unauthorized',
                 properties: {
                     message: { type: 'string' },
                 },

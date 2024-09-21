@@ -42,5 +42,12 @@ export const deleteAddressSchema = {
             description: 'Internal Server Error',
             type: 'null',
         },
+        403: {
+            type: 'object',
+            description: 'Forbidden',
+            properties: {
+                message: { type: 'string' },
+            },
+        },
     },
 };

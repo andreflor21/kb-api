@@ -24,8 +24,52 @@ export async function updateSectionType(
             abreviation,
         });
 
-        reply.status(200).send(updatedSectionType);
+        reply.status(204).send();
     } catch (error) {
         reply.status(500).send();
     }
 }
+
+export const updateSectionTypeSchema = {
+    tags: ['Tipos de Seções'],
+    security: [{ BearerAuth: [] }],
+    params: {
+        type: 'object',
+        properties: {
+            id: { type: 'string' },
+        },
+        required: ['id'],
+    },
+    body: {
+        type: 'object',
+        properties: {
+            description: { type: 'string' },
+            abreviation: { type: 'string' },
+        },
+        required: ['description', 'abreviation'],
+    },
+    response: {
+        204: {
+            description: 'Success',
+            type: 'null',
+        },
+        500: {
+            description: 'Internal Server Error',
+            type: 'null',
+        },
+        401: {
+            description: 'Unauthorized',
+            type: 'object',
+            properties: {
+                message: { type: 'string' },
+            },
+        },
+        403: {
+            type: 'object',
+            description: 'Forbidden',
+            properties: {
+                message: { type: 'string' },
+            },
+        },
+    },
+};

@@ -21,20 +21,26 @@ export const listProfilesSchema = {
     ],
     response: {
         200: {
-            type: 'array',
-            items: {
-                type: 'object',
-                properties: {
-                    id: { type: 'string' },
-                    description: { type: 'string' },
-                    users: {
-                        type: 'array',
-                        items: {
-                            type: 'object',
-                            properties: {
-                                id: { type: 'string' },
-                                name: { type: 'string' },
-                                email: { type: 'string' },
+            description: 'Success',
+            type: 'object',
+            properties: {
+                profiles: {
+                    type: 'array',
+                    items: {
+                        type: 'object',
+                        properties: {
+                            id: { type: 'string' },
+                            description: { type: 'string' },
+                            users: {
+                                type: 'array',
+                                items: {
+                                    type: 'object',
+                                    properties: {
+                                        id: { type: 'string' },
+                                        name: { type: 'string' },
+                                        email: { type: 'string' },
+                                    },
+                                },
                             },
                         },
                     },
@@ -50,6 +56,20 @@ export const listProfilesSchema = {
                         },
                     },
                 },
+            },
+        },
+        401: {
+            description: 'Unauthorized',
+            type: 'object',
+            properties: {
+                message: { type: 'string' },
+            },
+        },
+        403: {
+            type: 'object',
+            description: 'Forbidden',
+            properties: {
+                message: { type: 'string' },
             },
         },
     },

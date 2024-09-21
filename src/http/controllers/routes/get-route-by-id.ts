@@ -35,6 +35,7 @@ export const getRouteByIdSchema = {
     },
     response: {
         200: {
+            description: 'Success',
             type: 'object',
             properties: {
                 id: { type: 'string' },
@@ -44,7 +45,22 @@ export const getRouteByIdSchema = {
             },
         },
         404: {
+            description: 'Not Found',
             type: 'object',
+            properties: {
+                message: { type: 'string' },
+            },
+        },
+        403: {
+            type: 'object',
+            description: 'Forbidden',
+            properties: {
+                message: { type: 'string' },
+            },
+        },
+        401: {
+            type: 'object',
+            description: 'Unauthorized',
             properties: {
                 message: { type: 'string' },
             },

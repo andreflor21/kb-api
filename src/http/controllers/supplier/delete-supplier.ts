@@ -34,10 +34,19 @@ export const deleteSupplierSchema = {
     },
     response: {
         204: {
+            description: 'Success',
             type: 'null',
         },
         404: {
             type: 'object',
+            description: 'Not Found',
+            properties: {
+                message: { type: 'string' },
+            },
+        },
+        403: {
+            type: 'object',
+            description: 'Forbidden',
             properties: {
                 message: { type: 'string' },
             },

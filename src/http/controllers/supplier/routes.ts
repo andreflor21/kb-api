@@ -38,7 +38,7 @@ export async function supplierRoutes(app: FastifyInstance) {
         { onRequest: verifyJwt, schema: deleteSupplierSchema },
         deleteSupplier
     );
-    app.patch(
+    app.put(
         `${prefix}/:supplierId/status`,
         { onRequest: verifyJwt, schema: updateSupplierStatusSchema },
         updateSupplierStatus

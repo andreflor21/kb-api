@@ -17,37 +17,66 @@ export const listSuppliersSchema = {
     security: [{ BearerAuth: [] }],
     response: {
         200: {
-            type: 'array',
-            items: {
-                type: 'object',
-                properties: {
-                    id: { type: 'string' },
-                    name: { type: 'string' },
-                    email: { type: 'string' },
-                    fone: { type: 'string' },
-                    cnpj: { type: 'string' },
-                    ERPcode: { type: 'string' },
-                    legalName: { type: 'string' },
-                    code: { type: 'string' },
-                    userId: { type: 'string' },
-                    created_at: { type: 'string' },
-                    addresses: {
-                        type: 'array',
-                        items: {
-                            type: 'object',
-                            properties: {
-                                id: { type: 'string' },
-                                lograd: { type: 'string' },
-                                number: { type: 'string' },
-                                complement: { type: 'string' },
-                                district: { type: 'string' },
-                                city: { type: 'string' },
-                                state: { type: 'string' },
-                                cep: { type: 'string' },
+            type: 'object',
+            description: 'Success',
+            properties: {
+                suppliers: {
+                    type: 'array',
+                    items: {
+                        type: 'object',
+                        properties: {
+                            id: { type: 'string' },
+                            name: { type: 'string' },
+                            email: { type: 'string' },
+                            fone: { type: 'string' },
+                            cnpj: { type: 'string' },
+                            ERPcode: { type: 'string' },
+                            legalName: { type: 'string' },
+                            code: { type: 'string' },
+                            created_at: { type: 'string' },
+                            users: {
+                                type: 'array',
+                                items: {
+                                    type: 'object',
+                                    properties: {
+                                        id: { type: 'string' },
+                                        name: { type: 'string' },
+                                    },
+                                },
+                            },
+                            addresses: {
+                                type: 'array',
+                                items: {
+                                    type: 'object',
+                                    properties: {
+                                        id: { type: 'string' },
+                                        lograd: { type: 'string' },
+                                        number: { type: 'string' },
+                                        complement: { type: 'string' },
+                                        district: { type: 'string' },
+                                        city: { type: 'string' },
+                                        state: { type: 'string' },
+                                        zipcode: { type: 'string' },
+                                    },
+                                },
                             },
                         },
                     },
                 },
+            },
+        },
+        401: {
+            type: 'object',
+            description: 'Unauthorized',
+            properties: {
+                message: { type: 'string' },
+            },
+        },
+        403: {
+            type: 'object',
+            description: 'Forbidden',
+            properties: {
+                message: { type: 'string' },
             },
         },
     },

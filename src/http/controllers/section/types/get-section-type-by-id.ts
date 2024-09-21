@@ -18,3 +18,44 @@ export async function getSectionTypeById(
         reply.status(500).send();
     }
 }
+
+export const getSectionTypeByIdSchema = {
+    tags: ['Tipos de Seções'],
+    security: [{ BearerAuth: [] }],
+    params: {
+        type: 'object',
+        properties: {
+            id: { type: 'string' },
+        },
+        required: ['id'],
+    },
+    response: {
+        200: {
+            description: 'Success',
+            type: 'object',
+            properties: {
+                id: { type: 'string' },
+                description: { type: 'string' },
+                abreviation: { type: 'string' },
+            },
+        },
+        404: {
+            description: 'Not Found',
+            type: 'object',
+            properties: {
+                message: { type: 'string' },
+            },
+        },
+        403: {
+            description: 'Forbidden',
+            type: 'object',
+            properties: {
+                message: { type: 'string' },
+            },
+        },
+        500: {
+            description: 'Internal Server Error',
+            type: 'null',
+        },
+    },
+};

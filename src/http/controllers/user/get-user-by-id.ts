@@ -84,6 +84,20 @@ export const getUserByIdSchema = {
                     message: { type: 'string' },
                 },
             },
+            403: {
+                type: 'object',
+                description: 'Forbidden',
+                properties: {
+                    message: { type: 'string' },
+                },
+            },
+            401: {
+                type: 'object',
+                description: 'Unauthorized',
+                properties: {
+                    message: { type: 'string' },
+                },
+            },
         },
         security: [
             {

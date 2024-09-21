@@ -17,50 +17,57 @@ export const listUsersSchema = {
         security: [{ BearerAuth: [] }],
         response: {
             200: {
-                users: {
-                    type: 'array',
-                    items: {
-                        type: 'object',
-                        properties: {
-                            id: { type: 'string' },
-                            name: { type: 'string' },
-                            email: { type: 'string' },
-                            cpf: { type: 'string' },
-                            birthdate: {
-                                type: 'string',
-                                format: 'date-time',
-                            },
-                            createdAt: {
-                                type: 'string',
-                                format: 'date-time',
-                            },
-                            changePassword: { type: 'boolean' },
-                            tokenReset: { type: 'string' },
-                            tokenResetExpires: {
-                                type: 'string',
-                                format: 'date-time',
-                            },
-                            profile: {
-                                type: 'object',
-                                properties: {
-                                    id: { type: 'string' },
-                                    description: { type: 'string' },
-                                    routes: {
-                                        type: 'array',
-                                        items: {
-                                            type: 'object',
-                                            properties: {
-                                                id: { type: 'string' },
-                                                description: {
-                                                    type: 'string',
-                                                },
-                                            },
-                                        },
+                description: 'Success',
+                type: 'object',
+                properties: {
+                    users: {
+                        type: 'array',
+                        items: {
+                            type: 'object',
+                            properties: {
+                                id: { type: 'string', format: 'uuid' },
+                                name: { type: 'string' },
+                                email: { type: 'string' },
+                                cpf: { type: 'string' },
+                                birthdate: {
+                                    type: 'string',
+                                    format: 'date-time',
+                                },
+                                createdAt: {
+                                    type: 'string',
+                                    format: 'date-time',
+                                },
+                                active: { type: 'boolean' },
+                                changePassword: { type: 'boolean' },
+                                tokenReset: { type: 'string' },
+                                tokenResetExpires: {
+                                    type: 'string',
+                                    format: 'date-time',
+                                },
+                                profile: {
+                                    type: 'object',
+                                    properties: {
+                                        id: { type: 'string', format: 'uuid' },
+                                        description: { type: 'string' },
                                     },
                                 },
                             },
                         },
                     },
+                },
+            },
+            403: {
+                type: 'object',
+                description: 'Forbidden',
+                properties: {
+                    message: { type: 'string' },
+                },
+            },
+            401: {
+                type: 'object',
+                description: 'Unauthorized',
+                properties: {
+                    message: { type: 'string' },
                 },
             },
         },

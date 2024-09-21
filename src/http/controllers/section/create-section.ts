@@ -36,3 +36,64 @@ export async function createSection(
         reply.status(500).send();
     }
 }
+
+export const createSectionSchema = {
+    tags: ['Seções'],
+    security: [{ BearerAuth: [] }],
+    body: {
+        type: 'object',
+        properties: {
+            description: { type: 'string' },
+            code: { type: 'string' },
+            ERPcode: { type: 'string' },
+            branchMatrixCode: { type: 'string' },
+            sectionType: {
+                type: 'object',
+                properties: {
+                    description: { type: 'string' },
+                    abreviation: { type: 'string' },
+                },
+            },
+        },
+        required: ['description', 'code', 'branchMatrixCode', 'sectionType'],
+    },
+    response: {
+        201: {
+            description: 'Success',
+            type: 'object',
+            properties: {
+                section: {
+                    type: 'object',
+                    properties: {
+                        id: { type: 'string' },
+                        description: { type: 'string' },
+                        code: { type: 'string' },
+                        ERPcode: { type: 'string' },
+                        branchMatrixCode: { type: 'string' },
+                        sectionType: {
+                            type: 'object',
+                            properties: {
+                                description: { type: 'string' },
+                                abreviation: { type: 'string' },
+                            },
+                        },
+                    },
+                },
+            },
+            401: {
+                type: 'object',
+                description: 'Unauthorized',
+                properties: {
+                    message: { type: 'string' },
+                },
+            },
+            403: {
+                type: 'object',
+                description: 'Forbidden',
+                properties: {
+                    message: { type: 'string' },
+                },
+            },
+        },
+    },
+};

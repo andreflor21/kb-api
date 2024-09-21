@@ -46,6 +46,7 @@ export const createProfileSchema = {
     },
     response: {
         201: {
+            description: 'Success',
             type: 'object',
             properties: {
                 id: { type: 'string' },
@@ -75,7 +76,36 @@ export const createProfileSchema = {
             },
         },
         400: {
+            descriptiom: 'Bad Request',
             type: 'object',
+            properties: {
+                message: { type: 'string' },
+            },
+        },
+        409: {
+            description: 'Conflict',
+            type: 'object',
+            properties: {
+                message: { type: 'string' },
+            },
+        },
+        500: {
+            description: 'Internal Server Error',
+            type: 'object',
+            properties: {
+                message: { type: 'string' },
+            },
+        },
+        401: {
+            description: 'Unauthorized',
+            type: 'object',
+            properties: {
+                message: { type: 'string' },
+            },
+        },
+        403: {
+            type: 'object',
+            description: 'Forbidden',
             properties: {
                 message: { type: 'string' },
             },

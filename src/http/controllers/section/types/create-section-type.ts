@@ -27,3 +27,48 @@ export async function createSectionType(
         reply.status(500).send();
     }
 }
+
+export const createSectionTypeSchema = {
+    tags: ['Tipos de Seções'],
+    security: [{ BearerAuth: [] }],
+    body: {
+        type: 'object',
+        properties: {
+            description: { type: 'string' },
+            abreviation: { type: 'string' },
+        },
+        required: ['description', 'abreviation'],
+    },
+    response: {
+        201: {
+            description: 'Success',
+            type: 'object',
+            properties: {
+                id: { type: 'string' },
+                description: { type: 'string' },
+                abreviation: { type: 'string' },
+            },
+        },
+        403: {
+            type: 'object',
+            description: 'Forbidden',
+            properties: {
+                message: { type: 'string' },
+            },
+        },
+        401: {
+            type: 'object',
+            description: 'Unauthorized',
+            properties: {
+                message: { type: 'string' },
+            },
+        },
+        500: {
+            type: 'object',
+            description: 'Internal Server Error',
+            properties: {
+                message: { type: 'string' },
+            },
+        },
+    },
+};

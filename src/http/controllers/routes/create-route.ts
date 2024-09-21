@@ -43,12 +43,27 @@ export const createRouteSchema = {
     },
     response: {
         201: {
+            description: 'Success',
             type: 'object',
             properties: {
                 id: { type: 'string' },
                 description: { type: 'string' },
                 path: { type: 'string' },
                 method: { type: 'string' },
+            },
+        },
+        401: {
+            type: 'object',
+            description: 'Unauthorized',
+            properties: {
+                message: { type: 'string' },
+            },
+        },
+        403: {
+            type: 'object',
+            description: 'Forbidden',
+            properties: {
+                message: { type: 'string' },
             },
         },
     },

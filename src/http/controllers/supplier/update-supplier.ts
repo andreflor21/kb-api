@@ -71,39 +71,20 @@ export const updateSupplierSchema = {
         required: ['supplierId'],
     },
     response: {
-        200: {
-            type: 'object',
-            properties: {
-                id: { type: 'string' },
-                name: { type: 'string' },
-                email: { type: 'string' },
-                fone: { type: 'string' },
-                cnpj: { type: 'string' },
-                ERPcode: { type: 'string' },
-                legalName: { type: 'string' },
-                code: { type: 'string' },
-                userId: { type: 'string' },
-                created_at: { type: 'string' },
-                addresses: {
-                    type: 'array',
-                    items: {
-                        type: 'object',
-                        properties: {
-                            id: { type: 'string' },
-                            lograd: { type: 'string' },
-                            number: { type: 'string' },
-                            complement: { type: 'string' },
-                            district: { type: 'string' },
-                            city: { type: 'string' },
-                            state: { type: 'string' },
-                            created_at: { type: 'string' },
-                        },
-                    },
-                },
-            },
+        204: {
+            type: 'null',
+            description: 'Success',
         },
         404: {
             type: 'object',
+            description: 'Not Found',
+            properties: {
+                message: { type: 'string' },
+            },
+        },
+        403: {
+            type: 'object',
+            description: 'Forbidden',
             properties: {
                 message: { type: 'string' },
             },

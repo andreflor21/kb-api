@@ -49,6 +49,7 @@ export const duplicateProfileSchema = {
     },
     response: {
         201: {
+            description: 'Success',
             type: 'object',
             properties: {
                 id: { type: 'string' },
@@ -78,13 +79,22 @@ export const duplicateProfileSchema = {
             },
         },
         400: {
+            description: 'Bad Request',
             type: 'object',
             properties: {
                 message: { type: 'string' },
             },
         },
         404: {
+            description: 'Not Found',
             type: 'object',
+            properties: {
+                message: { type: 'string' },
+            },
+        },
+        403: {
+            type: 'object',
+            description: 'Forbidden',
             properties: {
                 message: { type: 'string' },
             },

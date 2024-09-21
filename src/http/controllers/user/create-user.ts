@@ -146,6 +146,34 @@ export const createUserSchema = {
                     expires: '2023-01-01T00:00:00.000Z',
                 },
             },
+            400: {
+                type: 'object',
+                description: 'Bad Request',
+                properties: {
+                    message: { type: 'string' },
+                },
+            },
+            403: {
+                type: 'object',
+                description: 'Forbidden',
+                properties: {
+                    message: { type: 'string' },
+                },
+            },
+            401: {
+                type: 'object',
+                description: 'Unauthorized',
+                properties: {
+                    message: { type: 'string' },
+                },
+            },
+            409: {
+                type: 'object',
+                description: 'Conflict',
+                properties: {
+                    message: { type: 'string' },
+                },
+            },
         },
     },
 };

@@ -64,6 +64,7 @@ export const authenticateUserSchema = {
         response: {
             200: {
                 type: 'object',
+                description: 'Success',
                 properties: {
                     token: { type: 'string' },
                     user: {
@@ -136,6 +137,14 @@ export const authenticateUserSchema = {
             },
             401: {
                 type: 'object',
+                description: 'Invalid Credentials',
+                properties: {
+                    message: { type: 'string' },
+                },
+            },
+            400: {
+                type: 'object',
+                description: 'Bad Request',
                 properties: {
                     message: { type: 'string' },
                 },

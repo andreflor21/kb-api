@@ -17,6 +17,7 @@ export const listRoutesSchema = {
     security: [{ BearerAuth: [] }],
     response: {
         200: {
+            description: 'Success',
             type: 'array',
             items: {
                 type: 'object',
@@ -24,6 +25,20 @@ export const listRoutesSchema = {
                     id: { type: 'string' },
                     description: { type: 'string' },
                 },
+            },
+        },
+        403: {
+            type: 'object',
+            description: 'Forbidden',
+            properties: {
+                message: { type: 'string' },
+            },
+        },
+        401: {
+            type: 'object',
+            description: 'Unauthorized',
+            properties: {
+                message: { type: 'string' },
             },
         },
     },
