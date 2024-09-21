@@ -10,6 +10,7 @@ import { forgotPassword, forgotPasswordSchema } from './forgot-password';
 import { deleteUser, deleteUserSchema } from './delete-user';
 import { updateUserStatus, updateUserStatusSchema } from './update-user-status';
 import { updateUser, updateUserSchema } from './update-user';
+import { verifyRouteAccess } from '@/http/middleware/routeAccess';
 
 export async function userRoutes(app: FastifyInstance) {
     app.post(
@@ -34,12 +35,18 @@ export async function userRoutes(app: FastifyInstance) {
     app.post('/users/new', createUserSchema, createUser);
     app.get(
         '/users',
-        { onRequest: verifyJwt, schema: listUsersSchema.schema },
+        {
+            onRequest: [verifyJwt, verifyRouteAccess],
+            schema: listUsersSchema.schema,
+        },
         listUsers
     );
     app.get(
         '/users/:id',
-        { onRequest: verifyJwt, schema: getUserByIdSchema.schema },
+        {
+            onRequest: [verifyJwt, verifyRouteAccess],
+            schema: getUserByIdSchema.schema,
+        },
         getUserById
     );
     app.patch(

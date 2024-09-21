@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { UserNotFoundError } from '@/shared/errors/user-not-found-error';
 import { InvalidCredentialsError } from '@/shared/errors/invalid-credentcials-error';
 import { makeAuthenticateUseCase } from '@/use-cases/factories/user/make-authenticate-use-case';
+import path from 'path';
 
 export async function authenticateUser(
     request: FastifyRequest,
@@ -22,10 +23,12 @@ export async function authenticateUser(
         });
 
         const token = await reply.jwtSign({
-            sing: { id: user.id, profile: user.profileId },
+            id: user.id,
+            profile: user.profileId,
         });
         const refreshToken = await reply.jwtSign({
-            sing: { id: user.id, profile: user.profileId },
+            id: user.id,
+            profile: user.profileId,
             expiresIn: '10m',
         });
 
@@ -102,6 +105,8 @@ export const authenticateUserSchema = {
                                                 description: {
                                                     type: 'string',
                                                 },
+                                                path: { type: 'string' },
+                                                method: { type: 'string' },
                                             },
                                         },
                                     },

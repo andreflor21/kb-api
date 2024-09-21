@@ -33,8 +33,19 @@ class PrismaUsersRepository implements UsersRepository {
                 cpf: true,
                 birthdate: true,
                 code: true,
-                profileId: true,
                 active: true,
+                profile: {
+                    select: {
+                        id: true,
+                        routes: {
+                            select: {
+                                id: true,
+                                path: true,
+                                method: true,
+                            },
+                        },
+                    },
+                },
             },
         });
         if (!user) return null;

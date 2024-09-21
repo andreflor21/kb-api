@@ -162,7 +162,7 @@ async function main() {
             method: 'POST',
             description: 'Reset Password',
         },
-        { path: '/routes', method: 'GET, HEAD', description: 'List Routes' },
+        { path: '/routes', method: 'GET', description: 'List Routes' },
         {
             path: '/routes/new',
             method: 'POST',
@@ -170,7 +170,7 @@ async function main() {
         },
         {
             path: '/routes/:id',
-            method: 'GET, HEAD',
+            method: 'GET',
             description: 'Get Route by ID',
         },
         {
@@ -178,11 +178,11 @@ async function main() {
             method: 'PATCH',
             description: 'Edit Route by ID',
         },
-        { path: '/users', method: 'GET, HEAD', description: 'List Users' },
+        { path: '/users', method: 'GET', description: 'List Users' },
         { path: '/users/new', method: 'POST', description: 'Create New User' },
         {
             path: '/users/:id',
-            method: 'GET, HEAD',
+            method: 'GET',
             description: 'Get User by ID',
         },
         {
@@ -207,12 +207,12 @@ async function main() {
         },
         {
             path: '/profiles',
-            method: 'GET, HEAD',
+            method: 'GET',
             description: 'List Profiles',
         },
         {
             path: '/profiles/duplicate',
-            method: 'GET, HEAD',
+            method: 'GET',
             description: 'Duplicate Profile',
         },
         {
@@ -222,7 +222,7 @@ async function main() {
         },
         {
             path: '/profiles/:id',
-            method: 'GET, HEAD',
+            method: 'GET',
             description: 'Get Profile by ID',
         },
         {
@@ -237,7 +237,7 @@ async function main() {
         },
         {
             path: '/sections',
-            method: 'GET, HEAD',
+            method: 'GET',
             description: 'List Sections',
         },
         {
@@ -247,7 +247,7 @@ async function main() {
         },
         {
             path: '/sections/types',
-            method: 'GET, HEAD',
+            method: 'GET',
             description: 'List Section Types',
         },
         {
@@ -257,7 +257,7 @@ async function main() {
         },
         {
             path: '/sections/types/:id',
-            method: 'GET, HEAD',
+            method: 'GET',
             description: 'Get Section Type by ID',
         },
         {
@@ -272,7 +272,7 @@ async function main() {
         },
         {
             path: '/sections/:id',
-            method: 'GET, HEAD',
+            method: 'GET',
             description: 'Get Section by ID',
         },
         {
@@ -287,17 +287,17 @@ async function main() {
         },
         {
             path: '/suppliers',
-            method: 'GET, HEAD',
+            method: 'GET',
             description: 'List Suppliers',
         },
         {
             path: '/suppliers/new',
-            method: 'GET, HEAD',
+            method: 'GET',
             description: 'Create New Supplier',
         },
         {
             path: '/suppliers/:supplierId',
-            method: 'GET, HEAD',
+            method: 'GET',
             description: 'Get Supplier by ID',
         },
         {
@@ -317,7 +317,7 @@ async function main() {
         },
         {
             path: '/suppliers/:supplierId/addresses',
-            method: 'GET, HEAD',
+            method: 'GET',
             description: 'List Supplier Addresses',
         },
         {
@@ -342,7 +342,7 @@ async function main() {
         },
         {
             path: '/suppliers/:supplierId/addresses/:addressId',
-            method: 'GET, HEAD',
+            method: 'GET',
             description: 'Get Address by ID',
         },
         {
