@@ -10,6 +10,7 @@ import { addressRoutes } from './address/routes';
 import { updateSupplier, updateSupplierSchema } from './update-supplier';
 import { createSupplier, createSupplierSchema } from './create-supplier';
 import { deleteSupplier, deleteSupplierSchema } from './delete-supplier';
+import { verifyRouteAccess } from '@/http/middleware/routeAccess';
 
 export async function supplierRoutes(app: FastifyInstance) {
     const prefix = '/suppliers';

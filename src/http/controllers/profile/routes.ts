@@ -1,5 +1,6 @@
 import { FastifyInstance } from 'fastify';
 import { verifyJwt } from '@/http/middleware/verifyJwt';
+import { verifyRouteAccess } from '@/http/middleware/routeAccess';
 import { createProfile, createProfileSchema } from './create-profile';
 import { listProfiles, listProfilesSchema } from './list-profiles';
 import { getProfileById, getProfileByIdSchema } from './get-profile-by-id';

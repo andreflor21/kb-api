@@ -4,6 +4,7 @@ import { createRoute, createRouteSchema } from './create-route';
 import { getRouteById, getRouteByIdSchema } from './get-route-by-id';
 import { updateRoute, updateRouteSchema } from './update-route';
 import { verifyJwt } from '@/http/middleware/verifyJwt';
+import { verifyRouteAccess } from '@/http/middleware/routeAccess';
 
 export async function routesRoutes(app: FastifyInstance) {
     app.get(

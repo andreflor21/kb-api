@@ -4,6 +4,7 @@ import { createSection, createSectionSchema } from './create-section';
 import { getSectionById, getSectionByIdSchema } from './get-section-by-id';
 import { listSections, listSectionsSchema } from './list-sections';
 import { updateSection, updateSectionSchema } from './update-section';
+import { verifyRouteAccess } from '@/http/middleware/routeAccess';
 import {
     updateSectionStatus,
     updateSectionStatusSchema,

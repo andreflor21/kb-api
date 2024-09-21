@@ -1,5 +1,6 @@
 import { FastifyInstance } from 'fastify';
 import { verifyJwt } from '@/http/middleware/verifyJwt';
+import { verifyRouteAccess } from '@/http/middleware/routeAccess';
 import {
     createSectionType,
     createSectionTypeSchema,
