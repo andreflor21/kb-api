@@ -51,22 +51,34 @@ export async function userRoutes(app: FastifyInstance) {
     );
     app.patch(
         '/users/:id/edit',
-        { onRequest: verifyJwt, schema: updateUserSchema.schema },
+        {
+            onRequest: [verifyJwt, verifyRouteAccess],
+            schema: updateUserSchema.schema,
+        },
         updateUser
     );
     app.patch(
         '/users/:id/change-password',
-        { onRequest: verifyJwt, schema: changePasswordSchema.schema },
+        {
+            onRequest: [verifyJwt, verifyRouteAccess],
+            schema: changePasswordSchema.schema,
+        },
         changePassword
     );
     app.delete(
         '/users/:id/delete',
-        { onRequest: verifyJwt, schema: deleteUserSchema.schema },
+        {
+            onRequest: [verifyJwt, verifyRouteAccess],
+            schema: deleteUserSchema.schema,
+        },
         deleteUser
     );
     app.put(
         '/users/:id/status',
-        { onRequest: verifyJwt, schema: updateUserStatusSchema.schema },
+        {
+            onRequest: [verifyJwt, verifyRouteAccess],
+            schema: updateUserStatusSchema.schema,
+        },
         updateUserStatus
     );
 }

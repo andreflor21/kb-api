@@ -12,32 +12,50 @@ import {
 export async function profileRoutes(app: FastifyInstance) {
     app.get(
         '/profiles',
-        { onRequest: verifyJwt, schema: listProfilesSchema },
+        {
+            onRequest: [verifyJwt, verifyRouteAccess],
+            schema: listProfilesSchema,
+        },
         listProfiles
     );
     app.get(
         '/profiles/:id',
-        { onRequest: verifyJwt, schema: getProfileByIdSchema },
+        {
+            onRequest: [verifyJwt, verifyRouteAccess],
+            schema: getProfileByIdSchema,
+        },
         getProfileById
     );
     app.post(
         '/profiles/:id/duplicate',
-        { onRequest: verifyJwt, schema: duplicateProfileSchema },
+        {
+            onRequest: [verifyJwt, verifyRouteAccess],
+            schema: duplicateProfileSchema,
+        },
         duplicateProfile
     );
     app.post(
         '/profiles/new',
-        { onRequest: verifyJwt, schema: createProfileSchema },
+        {
+            onRequest: [verifyJwt, verifyRouteAccess],
+            schema: createProfileSchema,
+        },
         createProfile
     );
     app.post(
         '/profiles/:id/routes/:routeId/link',
-        { onRequest: verifyJwt, schema: linkProfileToRouteSchema },
+        {
+            onRequest: [verifyJwt, verifyRouteAccess],
+            schema: linkProfileToRouteSchema,
+        },
         linkProfileToRoute
     );
     app.post(
         '/profiles/:id/routes/:routeId/unlink',
-        { onRequest: verifyJwt, schema: linkProfileToRouteSchema },
+        {
+            onRequest: [verifyJwt, verifyRouteAccess],
+            schema: linkProfileToRouteSchema,
+        },
         linkProfileToRoute
     );
 }

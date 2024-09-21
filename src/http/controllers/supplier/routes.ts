@@ -15,32 +15,50 @@ export async function supplierRoutes(app: FastifyInstance) {
     const prefix = '/suppliers';
     app.get(
         prefix,
-        { onRequest: verifyJwt, schema: listSuppliersSchema },
+        {
+            onRequest: [verifyJwt, verifyRouteAccess],
+            schema: listSuppliersSchema,
+        },
         listSuppliers
     );
     app.post(
         `${prefix}/new`,
-        { onRequest: verifyJwt, schema: createSupplierSchema },
+        {
+            onRequest: [verifyJwt, verifyRouteAccess],
+            schema: createSupplierSchema,
+        },
         createSupplier
     );
     app.get(
         `${prefix}/:supplierId`,
-        { onRequest: verifyJwt, schema: getSupplierByIdSchema },
+        {
+            onRequest: [verifyJwt, verifyRouteAccess],
+            schema: getSupplierByIdSchema,
+        },
         getSupplierById
     );
     app.patch(
         `${prefix}/:supplierId/edit`,
-        { onRequest: verifyJwt, schema: updateSupplierSchema },
+        {
+            onRequest: [verifyJwt, verifyRouteAccess],
+            schema: updateSupplierSchema,
+        },
         updateSupplier
     );
     app.delete(
         `${prefix}/:supplierId/delete`,
-        { onRequest: verifyJwt, schema: deleteSupplierSchema },
+        {
+            onRequest: [verifyJwt, verifyRouteAccess],
+            schema: deleteSupplierSchema,
+        },
         deleteSupplier
     );
     app.put(
         `${prefix}/:supplierId/status`,
-        { onRequest: verifyJwt, schema: updateSupplierStatusSchema },
+        {
+            onRequest: [verifyJwt, verifyRouteAccess],
+            schema: updateSupplierStatusSchema,
+        },
         updateSupplierStatus
     );
     app.register(addressRoutes, { prefix });

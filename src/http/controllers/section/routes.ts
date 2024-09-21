@@ -13,27 +13,42 @@ import { sectionTypesRoutes } from './types/routes';
 export async function sectionRoutes(app: FastifyInstance) {
     app.get(
         '/sections',
-        { onRequest: verifyJwt, schema: listSectionsSchema },
+        {
+            onRequest: [verifyJwt, verifyRouteAccess],
+            schema: listSectionsSchema,
+        },
         listSections
     );
     app.post(
         '/sections/new',
-        { onRequest: verifyJwt, schema: createSectionSchema },
+        {
+            onRequest: [verifyJwt, verifyRouteAccess],
+            schema: createSectionSchema,
+        },
         createSection
     );
     app.get(
         '/sections/:id',
-        { onRequest: verifyJwt, schema: getSectionByIdSchema },
+        {
+            onRequest: [verifyJwt, verifyRouteAccess],
+            schema: getSectionByIdSchema,
+        },
         getSectionById
     );
     app.patch(
         '/sections/:id/edit',
-        { onRequest: verifyJwt, schema: updateSectionSchema },
+        {
+            onRequest: [verifyJwt, verifyRouteAccess],
+            schema: updateSectionSchema,
+        },
         updateSection
     );
     app.put(
         '/sections/:id/status',
-        { onRequest: verifyJwt, schema: updateSectionStatusSchema },
+        {
+            onRequest: [verifyJwt, verifyRouteAccess],
+            schema: updateSectionStatusSchema,
+        },
         updateSectionStatus
     );
 

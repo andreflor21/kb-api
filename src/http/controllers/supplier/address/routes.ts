@@ -25,43 +25,67 @@ export async function addressRoutes(app: FastifyInstance) {
     const prefix = '/addresses';
     app.get(
         `/:supplierId${prefix}`,
-        { onRequest: verifyJwt, schema: getAddressBySupplierIdSchema },
+        {
+            onRequest: [verifyJwt, verifyRouteAccess],
+            schema: getAddressBySupplierIdSchema,
+        },
         getAddressBySupplierId
     );
     app.post(
         `/:supplierId${prefix}/new`,
-        { onRequest: verifyJwt, schema: createAddressSchema },
+        {
+            onRequest: [verifyJwt, verifyRouteAccess],
+            schema: createAddressSchema,
+        },
         createAddress
     );
     app.get(
         `/:supplierId${prefix}/:addressId`,
-        { onRequest: verifyJwt, schema: getAddressByIdSchema },
+        {
+            onRequest: [verifyJwt, verifyRouteAccess],
+            schema: getAddressByIdSchema,
+        },
         getAddressById
     );
     app.delete(
         `/:supplierId${prefix}/:addressId/delete`,
-        { onRequest: verifyJwt, schema: deleteAddressSchema },
+        {
+            onRequest: [verifyJwt, verifyRouteAccess],
+            schema: deleteAddressSchema,
+        },
         deleteAddress
     );
     app.patch(
         `/:supplierId${prefix}/:addressId/edit`,
-        { onRequest: verifyJwt, schema: updateAddressSchema },
+        {
+            onRequest: [verifyJwt, verifyRouteAccess],
+            schema: updateAddressSchema,
+        },
         updateAddress
     );
 
     app.post(
         `${prefix}/types/new`,
-        { onRequest: verifyJwt, schema: createAddressTypeSchema },
+        {
+            onRequest: [verifyJwt, verifyRouteAccess],
+            schema: createAddressTypeSchema,
+        },
         createAddressType
     );
     app.patch(
         `${prefix}/types/:addressTypeId/edit`,
-        { onRequest: verifyJwt, schema: updateAddressTypeSchema },
+        {
+            onRequest: [verifyJwt, verifyRouteAccess],
+            schema: updateAddressTypeSchema,
+        },
         updateAddressType
     );
     app.delete(
         `${prefix}/types/:addressTypeId/delete`,
-        { onRequest: verifyJwt, schema: deleteAddressTypeSchema },
+        {
+            onRequest: [verifyJwt, verifyRouteAccess],
+            schema: deleteAddressTypeSchema,
+        },
         deleteAddressType
     );
 }

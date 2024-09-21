@@ -8,22 +8,31 @@ import { verifyJwt } from '@/http/middleware/verifyJwt';
 export async function routesRoutes(app: FastifyInstance) {
     app.get(
         '/routes',
-        { onRequest: verifyJwt, schema: listRoutesSchema },
+        { onRequest: [verifyJwt, verifyRouteAccess], schema: listRoutesSchema },
         listRoutes
     );
     app.post(
         '/routes/new',
-        { onRequest: verifyJwt, schema: createRouteSchema },
+        {
+            onRequest: [verifyJwt, verifyRouteAccess],
+            schema: createRouteSchema,
+        },
         createRoute
     );
     app.get(
         '/routes/:id',
-        { onRequest: verifyJwt, schema: getRouteByIdSchema },
+        {
+            onRequest: [verifyJwt, verifyRouteAccess],
+            schema: getRouteByIdSchema,
+        },
         getRouteById
     );
     app.patch(
         '/routes/:id/edit',
-        { onRequest: verifyJwt, schema: updateRouteSchema },
+        {
+            onRequest: [verifyJwt, verifyRouteAccess],
+            schema: updateRouteSchema,
+        },
         updateRoute
     );
 }
