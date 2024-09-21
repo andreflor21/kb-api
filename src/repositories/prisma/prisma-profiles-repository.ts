@@ -91,6 +91,17 @@ export class PrismaProfilesRepository implements ProfilesRepository {
     }
 
     public async deleteProfile(id: string): Promise<void> {
+        await prisma.profile.update({
+            where: { id },
+            data: {
+                users: {
+                    set: [],
+                },
+                routes: {
+                    set: [],
+                },
+            },
+        });
         await prisma.profile.delete({ where: { id } });
     }
 

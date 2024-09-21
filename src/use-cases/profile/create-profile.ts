@@ -4,6 +4,8 @@ import { ProfileAlreadyExistsError } from '@/shared/errors/profile-already-exist
 
 interface CreateProfileUseCaseRequest {
     description: string;
+    users: string[];
+    routes: string[];
 }
 
 interface CreateProfileUseCaseResponse {
@@ -15,6 +17,8 @@ export class CreateProfileUseCase {
 
     async execute({
         description,
+        users,
+        routes,
     }: CreateProfileUseCaseRequest): Promise<CreateProfileUseCaseResponse> {
         const profileWithSameDescription =
             await this.profilesRepository.getProfileByDescription(description);
@@ -24,6 +28,8 @@ export class CreateProfileUseCase {
 
         const profile = await this.profilesRepository.createProfile({
             description,
+            users: { connect: users.map((id) => ({ id })) },
+            routes: { connect: routes.map((id) => ({ id })) },
         });
 
         return { profile };

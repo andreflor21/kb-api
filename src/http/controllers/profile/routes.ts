@@ -5,10 +5,12 @@ import { createProfile, createProfileSchema } from './create-profile';
 import { listProfiles, listProfilesSchema } from './list-profiles';
 import { getProfileById, getProfileByIdSchema } from './get-profile-by-id';
 import { duplicateProfile, duplicateProfileSchema } from './duplicate-profile';
+import { deleteProfile, deleteProfileSchema } from './delete-profile';
 import {
     linkProfileToRoute,
     linkProfileToRouteSchema,
 } from './link-profile-route';
+import { updateProfile, updateProfileSchema } from './update-profile';
 
 export async function profileRoutes(app: FastifyInstance) {
     app.get(
@@ -26,6 +28,22 @@ export async function profileRoutes(app: FastifyInstance) {
             schema: getProfileByIdSchema,
         },
         getProfileById
+    );
+    app.patch(
+        '/profiles/:id/edit',
+        {
+            onRequest: [verifyJwt, verifyRouteAccess],
+            schema: updateProfileSchema,
+        },
+        updateProfile
+    );
+    app.delete(
+        '/profiles/:id/delete',
+        {
+            onRequest: [verifyJwt, verifyRouteAccess],
+            schema: deleteProfileSchema,
+        },
+        deleteProfile
     );
     app.post(
         '/profiles/:id/duplicate',

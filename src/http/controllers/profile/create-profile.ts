@@ -7,9 +7,11 @@ export async function createProfile(
     request: FastifyRequest,
     reply: FastifyReply
 ) {
-    const { description } = z
+    const { description, users, routes } = z
         .object({
             description: z.string().min(3),
+            users: z.array(z.string()),
+            routes: z.array(z.string()),
         })
         .parse(request.body);
 
@@ -18,6 +20,8 @@ export async function createProfile(
     try {
         const newProfile = await createProfile.execute({
             description,
+            users: users ?? [],
+            routes: routes ?? [],
         });
 
         reply.status(201).send(newProfile);
