@@ -47,7 +47,6 @@ class PrismaUsersRepository implements UsersRepository {
             where: { tokenReset: token },
         });
         if (!user) return null;
-
         return user;
     }
 
@@ -76,8 +75,17 @@ class PrismaUsersRepository implements UsersRepository {
         return user;
     }
 
-    async getUsers(): Promise<User[]> {
-        const users = await prisma.user.findMany();
+    async getUsers(): Promise<UserExtended[]> {
+        const users = await prisma.user.findMany({
+            include: {
+                profile: {
+                    select: {
+                        id: true,
+                        description: true,
+                    },
+                },
+            },
+        });
 
         return users;
     }

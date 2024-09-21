@@ -14,14 +14,15 @@ export async function createSupplier(
         legalName: z.string().max(100),
         ERPcode: z.string().max(100),
         code: z.string().max(100),
-        userId: z.string().uuid().or(z.null()),
+        users: z.array(z.string().uuid()),
     });
 
-    const { name, cnpj, email, fone, legalName, ERPcode, code, userId } =
+    const { name, cnpj, email, fone, legalName, ERPcode, code, users } =
         createSupplierBodySchema.parse(request.body);
 
     try {
         const createSupplier = makeCreateSupplierUseCase();
+
         const newSupplier = await createSupplier.execute({
             name,
             cnpj,
@@ -30,7 +31,7 @@ export async function createSupplier(
             legalName,
             ERPCode: ERPcode,
             code,
-            userId,
+            users,
         });
 
         return reply.status(201).send(newSupplier);
@@ -52,7 +53,7 @@ export const createSupplierSchema = {
             legalName: { type: 'string' },
             ERPcode: { type: 'string' },
             code: { type: 'string' },
-            userId: { type: 'string' },
+            users: { type: 'array', items: { type: 'string' } },
         },
         required: ['name', 'cnpj', 'legalName', 'ERPcode', 'code'],
     },
@@ -106,6 +107,7 @@ export const createSupplierSchema = {
             type: 'object',
             properties: {
                 message: { type: 'string' },
+                errors: { type: 'array', items: { type: 'object' } }, // To handle multiple errors
             },
         },
     },

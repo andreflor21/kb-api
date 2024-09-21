@@ -51,6 +51,7 @@ export const getUserByIdSchema = {
                         type: 'string',
                         format: 'date-time',
                     },
+                    active: { type: 'boolean' },
                     changePassword: { type: 'boolean' },
                     tokenReset: { type: 'string' },
                     tokenResetExpires: {
@@ -62,18 +63,6 @@ export const getUserByIdSchema = {
                         properties: {
                             id: { type: 'string' },
                             description: { type: 'string' },
-                            routes: {
-                                type: 'array',
-                                items: {
-                                    type: 'object',
-                                    properties: {
-                                        id: { type: 'string' },
-                                        description: {
-                                            type: 'string',
-                                        },
-                                    },
-                                },
-                            },
                         },
                     },
                 },

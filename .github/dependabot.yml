@@ -5,7 +5,11 @@
 
 version: 2
 updates:
-    - package-ecosystem: 'npm' # See documentation for possible values
-      directory: '/' # Location of package manifests
+    - package-ecosystem: 'npm' # or any ecosystem like 'composer', 'pip', etc.
+      directory: '/' # location of your `package.json` or other dependency files
       schedule:
-          interval: 'dayly'
+          interval: 'daily' # update check schedule (daily, weekly, etc.)
+      target-branch: 'development' # set the branch to 'development' instead of 'main'
+      open-pull-requests-limit: 5 # limits the number of open PRs
+      commit-message:
+          prefix: 'chore(deps)' # optional: customize the commit message

@@ -51,7 +51,7 @@ export async function updateAddress(
         if (!updatedAddress) {
             throw new AddressNotFoundError();
         }
-        return reply.status(200).send(updatedAddress);
+        return reply.status(204).send();
     } catch (error) {
         if (error instanceof AddressNotFoundError) {
             return reply.status(error.statusCode).send(error.message);

@@ -21,3 +21,25 @@ export async function deleteAddressType(
         reply.status(500).send();
     }
 }
+
+export const deleteAddressTypeSchema = {
+    tags: ['Tipos de Endereços'],
+    security: [{ BearerAuth: [] }],
+    params: {
+        type: 'object',
+        properties: {
+            addressTypeId: { type: 'string', format: 'uuid' },
+        },
+    },
+    response: {
+        204: {
+            description: 'Success',
+        },
+        500: {
+            type: 'object',
+            properties: {
+                message: { type: 'string' },
+            },
+        },
+    },
+};

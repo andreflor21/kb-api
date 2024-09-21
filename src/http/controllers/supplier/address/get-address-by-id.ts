@@ -22,7 +22,7 @@ export async function getAddressById(
 }
 
 export const getAddressByIdSchema = {
-    tags: ['Fonecedores', 'Endereços'],
+    tags: ['Fornecedores', 'Endereços'],
     security: [{ BearerAuth: [] }],
     params: {
         type: 'object',

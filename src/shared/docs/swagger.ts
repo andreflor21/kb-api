@@ -9,6 +9,10 @@ export const swaggerOptions: SwaggerOptions = {
             description: 'Documentação oficial do software Kanban', // Add API description
             version: '1.0.0', // API version
         },
+        externalDocs: {
+            url: 'https://swagger.io',
+            description: 'Find more info here',
+        },
         host: env.SWAGGER_HOST || 'localhost:3000', // Use environment variable or default
         schemes: [env.SWAGGER_SCHEME || 'http'],
         consumes: ['application/json'],
@@ -40,12 +44,12 @@ export const swaggerOptions: SwaggerOptions = {
             {
                 name: 'Endereços',
                 description:
-                    'Endpoints relacionados ao gerenciamento de endereçoes de fornecedores',
+                    'Endpoints relacionados ao gerenciamento de endereços de fornecedores',
             },
             {
                 name: 'Tipos de Endereços',
                 description:
-                    'Endpoints relacionados ao gerenciamento de tipos endereçoes',
+                    'Endpoints relacionados ao gerenciamento de tipos endereços',
             },
             {
                 name: 'Tipos de Seções',
@@ -68,7 +72,7 @@ export const swaggerOptions: SwaggerOptions = {
 export const swaggerUiOptions: FastifySwaggerUiOptions = {
     routePrefix: '/docs',
     uiConfig: {
-        docExpansion: 'list',
+        docExpansion: 'none',
         deepLinking: false,
     },
     uiHooks: {

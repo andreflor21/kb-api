@@ -2,6 +2,7 @@ import { FastifyRequest, FastifyReply } from 'fastify';
 import { z } from 'zod';
 import { ProfileAlreadyExistsError } from '@/shared/errors/profile-already-exists-error';
 import { makeGetUserByIdUseCase } from '@/use-cases/factories/profile/make-get-profile-by-id-use-case';
+import { profile } from 'console';
 
 export async function getProfileById(
     request: FastifyRequest,
@@ -19,7 +20,6 @@ export async function getProfileById(
         const profile = await getProfileById.execute({
             id,
         });
-
         reply.status(200).send(profile);
     } catch (error) {
         if (error instanceof ProfileAlreadyExistsError) {
@@ -49,29 +49,34 @@ export const getProfileByIdSchema = {
             description: 'Success',
             type: 'object',
             properties: {
-                id: { type: 'string' },
-                description: { type: 'string' },
-                users: {
-                    type: 'array',
-                    items: {
-                        type: 'object',
-                        properties: {
-                            id: { type: 'string' },
-                            name: { type: 'string' },
-                            email: { type: 'string' },
+                profile: {
+                    type: 'object',
+                    properties: {
+                        id: { type: 'string' },
+                        description: { type: 'string' },
+                        users: {
+                            type: 'array',
+                            items: {
+                                type: 'object',
+                                properties: {
+                                    id: { type: 'string' },
+                                    name: { type: 'string' },
+                                    email: { type: 'string' },
+                                },
+                            },
                         },
-                    },
-                },
-                routes: {
-                    type: 'array',
-                    items: {
-                        type: 'object',
-                        properties: {
-                            id: { type: 'string' },
-                            title: { type: 'string' },
-                            description: { type: 'string' },
-                            createdAt: { type: 'string' },
-                            updatedAt: { type: 'string' },
+                        routes: {
+                            type: 'array',
+                            items: {
+                                type: 'object',
+                                properties: {
+                                    id: { type: 'string' },
+                                    title: { type: 'string' },
+                                    description: { type: 'string' },
+                                    createdAt: { type: 'string' },
+                                    updatedAt: { type: 'string' },
+                                },
+                            },
                         },
                     },
                 },

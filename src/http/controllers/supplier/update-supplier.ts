@@ -1,6 +1,7 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
 import { z } from 'zod';
 import { makeUpdateSupplierUseCase } from '@/use-cases/factories/supplier/make-update-supplier-use-case';
+import { SupplierNotFoundError } from '@/shared/errors/supplier-not-found-error';
 
 export async function updateSupplier(
     request: FastifyRequest,
@@ -14,10 +15,10 @@ export async function updateSupplier(
         legalName: z.string().max(100),
         ERPcode: z.string().max(100),
         code: z.string().max(100),
-        userId: z.string().uuid().or(z.null()),
+        users: z.array(z.string().uuid()),
     });
 
-    const { name, cnpj, email, fone, legalName, ERPcode, code, userId } =
+    const { name, cnpj, email, fone, legalName, ERPcode, code, users } =
         updateSupplierBodySchema.parse(request.body);
 
     const { supplierId } = z
@@ -28,7 +29,7 @@ export async function updateSupplier(
 
     try {
         const updateSupplier = makeUpdateSupplierUseCase();
-        const updatedSupplier = await updateSupplier.execute({
+        await updateSupplier.execute({
             id: supplierId,
             name,
             cnpj,
@@ -37,11 +38,16 @@ export async function updateSupplier(
             legalName,
             ERPCode: ERPcode,
             code,
-            userId,
+            users,
         });
 
-        return reply.status(200).send(updatedSupplier);
+        return reply.status(204).send();
     } catch (error) {
+        if (error instanceof SupplierNotFoundError) {
+            return reply
+                .status(error.statusCode)
+                .send({ message: error.message });
+        }
         reply.status(500).send();
     }
 }
@@ -59,7 +65,12 @@ export const updateSupplierSchema = {
             legalName: { type: 'string' },
             ERPcode: { type: 'string' },
             code: { type: 'string' },
-            userId: { type: 'string' },
+            users: {
+                type: 'array',
+                items: {
+                    type: 'string',
+                },
+            },
         },
         required: ['name', 'cnpj', 'legalName', 'ERPcode', 'code'],
     },

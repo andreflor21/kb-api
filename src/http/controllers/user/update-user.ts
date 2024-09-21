@@ -12,7 +12,7 @@ export async function updateUser(request: FastifyRequest, reply: FastifyReply) {
             id: z.string().uuid(),
         })
         .parse(request.params);
-    const { name, email, password, cpf, birthdate, code, profileId } = z
+    const { name, email, password, cpf, birthdate, code, profileId, active } = z
         .object({
             name: z.string().optional(),
             email: z.string().email().optional(),
@@ -21,6 +21,7 @@ export async function updateUser(request: FastifyRequest, reply: FastifyReply) {
             birthdate: z.coerce.date().optional(),
             code: z.string().optional(),
             profileId: z.string().uuid().optional(),
+            active: z.boolean().optional(),
         })
         .parse(request.body);
 
@@ -38,6 +39,7 @@ export async function updateUser(request: FastifyRequest, reply: FastifyReply) {
             birthdate,
             code,
             profileId,
+            active,
         });
 
         reply.status(204).send();
@@ -65,6 +67,7 @@ export const updateUserSchema = {
                 cpf: { type: 'string' },
                 birthdate: { type: 'string', format: 'date-time' },
                 code: { type: 'string' },
+                active: { type: 'boolean' },
                 profileId: { type: 'string' },
             },
         },

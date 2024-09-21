@@ -1,15 +1,14 @@
 import { FastifyInstance } from 'fastify';
-import { listRoutes } from './list-routes';
+import { listRoutes, listRoutesSchema } from './list-routes';
 import { createRoute, createRouteSchema } from './create-route';
 import { getRouteById, getRouteByIdSchema } from './get-route-by-id';
 import { updateRoute, updateRouteSchema } from './update-route';
 import { verifyJwt } from '@/http/middleware/verifyJwt';
-import { listProfilesSchema } from '../profile/list-profiles';
 
 export async function routesRoutes(app: FastifyInstance) {
     app.get(
         '/routes',
-        { onRequest: verifyJwt, schema: listProfilesSchema },
+        { onRequest: verifyJwt, schema: listRoutesSchema },
         listRoutes
     );
     app.post(

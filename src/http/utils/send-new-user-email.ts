@@ -30,7 +30,9 @@ export const sendNewUserEmail = async ({
 
         const templateData: TemplateCreatePassword = {
             name,
-            url: `${process.env.APP_URL}/reset-password/${token}?type=new-user`,
+            url: `${
+                process.env.APP_URL ?? 'http://localhost:3000'
+            }/reset-password/${token}?type=new-user`,
             token,
         };
         sendMail<TemplateCreatePassword>({

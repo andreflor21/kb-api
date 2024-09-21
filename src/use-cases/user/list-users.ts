@@ -1,8 +1,8 @@
+import { UserExtended } from '@/@Types/userExtended';
 import { UsersRepository } from '@/repositories/users-repository';
-import { User } from '@prisma/client';
 
 interface ListUsersUseCaseResponse {
-    users: Omit<User, 'hashedPassword'>[];
+    users: Omit<UserExtended, 'hashedPassword'>[];
 }
 
 export class ListUsersUseCase {
@@ -13,6 +13,9 @@ export class ListUsersUseCase {
         if (!users) {
             return { users: [] };
         }
-        return { users: users.map(({ hashedPassword, ...user }) => user) };
+        const usersSerialized = users.map((user) => {
+            return { ...user, hashedPassword: undefined, profileId: undefined };
+        });
+        return { users: usersSerialized };
     }
 }

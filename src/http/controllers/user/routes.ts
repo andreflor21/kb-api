@@ -12,16 +12,31 @@ import { updateUserStatus, updateUserStatusSchema } from './update-user-status';
 import { updateUser, updateUserSchema } from './update-user';
 
 export async function userRoutes(app: FastifyInstance) {
-    app.post('/login', authenticateUserSchema, authenticateUser);
+    app.post(
+        '/login',
+        {
+            schema: authenticateUserSchema.schema,
+            config: {
+                rateLimit: {
+                    max: 5, // maximum of 5 requests
+                    timeWindow: '1 minute', // per minute
+                },
+            },
+        },
+        authenticateUser
+    );
     app.post('/forgot-password', forgotPasswordSchema, forgotPassword);
     app.post(
         '/reset-password/:token_id',
         recoverPasswordSchema,
         recoverPassword
     );
-
     app.post('/users/new', createUserSchema, createUser);
-    app.get('/users', listUsersSchema, listUsers);
+    app.get(
+        '/users',
+        { onRequest: verifyJwt, schema: listUsersSchema.schema },
+        listUsers
+    );
     app.get(
         '/users/:id',
         { onRequest: verifyJwt, schema: getUserByIdSchema.schema },

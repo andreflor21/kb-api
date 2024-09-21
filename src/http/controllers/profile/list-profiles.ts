@@ -42,16 +42,16 @@ export const listProfilesSchema = {
                                     },
                                 },
                             },
-                        },
-                    },
-                    routes: {
-                        type: 'array',
-                        items: {
-                            type: 'object',
-                            properties: {
-                                id: { type: 'string' },
-                                description: { type: 'string' },
-                                method: { type: 'string' },
+                            routes: {
+                                type: 'array',
+                                items: {
+                                    type: 'object',
+                                    properties: {
+                                        id: { type: 'string' },
+                                        description: { type: 'string' },
+                                        method: { type: 'string' },
+                                    },
+                                },
                             },
                         },
                     },

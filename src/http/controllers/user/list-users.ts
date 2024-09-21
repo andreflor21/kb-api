@@ -1,6 +1,4 @@
-import { verifyJwt } from '@/http/middleware/verifyJwt';
 import { makeListUsersUseCase } from '@/use-cases/factories/user/make-list-users-use-case';
-import { on } from 'events';
 import { FastifyRequest, FastifyReply } from 'fastify';
 
 export async function listUsers(req: FastifyRequest, res: FastifyReply) {
@@ -72,5 +70,4 @@ export const listUsersSchema = {
             },
         },
     },
-    onRequest: [verifyJwt],
 };

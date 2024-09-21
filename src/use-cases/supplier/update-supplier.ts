@@ -1,5 +1,6 @@
 import { SupplierRepository } from '@/repositories/supplier-repository';
 import { SupplierExtended as Supplier } from '@/@Types/SupplierExtended';
+import { SupplierNotFoundError } from '@/shared/errors/supplier-not-found-error';
 
 type UpdateSupplierUseCaseRequest = {
     id: string;
@@ -10,7 +11,7 @@ type UpdateSupplierUseCaseRequest = {
     ERPCode: string;
     fone: string | null;
     email: string | null;
-    userId: string | null;
+    users: string[];
 };
 
 type UpdateSupplierUseCaseResponse = {
@@ -29,37 +30,19 @@ export class UpdateSupplierUseCase {
         ERPCode,
         fone,
         email,
-        userId,
+        users,
     }: UpdateSupplierUseCaseRequest): Promise<UpdateSupplierUseCaseResponse> {
-        if (!userId) {
-            const supplier = await this.supplierRepository.updateSupplier({
-                id,
-                code,
-                cnpj,
-                name,
-                legalName,
-                ERPCode,
-                fone,
-                email,
-            });
-            return { supplier };
-        } else {
-            const supplier = await this.supplierRepository.updateSupplier({
-                id,
-                code,
-                cnpj,
-                name,
-                legalName,
-                ERPCode,
-                fone,
-                email,
-                userResp: {
-                    connect: {
-                        id: userId,
-                    },
-                },
-            });
-            return { supplier };
-        }
+        const supplier = await this.supplierRepository.updateSupplier(id, {
+            code,
+            cnpj,
+            name,
+            legalName,
+            ERPCode,
+            fone,
+            email,
+            users: { set: users.map((id) => ({ id })) },
+        });
+        if (!supplier) throw new SupplierNotFoundError();
+        return { supplier };
     }
 }
