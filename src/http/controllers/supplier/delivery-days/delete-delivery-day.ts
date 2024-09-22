@@ -20,3 +20,27 @@ export const deleteDeliveryDay = async (
         reply.status(500).send();
     }
 };
+export const deleteDeliveryDaySchema = {
+    tags: ['Fornecedores', 'Dias de entrega'],
+    security: [{ BearerAuth: [] }],
+    params: {
+        type: 'object',
+        required: ['id', 'supplierId'],
+        properties: {
+            id: { type: 'string', format: 'uuid' },
+            supplierId: { type: 'string', format: 'uuid' },
+        },
+    },
+    response: {
+        204: {
+            description: 'Success',
+        },
+        404: {
+            description: 'Not found',
+            type: 'object',
+            properties: {
+                message: { type: 'string' },
+            },
+        },
+    },
+};

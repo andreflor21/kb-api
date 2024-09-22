@@ -31,3 +31,71 @@ export const addDeliveryDay = async (
         reply.status(500).send();
     }
 };
+
+export const addDeliveryDaySchema = {
+    tags: ['Fornecedores', 'Dias de entrega'],
+    security: [{ BearerAuth: [] }],
+    params: {
+        type: 'object',
+        required: ['supplierId'],
+        properties: {
+            supplierId: { type: 'string', format: 'uuid' },
+        },
+    },
+    body: {
+        type: 'object',
+        required: ['days', 'period', 'hour'],
+        properties: {
+            days: {
+                type: 'array',
+                items: { type: 'number' },
+            },
+            period: { type: 'string' },
+            hour: { type: 'string' },
+        },
+    },
+    response: {
+        201: {
+            description: 'Success',
+            type: 'object',
+            properties: {
+                id: { type: 'string' },
+                supplierId: { type: 'string' },
+                days: {
+                    type: 'array',
+                    items: { type: 'number' },
+                },
+                period: { type: 'string' },
+                hour: { type: 'string' },
+            },
+        },
+        400: {
+            description: 'Bad Request',
+            type: 'object',
+            properties: {
+                message: { type: 'string' },
+            },
+        },
+        401: {
+            description: 'Unauthorized',
+            type: 'object',
+            properties: {
+                message: { type: 'string' },
+            },
+        },
+        403: {
+            description: 'Forbidden',
+            type: 'object',
+            properties: {
+                message: { type: 'string' },
+            },
+        },
+        500: {
+            description: 'Internal Server Error',
+            type: 'object',
+            properties: {
+                message: { type: 'string' },
+            },
+        },
+    },
+};

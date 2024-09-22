@@ -27,10 +27,11 @@ export const getSupplierByIdSchema = {
     security: [{ BearerAuth: [] }],
     params: {
         type: 'object',
+        required: ['id', 'supplierId'],
         properties: {
-            supplierId: { type: 'string' },
+            id: { type: 'string', format: 'uuid' },
+            supplierId: { type: 'string', format: 'uuid' },
         },
-        required: ['supplierId'],
     },
     response: {
         200: {

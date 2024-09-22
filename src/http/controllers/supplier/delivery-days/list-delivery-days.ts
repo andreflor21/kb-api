@@ -20,3 +20,34 @@ export const listDeliveryDays = async (
         reply.status(500).send();
     }
 };
+
+export const listDeliveryDaysSchema = {
+    tags: ['Fornecedores', 'Dias de entrega'],
+    security: [{ BearerAuth: [] }],
+    params: {
+        type: 'object',
+        required: ['supplierId'],
+        properties: {
+            supplierId: { type: 'string', format: 'uuid' },
+        },
+    },
+    response: {
+        200: {
+            description: 'Success',
+            type: 'array',
+            items: {
+                type: 'object',
+                properties: {
+                    id: { type: 'string' },
+                    supplierId: { type: 'string' },
+                    days: {
+                        type: 'array',
+                        items: { type: 'number' },
+                    },
+                    period: { type: 'string' },
+                    hour: { type: 'string' },
+                },
+            },
+        },
+    },
+};
