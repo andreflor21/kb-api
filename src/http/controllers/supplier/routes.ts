@@ -11,6 +11,7 @@ import { updateSupplier, updateSupplierSchema } from './update-supplier';
 import { createSupplier, createSupplierSchema } from './create-supplier';
 import { deleteSupplier, deleteSupplierSchema } from './delete-supplier';
 import { verifyRouteAccess } from '@/http/middleware/routeAccess';
+import { deliveryDaysRoutes } from './delivery-days/routes';
 
 export async function supplierRoutes(app: FastifyInstance) {
     const prefix = '/suppliers';
@@ -63,4 +64,5 @@ export async function supplierRoutes(app: FastifyInstance) {
         updateSupplierStatus
     );
     app.register(addressRoutes, { prefix });
+    app.register(deliveryDaysRoutes, { prefix });
 }
