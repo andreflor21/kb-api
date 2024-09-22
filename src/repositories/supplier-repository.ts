@@ -1,7 +1,6 @@
-import { Prisma } from '@prisma/client';
+import { Prisma, SupplierDeliveryDays } from '@prisma/client';
 import { SupplierExtended } from '@/@Types/SupplierExtended';
-import { SupplierCreateInput } from '@/@Types/SupplierCreateInput';
-import { SupplierUpdateInput } from '@/@Types/SupplierUpdateInput';
+
 export interface SupplierRepository {
     createSupplier(data: Prisma.SupplierCreateInput): Promise<SupplierExtended>;
     getSupplierById(id: string): Promise<SupplierExtended>;
@@ -15,5 +14,22 @@ export interface SupplierRepository {
         status: boolean
     ): Promise<SupplierExtended>;
     deleteSupplier(id: string): Promise<void>;
-    // Adicione outros métodos necessários aqui
+
+    // Metodos para dias de entrega
+    addDeliveryDays(
+        supplierId: string,
+        data: Prisma.SupplierDeliveryDaysCreateInput
+    ): Promise<void>;
+    updateDeliveryDays(
+        id: string,
+        data: Prisma.SupplierDeliveryDaysUpdateInput
+    ): Promise<void>;
+    listDeliveryDays(supplierId: string): Promise<SupplierExtended>;
+    getDeliveryDaysById(id: string): Promise<SupplierDeliveryDays>;
+    removeDeliveryDays(id: string): Promise<void>;
+
+    // Metodos para importação via planilha
+    importSuppliers(
+        data: Prisma.SupplierUpdateInput[]
+    ): Promise<SupplierExtended[]>;
 }
