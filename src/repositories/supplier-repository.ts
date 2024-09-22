@@ -30,6 +30,6 @@ export interface SupplierRepository {
 
     // Metodos para importação via planilha
     importSuppliers(
-        data: Prisma.SupplierUpdateInput[]
+        data: Prisma.SupplierCreateInput[]
     ): Promise<SupplierExtended[]>;
 }

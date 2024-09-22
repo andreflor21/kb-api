@@ -2,7 +2,17 @@ import { SupplierRepository } from '@/repositories/supplier-repository';
 import { Supplier } from '@prisma/client';
 
 type ImportSuppliers = {
-    suppliers: Supplier[];
+    suppliers: {
+        name: string;
+        cnpj: string | null;
+        email: string | null;
+        fone: string | null;
+        legalName: string | null;
+        ERPcode: string | null;
+        code: string | null;
+        active: boolean;
+        createdAt: Date;
+    }[];
 };
 
 type ImportSuppliersResponse = {
@@ -15,8 +25,10 @@ export class ImportSuppliersUseCase {
     async execute({
         suppliers,
     }: ImportSuppliers): Promise<ImportSuppliersResponse> {
-        await this.supplierRepository.importSuppliers(suppliers);
+        const suppliersRet = await this.supplierRepository.importSuppliers(
+            suppliers
+        );
 
-        return { suppliers };
+        return { suppliers: suppliersRet };
     }
 }

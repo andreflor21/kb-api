@@ -196,7 +196,7 @@ export class PrismaSupplierRepository implements SupplierRepository {
     }
 
     async importSuppliers(
-        data: Prisma.SupplierUpdateInput[]
+        data: Prisma.SupplierCreateInput[]
     ): Promise<SupplierExtended[]> {
         const returnData: SupplierExtended[] = [];
         data.forEach(async (supplier) => {

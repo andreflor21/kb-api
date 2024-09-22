@@ -13,6 +13,7 @@ import { supplierRoutes } from './http/controllers/supplier/routes';
 import { fastifySwagger } from '@fastify/swagger';
 import { fastifySwaggerUi } from '@fastify/swagger-ui';
 import { swaggerOptions, swaggerUiOptions } from './shared/docs/swagger';
+import fastifyMultipart from '@fastify/multipart';
 
 export const app = fastify({
     logger: {
@@ -49,15 +50,15 @@ app.register(rateLimit, {
         };
     },
 });
-
 app.register(fastifyJwt, {
     secret: env.JWT_SECRET,
     sign: {
         expiresIn: '1d',
     },
 });
-
 app.register(cors, {});
+app.register(fastifyMultipart);
+
 try {
     app.register(fastifySwagger, swaggerOptions);
     app.register(fastifySwaggerUi, swaggerUiOptions);

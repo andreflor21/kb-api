@@ -12,6 +12,7 @@ import { createSupplier, createSupplierSchema } from './create-supplier';
 import { deleteSupplier, deleteSupplierSchema } from './delete-supplier';
 import { verifyRouteAccess } from '@/http/middleware/routeAccess';
 import { deliveryDaysRoutes } from './delivery-days/routes';
+import { importSuppliers, importSuppliersSchema } from './import-suppliers';
 
 export async function supplierRoutes(app: FastifyInstance) {
     const prefix = '/suppliers';
@@ -62,6 +63,15 @@ export async function supplierRoutes(app: FastifyInstance) {
             schema: updateSupplierStatusSchema,
         },
         updateSupplierStatus
+    );
+
+    app.post(
+        `${prefix}/import`,
+        {
+            onRequest: [verifyJwt, verifyRouteAccess],
+            schema: importSuppliersSchema,
+        },
+        importSuppliers
     );
     app.register(addressRoutes, { prefix });
     app.register(deliveryDaysRoutes, { prefix });
