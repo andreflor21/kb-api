@@ -26,12 +26,9 @@ export class PrismaSupplierRepository implements SupplierRepository {
                         name: true,
                     },
                 },
-                addresses: {
-                    select: {
-                        id: true,
-                        addressTypeId: true,
-                    },
-                },
+                addresses: true,
+                products: true,
+                deliveryDays: true,
             },
         });
     }
@@ -46,12 +43,9 @@ export class PrismaSupplierRepository implements SupplierRepository {
                         name: true,
                     },
                 },
-                addresses: {
-                    select: {
-                        id: true,
-                        addressTypeId: true,
-                    },
-                },
+                addresses: true,
+                products: true,
+                deliveryDays: true,
             },
         });
         if (!supplier) throw new SupplierNotFoundError();
@@ -67,12 +61,9 @@ export class PrismaSupplierRepository implements SupplierRepository {
                         name: true,
                     },
                 },
-                addresses: {
-                    select: {
-                        id: true,
-                        addressTypeId: true,
-                    },
-                },
+                addresses: true,
+                products: true,
+                deliveryDays: true,
             },
         });
     }
@@ -135,34 +126,47 @@ export class PrismaSupplierRepository implements SupplierRepository {
 
     async addDeliveryDays(
         supplierId: string,
-        data: Prisma.SupplierDeliveryDaysCreateInput
+        data: Prisma.SupplierDeliveryDaysCreateManyInput[]
     ): Promise<void> {
         const supplier = await prisma.supplier.findUnique({
             where: { id: supplierId },
         });
         if (!supplier) throw new SupplierNotFoundError();
 
-        await prisma.supplierDeliveryDays.create({
-            data: {
-                ...data,
-                supplier: { connect: { id: supplierId } },
-            },
+        await prisma.supplierDeliveryDays.createMany({
+            data: data.map((item) => ({
+                days: item.days,
+                period: item.period,
+                hour: item.hour,
+                supplierId,
+            })),
         });
     }
 
     async updateDeliveryDays(
-        id: string,
-        data: Prisma.SupplierDeliveryDaysUpdateInput
+        supplierId: string,
+        data: Prisma.SupplierDeliveryDaysUpdateInput[]
     ): Promise<void> {
-        const deliveryDays = await prisma.supplierDeliveryDays.findUnique({
-            where: { id },
+        const supplier = await prisma.supplier.findUnique({
+            where: { id: supplierId },
         });
-        if (!deliveryDays)
-            throw new AppError('Dias para entrega não encontrado', 404);
+        if (!supplier) throw new SupplierNotFoundError();
 
-        await prisma.supplierDeliveryDays.update({
-            where: { id },
-            data,
+        data.map(async (item) => {
+            const deliveryDays = await prisma.supplierDeliveryDays.findUnique({
+                where: { id: item.id as string },
+            });
+            if (!deliveryDays)
+                throw new AppError('Dias para entrega não encontrado', 404);
+
+            await prisma.supplierDeliveryDays.update({
+                where: { id: item.id as string },
+                data: {
+                    days: item.days,
+                    period: item.period,
+                    hour: item.hour,
+                },
+            });
         });
     }
 
@@ -174,15 +178,12 @@ export class PrismaSupplierRepository implements SupplierRepository {
             throw new AppError('Dias para entrega não encontrado', 404);
         return deliveryDay;
     }
-    async listDeliveryDays(id: string): Promise<SupplierExtended> {
-        const supplier = await prisma.supplier.findUnique({
-            where: { id },
-            include: {
-                deliveryDays: true,
-            },
+    async listDeliveryDays(id: string): Promise<SupplierDeliveryDays[]> {
+        const deliveryDays = await prisma.supplierDeliveryDays.findMany({
+            where: { supplierId: id },
         });
-        if (!supplier) throw new SupplierNotFoundError();
-        return supplier;
+
+        return deliveryDays;
     }
 
     async removeDeliveryDays(id: string): Promise<void> {

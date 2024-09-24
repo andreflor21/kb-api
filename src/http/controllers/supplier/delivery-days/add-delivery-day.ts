@@ -6,24 +6,33 @@ export const addDeliveryDay = async (
     request: FastifyRequest,
     reply: FastifyReply
 ) => {
-    const { id } = z.object({ id: z.string().uuid() }).parse(request.params);
+    const { supplierId } = z
+        .object({ supplierId: z.string().uuid() })
+        .parse(request.params);
 
-    const addDeliveryDayBodySchema = z.object({
-        days: z.array(z.number()),
-        period: z.string(),
-        hour: z.string(),
-    });
+    const addDeliveryDayBodySchema = z.array(
+        z.object({
+            days: z.number().min(0).max(6),
+            period: z.string().or(z.null()).optional(),
+            hour: z.string().max(5).or(z.null()).optional(),
+        })
+    );
 
-    const { days, period, hour } = addDeliveryDayBodySchema.parse(request.body);
+    const deliveryDays = addDeliveryDayBodySchema.parse(request.body);
 
     try {
         const addDeliveryDay = makeAddDeliveryDayUseCase();
 
+        const parsedDeliveryDays = deliveryDays.map((item) => ({
+            days: item.days.toString(),
+            period: item.period ?? null,
+            hour: item.hour ?? null,
+            supplierId,
+        }));
+
         const newDeliveryDay = await addDeliveryDay.execute({
-            supplierId: id,
-            days,
-            period,
-            hour,
+            supplierId,
+            deliveryDays: parsedDeliveryDays,
         });
 
         return reply.status(201).send(newDeliveryDay);
@@ -33,7 +42,7 @@ export const addDeliveryDay = async (
 };
 
 export const addDeliveryDaySchema = {
-    tags: ['Fornecedores', 'Dias de entrega'],
+    tags: ['Dias de entrega'],
     security: [{ BearerAuth: [] }],
     params: {
         type: 'object',
@@ -43,15 +52,27 @@ export const addDeliveryDaySchema = {
         },
     },
     body: {
-        type: 'object',
-        required: ['days', 'period', 'hour'],
-        properties: {
-            days: {
-                type: 'array',
-                items: { type: 'number' },
+        type: 'array',
+        items: {
+            type: 'object',
+            properties: {
+                days: {
+                    type: 'number',
+                    minimum: 0,
+                    maximum: 6,
+                    description:
+                        '0 - Domingo, 1 - Segunda, 2 - Terça, 3 - Quarta, 4 - Quinta, 5 - Sexta, 6 - Sábado',
+                },
+                period: {
+                    type: 'string',
+                    description: 'Manhã, Tarde, Noite',
+                },
+                hour: {
+                    type: 'string',
+                    maxLength: 5,
+                    description: 'HH:mm',
+                },
             },
-            period: { type: 'string' },
-            hour: { type: 'string' },
         },
     },
     response: {
@@ -59,14 +80,19 @@ export const addDeliveryDaySchema = {
             description: 'Success',
             type: 'object',
             properties: {
-                id: { type: 'string' },
-                supplierId: { type: 'string' },
-                days: {
+                deliveryDays: {
                     type: 'array',
-                    items: { type: 'number' },
+                    items: {
+                        type: 'object',
+                        properties: {
+                            id: { type: 'string' },
+                            supplierId: { type: 'string' },
+                            days: { type: 'string' },
+                            period: { type: 'string' },
+                            hour: { type: 'string' },
+                        },
+                    },
                 },
-                period: { type: 'string' },
-                hour: { type: 'string' },
             },
         },
         400: {

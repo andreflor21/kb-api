@@ -1,15 +1,19 @@
 import { SupplierRepository } from '@/repositories/supplier-repository';
 import { SupplierExtended as Supplier } from '@/@Types/SupplierExtended';
+import { SupplierDeliveryDays } from '@prisma/client';
 
 type AddDeliveryDays = {
     supplierId: string;
-    days: number[];
-    period: string;
-    hour: string;
+    deliveryDays: {
+        supplierId: string;
+        days: string;
+        period: string | null;
+        hour: string | null;
+    }[];
 };
 
 type AddDeliveryDaysResponse = {
-    supplier: Supplier;
+    deliveryDays: Partial<SupplierDeliveryDays>[];
 };
 
 export class AddDeliveryDaysUseCase {
@@ -17,21 +21,14 @@ export class AddDeliveryDaysUseCase {
 
     async execute({
         supplierId,
-        days,
-        period,
-        hour,
+        deliveryDays,
     }: AddDeliveryDays): Promise<AddDeliveryDaysResponse> {
-        await this.supplierRepository.addDeliveryDays(supplierId, {
-            days: days.join(','),
-            period,
-            hour,
-            supplier: { connect: { id: supplierId } },
-        });
+        await this.supplierRepository.addDeliveryDays(supplierId, deliveryDays);
 
-        const supplier = await this.supplierRepository.getSupplierById(
+        const newdeliveryDays = await this.supplierRepository.listDeliveryDays(
             supplierId
         );
 
-        return { supplier };
+        return { deliveryDays: newdeliveryDays };
     }
 }

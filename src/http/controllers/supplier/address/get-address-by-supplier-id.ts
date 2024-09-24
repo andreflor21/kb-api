@@ -32,25 +32,30 @@ export const getAddressBySupplierIdSchema = {
     },
     response: {
         200: {
+            type: 'object',
             description: 'Success',
-            type: 'array',
-            items: {
-                type: 'object',
-                properties: {
-                    id: { type: 'string', format: 'uuid' },
-                    supplierId: { type: 'string', format: 'uuid' },
-                    lograd: { type: 'string' },
-                    number: { type: 'string' },
-                    zipcode: { type: 'string' },
-                    city: { type: 'string' },
-                    state: { type: 'string' },
-                    district: { type: 'string' },
-                    complement: { type: 'string' },
-                    addressType: {
+            properties: {
+                addresses: {
+                    type: 'array',
+                    items: {
                         type: 'object',
                         properties: {
                             id: { type: 'string', format: 'uuid' },
-                            description: { type: 'string' },
+                            supplierId: { type: 'string', format: 'uuid' },
+                            lograd: { type: 'string' },
+                            number: { type: 'string' },
+                            zipcode: { type: 'string' },
+                            city: { type: 'string' },
+                            state: { type: 'string' },
+                            district: { type: 'string' },
+                            complement: { type: 'string' },
+                            addressType: {
+                                type: 'object',
+                                properties: {
+                                    id: { type: 'string', format: 'uuid' },
+                                    description: { type: 'string' },
+                                },
+                            },
                         },
                     },
                 },

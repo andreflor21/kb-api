@@ -6,29 +6,35 @@ export const updateDeliveryDay = async (
     request: FastifyRequest,
     reply: FastifyReply
 ) => {
-    const { id, supplierId } = z
-        .object({ id: z.string().uuid(), supplierId: z.string().uuid() })
+    const { supplierId } = z
+        .object({ supplierId: z.string().uuid() })
         .parse(request.params);
 
     const updateDeliveryDayBodySchema = z.object({
-        days: z.array(z.number()),
-        period: z.string(),
-        hour: z.string(),
+        deliveryDays: z.array(
+            z.object({
+                id: z.string().uuid(),
+                days: z.number().min(0).max(6),
+                period: z.string().or(z.null()).optional(),
+                hour: z.string().max(5).or(z.null()).optional(),
+            })
+        ),
     });
 
-    const { days, period, hour } = updateDeliveryDayBodySchema.parse(
-        request.body
-    );
+    const { deliveryDays } = updateDeliveryDayBodySchema.parse(request.body);
 
     try {
         const updateDeliveryDay = makeUpdateDeliveryDayUseCase();
-
-        const updatedDeliveryDay = await updateDeliveryDay.execute({
-            id,
-            days,
-            period,
-            hour,
+        const parsedDeliveryDays = deliveryDays.map((item) => ({
+            days: item.days.toString(),
+            period: item.period ?? null,
+            hour: item.hour ?? null,
             supplierId,
+            id: item.id,
+        }));
+        const updatedDeliveryDay = await updateDeliveryDay.execute({
+            supplierId,
+            deliveryDays: parsedDeliveryDays,
         });
 
         return reply.status(200).send(updatedDeliveryDay);
@@ -38,41 +44,63 @@ export const updateDeliveryDay = async (
 };
 
 export const updateDeliveryDaySchema = {
-    tags: ['Fornecedores', 'Dias de entrega'],
+    tags: ['Dias de entrega'],
     security: [{ BearerAuth: [] }],
     params: {
         type: 'object',
-        required: ['id', 'supplierId'],
+        required: ['supplierId'],
         properties: {
-            id: { type: 'string', format: 'uuid' },
             supplierId: { type: 'string', format: 'uuid' },
         },
     },
     body: {
         type: 'object',
-        required: ['days', 'period', 'hour'],
         properties: {
-            days: {
+            deliveryDays: {
                 type: 'array',
-                items: { type: 'number' },
+                items: {
+                    type: 'object',
+                    properties: {
+                        days: {
+                            type: 'number',
+                            minimum: 0,
+                            maximum: 6,
+                            description:
+                                '0 - Domingo, 1 - Segunda, 2 - Terça, 3 - Quarta, 4 - Quinta, 5 - Sexta, 6 - Sábado',
+                        },
+                        period: {
+                            type: 'string',
+                            description: 'Manhã, Tarde, Noite',
+                        },
+                        hour: {
+                            type: 'string',
+                            maxLength: 5,
+                            description: 'HH:mm',
+                        },
+                    },
+                },
             },
-            period: { type: 'string' },
-            hour: { type: 'string' },
         },
+        required: ['deliveryDays'],
     },
     response: {
         200: {
             description: 'Success',
             type: 'object',
             properties: {
-                id: { type: 'string' },
-                supplierId: { type: 'string' },
-                days: {
+                deliveryDays: {
                     type: 'array',
-                    items: { type: 'number' },
+                    items: {
+                        type: 'object',
+                        properties: {
+                            id: { type: 'string' },
+                            supplierId: { type: 'string' },
+                            days: { type: 'string' },
+                            period: { type: 'string' },
+                            hour: { type: 'string' },
+                        },
+                    },
                 },
-                period: { type: 'string' },
-                hour: { type: 'string' },
             },
         },
         404: {

@@ -20,7 +20,7 @@ export const getDeliveryDay = async (
 };
 
 export const getDeliveryDaySchema = {
-    tags: ['Fornecedores', 'Dias de entrega'],
+    tags: ['Dias de entrega'],
     security: [{ BearerAuth: [] }],
     params: {
         type: 'object',
@@ -37,10 +37,7 @@ export const getDeliveryDaySchema = {
             properties: {
                 id: { type: 'string' },
                 supplierId: { type: 'string' },
-                days: {
-                    type: 'array',
-                    items: { type: 'number' },
-                },
+                days: { type: 'number' },
                 period: { type: 'string' },
                 hour: { type: 'string' },
             },

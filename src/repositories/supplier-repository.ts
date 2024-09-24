@@ -18,13 +18,13 @@ export interface SupplierRepository {
     // Metodos para dias de entrega
     addDeliveryDays(
         supplierId: string,
-        data: Prisma.SupplierDeliveryDaysCreateInput
+        data: Prisma.SupplierDeliveryDaysCreateManyInput[]
     ): Promise<void>;
     updateDeliveryDays(
-        id: string,
-        data: Prisma.SupplierDeliveryDaysUpdateInput
+        supplierId: string,
+        data: Prisma.SupplierDeliveryDaysUpdateInput[]
     ): Promise<void>;
-    listDeliveryDays(supplierId: string): Promise<SupplierExtended>;
+    listDeliveryDays(supplierId: string): Promise<SupplierDeliveryDays[]>;
     getDeliveryDaysById(id: string): Promise<SupplierDeliveryDays>;
     removeDeliveryDays(id: string): Promise<void>;
 

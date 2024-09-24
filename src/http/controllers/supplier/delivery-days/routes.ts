@@ -49,7 +49,7 @@ export async function deliveryDaysRoutes(app: FastifyInstance) {
     );
 
     app.patch(
-        `/:supplierId${prefix}/:id/edit`,
+        `/:supplierId${prefix}/edit`,
         {
             onRequest: [verifyJwt, verifyRouteAccess],
             schema: updateDeliveryDaySchema,

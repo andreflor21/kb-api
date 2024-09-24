@@ -21,7 +21,7 @@ export const deleteDeliveryDay = async (
     }
 };
 export const deleteDeliveryDaySchema = {
-    tags: ['Fornecedores', 'Dias de entrega'],
+    tags: ['Dias de entrega'],
     security: [{ BearerAuth: [] }],
     params: {
         type: 'object',
