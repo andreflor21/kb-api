@@ -19,8 +19,8 @@ export async function verifyRouteAccess(
 
         // Obtenha o caminho e o método da rota solicitada
         const { method, url } = req.raw;
-        console.log(method, url);
-        console.log(user?.profile?.routes);
+        // console.log(method, url);
+        // console.log(user?.profile?.routes);
 
         // Função para normalizar a URL e lidar com parâmetros dinâmicos (substituindo :param por [^/]+)
         const normalizeRoute = (routePath: string) =>
@@ -31,7 +31,7 @@ export async function verifyRouteAccess(
             const normalizedRoute = new RegExp(
                 `^${normalizeRoute(route.path as string)}$`
             );
-            console.log(normalizedRoute);
+            // console.log(normalizedRoute);
             return (
                 normalizedRoute.test(url as string) &&
                 route.method === method?.toUpperCase()
