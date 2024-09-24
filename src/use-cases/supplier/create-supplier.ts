@@ -2,11 +2,11 @@ import { SupplierRepository } from '@/repositories/supplier-repository';
 import { SupplierExtended as Supplier } from '@/@Types/SupplierExtended';
 
 type CreateSupplierUseCaseRequest = {
-    code: string;
-    cnpj: string;
+    code: string | null;
+    cnpj: string | null;
     name: string;
-    legalName: string;
-    ERPCode: string;
+    legalName: string | null;
+    ERPCode: string | null;
     fone: string | null;
     email: string | null;
     users: string[];

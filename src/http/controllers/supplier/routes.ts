@@ -13,9 +13,12 @@ import { deleteSupplier, deleteSupplierSchema } from './delete-supplier';
 import { verifyRouteAccess } from '@/http/middleware/routeAccess';
 import { deliveryDaysRoutes } from './delivery-days/routes';
 import { importSuppliers, importSuppliersSchema } from './import-suppliers';
+import { exportSupplier } from './export-supplier';
+import multer from 'fastify-multer';
 
 export async function supplierRoutes(app: FastifyInstance) {
     const prefix = '/suppliers';
+    const upload = multer({ dest: 'uploads/' });
     app.get(
         prefix,
         {
@@ -70,8 +73,16 @@ export async function supplierRoutes(app: FastifyInstance) {
         {
             onRequest: [verifyJwt, verifyRouteAccess],
             schema: importSuppliersSchema,
+            preHandler: upload.single('file'),
         },
         importSuppliers
+    );
+    app.get(
+        `${prefix}/export`,
+        {
+            onRequest: [verifyJwt],
+        },
+        exportSupplier
     );
     app.register(addressRoutes, { prefix });
     app.register(deliveryDaysRoutes, { prefix });

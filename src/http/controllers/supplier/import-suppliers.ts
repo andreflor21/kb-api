@@ -1,81 +1,84 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
-import csvParser from 'csv-parser';
-import fs from 'fs';
+import { parse } from 'fast-csv';
 import { z } from 'zod';
+import fs from 'fs';
+import path from 'path';
+
 import { makeImportSuppliersUseCase } from '@/use-cases/factories/supplier/make-import-suppliers-use-case';
-import { b } from 'vitest/dist/chunks/suite.CcK46U-P';
 
 export const importSuppliers = async (
     request: FastifyRequest,
     reply: FastifyReply
 ) => {
-    const csvSchema = z.object({
+    const importSchema = z.object({
         name: z.string().max(100),
-        cnpj: z.string().max(14).or(z.null()),
-        email: z.string().email().max(100).or(z.null()),
-        fone: z.string().max(11).or(z.null()),
-        legalName: z.string().max(100).or(z.null()),
-        ERPcode: z.string().max(100).or(z.null()),
-        code: z.string().max(100).or(z.null()),
-        active: z.boolean().optional().default(true),
-        createdAt: z.date().optional().default(new Date()),
+        cnpj: z.string().max(14).optional(),
+        email: z.string().email().max(100).or(z.null()).optional(),
+        fone: z.string().max(11).or(z.null()).optional(),
+        legalName: z.string().max(100).optional(),
+        ERPcode: z.string().max(100).optional(),
+        code: z.string().max(100).optional(),
     });
+    const file = (request as any).file;
 
-    type CsvData = z.infer<typeof csvSchema>;
-
-    const file = (request.body as any).file;
     if (!file) {
-        return reply.status(400).send({ message: 'Nenhum arquivo enviado!' });
+        return reply
+            .status(400)
+            .send({ message: 'Nenhum arquivo foi enviado.' });
     }
+    const importSuppliers = makeImportSuppliersUseCase();
+    const filePath = path.resolve(file.path);
+    const results: Array<any> = [];
 
-    const csvFilePath = file.filepath; // assuming you are using a file upload plugin like fastify-multipart
+    // Lendo e validando o CSV
+    const stream = fs
+        .createReadStream(filePath)
+        .pipe(parse({ headers: true }))
+        .on('error', (error) => {
+            console.error(error);
+            reply.status(500).send({ message: 'Erro ao processar o arquivo.' });
+        })
+        .on('data', (row) => {
+            // Mapeia os cabeçalhos do CSV para os campos do schema
+            const parsedRow = {
+                name: row['Nome'],
+                cnpj: row['CNPJ'],
+                email: row['E-mail'],
+                fone: row['Telefone'],
+                legalName: row['Razão Social'],
+                ERPcode: row['Código ERP'],
+                code: row['Código'],
+            };
 
-    // Create an array to store the processed data
-    const csvDataArray: CsvData[] = [];
+            // Valida os dados com Zod
+            const validation = importSchema.safeParse(parsedRow);
 
-    try {
-        // Use a stream to read the CSV file
-        const readStream = fs.createReadStream(csvFilePath);
+            if (!validation.success) {
+                console.error(validation.error);
+            } else {
+                results.push(validation.data);
+            }
+        })
+        .on('end', async () => {
+            // Após o processamento, insere os dados no banco
+            try {
+                await importSuppliers.execute({ suppliers: results });
 
-        // Parse the CSV
-        await new Promise((resolve, reject) => {
-            readStream
-                .pipe(csvParser())
-                .on('data', (data: any) => {
-                    try {
-                        // Validate each row with Zod
-                        const validatedData = csvSchema.parse({
-                            name: data.name,
-                            email: data.email,
-                            cnpj: data.cnpj,
-                            fone: data.fone,
-                            legalName: data.legalName,
-                            ERPcode: data.ERPcode,
-                            code: data.code,
-                            active: data.active,
-                        });
-                        csvDataArray.push(validatedData);
-                    } catch (err) {
-                        reply
-                            .status(400)
-                            .send({ message: 'Validação falhou', error: err });
-                    }
-                })
-                .on('end', resolve)
-                .on('error', reject);
+                // Retorna a resposta de sucesso
+                reply.status(200).send({
+                    message: 'Dados importados com sucesso!',
+                    data: results,
+                });
+            } catch (error) {
+                console.error(error);
+                reply
+                    .status(500)
+                    .send({ message: 'Erro ao inserir dados no banco.' });
+            }
+
+            // Remove o arquivo após o processamento
+            fs.unlinkSync(filePath);
         });
-        const importSuppliers = makeImportSuppliersUseCase();
-        const suppliers = await importSuppliers.execute({
-            suppliers: csvDataArray,
-        });
-
-        reply.status(200).send({
-            suppliers,
-        });
-    } catch (err) {
-        console.error('Error processing CSV:', err);
-        reply.status(500).send({ error: 'Error processing CSV' });
-    }
 };
 
 export const importSuppliersSchema = {

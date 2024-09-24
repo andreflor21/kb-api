@@ -49,6 +49,7 @@ export const getSupplierByIdSchema = {
                         ERPcode: { type: 'string' },
                         legalName: { type: 'string' },
                         code: { type: 'string' },
+                        active: { type: 'boolean' },
                         created_at: { type: 'string', format: 'date-time' },
                         users: {
                             type: 'array',
@@ -73,6 +74,18 @@ export const getSupplierByIdSchema = {
                                     city: { type: 'string' },
                                     state: { type: 'string' },
                                     zipcode: { type: 'string' },
+                                },
+                            },
+                        },
+                        deliveryDays: {
+                            type: 'array',
+                            items: {
+                                type: 'object',
+                                properties: {
+                                    id: { type: 'string' },
+                                    days: { type: 'number' },
+                                    period: { type: 'string' },
+                                    hour: { type: 'string' },
                                 },
                             },
                         },

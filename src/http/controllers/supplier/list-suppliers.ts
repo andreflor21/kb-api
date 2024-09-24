@@ -34,6 +34,7 @@ export const listSuppliersSchema = {
                             legalName: { type: 'string' },
                             code: { type: 'string' },
                             created_at: { type: 'string' },
+                            active: { type: 'boolean' },
                             users: {
                                 type: 'array',
                                 items: {
@@ -57,6 +58,18 @@ export const listSuppliersSchema = {
                                         city: { type: 'string' },
                                         state: { type: 'string' },
                                         zipcode: { type: 'string' },
+                                    },
+                                },
+                            },
+                            deliveryDays: {
+                                type: 'array',
+                                items: {
+                                    type: 'object',
+                                    properties: {
+                                        id: { type: 'string' },
+                                        days: { type: 'number' },
+                                        period: { type: 'string' },
+                                        hour: { type: 'string' },
                                     },
                                 },
                             },

@@ -8,13 +8,17 @@ export async function createSupplier(
 ) {
     const createSupplierBodySchema = z.object({
         name: z.string().max(100),
-        cnpj: z.string().max(14),
-        email: z.string().email().max(100).or(z.null()),
-        fone: z.string().max(11).or(z.null()),
-        legalName: z.string().max(100),
-        ERPcode: z.string().max(100),
-        code: z.string().max(100),
-        users: z.array(z.string().uuid()),
+        cnpj: z
+            .string()
+            .max(18)
+            .optional()
+            .transform((value) => (value ? value.replace(/\D/g, '') : value)),
+        email: z.string().email().max(100).or(z.null()).optional(),
+        fone: z.string().max(11).or(z.null()).optional(),
+        legalName: z.string().max(100).optional(),
+        ERPcode: z.string().max(100).optional(),
+        code: z.string().max(100).optional(),
+        users: z.array(z.string().uuid()).optional(),
     });
 
     const { name, cnpj, email, fone, legalName, ERPcode, code, users } =
@@ -25,13 +29,13 @@ export async function createSupplier(
 
         const newSupplier = await createSupplier.execute({
             name,
-            cnpj,
-            email,
-            fone,
-            legalName,
-            ERPCode: ERPcode,
-            code,
-            users,
+            cnpj: cnpj ?? null,
+            email: email ?? null,
+            fone: fone ?? null,
+            legalName: legalName ?? null,
+            ERPCode: ERPcode ?? null,
+            code: code ?? null,
+            users: users ?? [],
         });
 
         return reply.status(201).send(newSupplier);
@@ -55,7 +59,7 @@ export const createSupplierSchema = {
             code: { type: 'string' },
             users: { type: 'array', items: { type: 'string' } },
         },
-        required: ['name', 'cnpj', 'legalName', 'ERPcode', 'code'],
+        required: ['name'],
     },
     response: {
         201: {
@@ -107,7 +111,6 @@ export const createSupplierSchema = {
             type: 'object',
             properties: {
                 message: { type: 'string' },
-                errors: { type: 'array', items: { type: 'object' } }, // To handle multiple errors
             },
         },
     },
