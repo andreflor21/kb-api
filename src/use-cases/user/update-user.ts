@@ -1,5 +1,7 @@
 import { UserExtended } from '@/@Types/userExtended';
+import { validateCpfCnpj } from '@/shared/utils/validate-cpf-cnpj';
 import { UsersRepository } from '@/repositories/users-repository';
+import AppError from '@/shared/errors/app-error';
 import { UserAlreadyExistsError } from '@/shared/errors/user-already-exists-error';
 import { UserNotFoundError } from '@/shared/errors/user-not-found-error';
 
@@ -44,6 +46,11 @@ export class UpdateUserUseCase {
             );
             if (userByEmail && userByEmail.id !== user.id) {
                 throw new UserAlreadyExistsError();
+            }
+        }
+        if (cpf) {
+            if (!validateCpfCnpj(cpf)) {
+                throw new AppError('CPF inválido', 400);
             }
         }
         const updatedUser = await this.usersRepository.updateUser(id, {

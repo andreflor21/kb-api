@@ -1,6 +1,8 @@
 import { SupplierRepository } from '@/repositories/supplier-repository';
 import { SupplierExtended as Supplier } from '@/@Types/SupplierExtended';
 import { SupplierNotFoundError } from '@/shared/errors/supplier-not-found-error';
+import { validateCpfCnpj } from '@/shared/utils/validate-cpf-cnpj';
+import AppError from '@/shared/errors/app-error';
 
 type UpdateSupplierUseCaseRequest = {
     id: string;
@@ -32,6 +34,11 @@ export class UpdateSupplierUseCase {
         email,
         users,
     }: UpdateSupplierUseCaseRequest): Promise<UpdateSupplierUseCaseResponse> {
+        if (cnpj) {
+            if (!validateCpfCnpj(cnpj)) {
+                throw new AppError('CNPJ inválido', 400);
+            }
+        }
         const supplier = await this.supplierRepository.updateSupplier(id, {
             code,
             cnpj,

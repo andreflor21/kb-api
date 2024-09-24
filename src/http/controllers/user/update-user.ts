@@ -17,7 +17,12 @@ export async function updateUser(request: FastifyRequest, reply: FastifyReply) {
             name: z.string().optional(),
             email: z.string().email().optional(),
             password: z.string().min(6).optional(),
-            cpf: z.string().optional(),
+            cpf: z
+                .string()
+                .optional()
+                .transform((value) =>
+                    value ? value.replace(/\D/g, '') : value
+                ),
             birthdate: z.coerce.date().optional(),
             code: z.string().optional(),
             profileId: z.string().uuid().optional(),

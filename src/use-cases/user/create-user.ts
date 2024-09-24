@@ -1,4 +1,6 @@
+import { validateCpfCnpj } from '@/shared/utils/validate-cpf-cnpj';
 import { UsersRepository } from '@/repositories/users-repository';
+import AppError from '@/shared/errors/app-error';
 import { UserAlreadyExistsError } from '@/shared/errors/user-already-exists-error';
 import { User } from '@prisma/client';
 import { hash } from 'bcryptjs';
@@ -36,6 +38,11 @@ export class CreateUserUseCase {
         );
         if (userWithSameEmail) {
             throw new UserAlreadyExistsError();
+        }
+        if (cpf) {
+            if (!validateCpfCnpj(cpf)) {
+                throw new AppError('CPF inválido', 400);
+            }
         }
 
         const user = await this.usersRepository.createUser({

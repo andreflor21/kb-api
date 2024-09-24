@@ -2,7 +2,7 @@ import { FastifyRequest, FastifyReply } from 'fastify';
 import { z } from 'zod';
 import { UserAlreadyExistsError } from '@/shared/errors/user-already-exists-error';
 import { makeCreateUserUseCase } from '@/use-cases/factories/user/make-create-user-use-case';
-import { sendNewUserEmail } from '@/http/utils/send-new-user-email';
+import { sendNewUserEmail } from '@/shared/utils/send-new-user-email';
 
 export async function createUser(request: FastifyRequest, reply: FastifyReply) {
     const { name, email, password, cpf, birthdate, code, profileId } = z
@@ -10,7 +10,12 @@ export async function createUser(request: FastifyRequest, reply: FastifyReply) {
             name: z.string().min(3),
             email: z.string().email(),
             password: z.string().min(6),
-            cpf: z.string().optional(),
+            cpf: z
+                .string()
+                .optional()
+                .transform((value) =>
+                    value ? value.replace(/\D/g, '') : value
+                ),
             birthdate: z.coerce.date().optional(),
             code: z.string().optional(),
             profileId: z.string().uuid(),
