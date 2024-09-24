@@ -75,6 +75,7 @@ app.register(sectionRoutes);
 app.register(supplierRoutes);
 
 app.setErrorHandler((error, _, reply) => {
+    console.error('Error:', error);
     if (error instanceof ZodError) {
         return reply
             .status(400)
