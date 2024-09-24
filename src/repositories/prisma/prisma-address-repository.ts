@@ -21,7 +21,9 @@ export class PrismaAddressRepository implements AddressRepository {
     }
 
     async getAddresses(): Promise<SupplierAddress[]> {
-        const addresses = await prisma.supplierAddress.findMany();
+        const addresses = await prisma.supplierAddress.findMany({
+            include: { addressType: true },
+        });
 
         return addresses;
     }
@@ -31,6 +33,7 @@ export class PrismaAddressRepository implements AddressRepository {
     ): Promise<SupplierAddress[]> {
         const addresses = await prisma.supplierAddress.findMany({
             where: { supplierId },
+            include: { addressType: true },
         });
 
         return addresses;

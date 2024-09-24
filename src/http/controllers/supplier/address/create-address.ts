@@ -66,7 +66,7 @@ export const createAddressSchema = {
             city: { type: 'string' },
             state: { type: 'string' },
             district: { type: 'string' },
-            complement: { type: ['string', 'null'] },
+            complement: { type: 'string' },
             addressType: {
                 type: 'object',
                 properties: {

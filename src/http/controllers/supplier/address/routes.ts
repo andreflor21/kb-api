@@ -35,7 +35,7 @@ export async function addressRoutes(app: FastifyInstance) {
     app.post(
         `/:supplierId${prefix}/new`,
         {
-            onRequest: [verifyJwt, verifyRouteAccess],
+            onRequest: [verifyJwt /*verifyRouteAccess*/],
             schema: createAddressSchema,
         },
         createAddress
@@ -43,7 +43,7 @@ export async function addressRoutes(app: FastifyInstance) {
     app.get(
         `/:supplierId${prefix}/:addressId`,
         {
-            onRequest: [verifyJwt, verifyRouteAccess],
+            onRequest: [verifyJwt /*verifyRouteAccess*/],
             schema: getAddressByIdSchema,
         },
         getAddressById
@@ -51,7 +51,7 @@ export async function addressRoutes(app: FastifyInstance) {
     app.delete(
         `/:supplierId${prefix}/:addressId/delete`,
         {
-            onRequest: [verifyJwt, verifyRouteAccess],
+            onRequest: [verifyJwt /*verifyRouteAccess*/],
             schema: deleteAddressSchema,
         },
         deleteAddress
@@ -59,7 +59,7 @@ export async function addressRoutes(app: FastifyInstance) {
     app.patch(
         `/:supplierId${prefix}/:addressId/edit`,
         {
-            onRequest: [verifyJwt, verifyRouteAccess],
+            onRequest: [verifyJwt /*verifyRouteAccess*/],
             schema: updateAddressSchema,
         },
         updateAddress
@@ -68,7 +68,7 @@ export async function addressRoutes(app: FastifyInstance) {
     app.post(
         `${prefix}/types/new`,
         {
-            onRequest: [verifyJwt, verifyRouteAccess],
+            onRequest: [verifyJwt /*verifyRouteAccess*/],
             schema: createAddressTypeSchema,
         },
         createAddressType
@@ -76,7 +76,7 @@ export async function addressRoutes(app: FastifyInstance) {
     app.patch(
         `${prefix}/types/:addressTypeId/edit`,
         {
-            onRequest: [verifyJwt, verifyRouteAccess],
+            onRequest: [verifyJwt /*verifyRouteAccess*/],
             schema: updateAddressTypeSchema,
         },
         updateAddressType
@@ -84,7 +84,7 @@ export async function addressRoutes(app: FastifyInstance) {
     app.delete(
         `${prefix}/types/:addressTypeId/delete`,
         {
-            onRequest: [verifyJwt, verifyRouteAccess],
+            onRequest: [verifyJwt /*verifyRouteAccess*/],
             schema: deleteAddressTypeSchema,
         },
         deleteAddressType
