@@ -1,9 +1,9 @@
-import type { UserExtended } from "@/types/user-extended"
 import type { UsersRepository } from "@/repositories/users-repository"
 import AppError from "@/shared/errors/app-error"
 import { UserAlreadyExistsError } from "@/shared/errors/user-already-exists-error"
 import { UserNotFoundError } from "@/shared/errors/user-not-found-error"
 import { validateCpfCnpj } from "@/shared/utils/validate-cpf-cnpj"
+import type { UserExtended } from "@/types/user-extended"
 
 interface UpdateUserUseCaseRequest {
 	id: string

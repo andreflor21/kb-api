@@ -1,5 +1,5 @@
-import type { SupplierExtended as Supplier } from "@/types/supplier-extended"
 import type { SupplierRepository } from "@/repositories/supplier-repository"
+import type { SupplierExtended as Supplier } from "@/types/supplier-extended"
 
 type UpdateSupplierStatusUseCaseRequest = {
 	id: string

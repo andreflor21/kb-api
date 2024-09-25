@@ -1,7 +1,7 @@
-import type { SupplierExtended as Supplier } from "@/types/supplier-extended"
 import type { SupplierRepository } from "@/repositories/supplier-repository"
 import AppError from "@/shared/errors/app-error"
 import { validateCpfCnpj } from "@/shared/utils/validate-cpf-cnpj"
+import type { SupplierExtended as Supplier } from "@/types/supplier-extended"
 
 type CreateSupplierUseCaseRequest = {
 	code: string | null

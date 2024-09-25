@@ -1,5 +1,5 @@
-import { SupplierExtended as Supplier } from "@/types/supplier-extended"
 import type { SupplierRepository } from "@/repositories/supplier-repository"
+import { SupplierExtended as Supplier } from "@/types/supplier-extended"
 import type { SupplierDeliveryDays } from "@prisma/client"
 
 type AddDeliveryDays = {

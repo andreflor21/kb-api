@@ -1,5 +1,5 @@
-import type { ProfileExtended } from "@/types/profile-extended"
 import { prisma } from "@/lib/prisma"
+import type { ProfileExtended } from "@/types/profile-extended"
 import { type Prisma, Profile, Routes, User } from "@prisma/client"
 import type { ProfilesRepository } from "../profiles-repository"
 export class PrismaProfilesRepository implements ProfilesRepository {

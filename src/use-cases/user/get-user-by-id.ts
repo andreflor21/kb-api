@@ -1,5 +1,5 @@
-import type { UserExtended } from "@/types/user-extended"
 import type { UsersRepository } from "@/repositories/users-repository"
+import type { UserExtended } from "@/types/user-extended"
 
 interface GetUserByIdUseCaseRequest {
 	id: string

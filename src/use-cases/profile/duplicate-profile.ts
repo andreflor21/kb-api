@@ -1,6 +1,6 @@
-import type { ProfileExtended } from "@/types/profile-extended"
 import type { ProfilesRepository } from "@/repositories/profiles-repository"
 import { ProfileNotFoundError } from "@/shared/errors/profile-not-found-error"
+import type { ProfileExtended } from "@/types/profile-extended"
 
 export class DuplicateProfileUseCase {
 	constructor(private profilesRepository: ProfilesRepository) {}

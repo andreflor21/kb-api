@@ -1,5 +1,5 @@
-import type { ProfileExtended } from "@/types/profile-extended"
 import type { ProfilesRepository } from "@/repositories/profiles-repository"
+import type { ProfileExtended } from "@/types/profile-extended"
 
 interface ListProfilesUseCaseResponse {
 	profiles: ProfileExtended[]

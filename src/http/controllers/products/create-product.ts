@@ -28,7 +28,7 @@ export const createProduct = async (
 		const createProductUseCase = makeCreateProductUseCase()
 		const product = await createProductUseCase.execute(validatedData)
 		reply.status(201).send(product)
-	} catch (error: any) {
+	} catch (error) {
 		if (error instanceof AppError) {
 			return reply
 				.status(error.statusCode)

@@ -1,6 +1,6 @@
-import type { UserExtended } from "@/types/user-extended"
 import type { UsersRepository } from "@/repositories/users-repository"
 import { InvalidCredentialsError } from "@/shared/errors/invalid-credentcials-error"
+import type { UserExtended } from "@/types/user-extended"
 import { compare } from "bcryptjs"
 
 interface AuthenticateUseCaseRequest {

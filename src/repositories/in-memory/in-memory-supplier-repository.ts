@@ -1,8 +1,8 @@
 import { randomUUID } from "node:crypto"
-import type { SupplierExtended } from "@/types/supplier-extended"
 import type { SupplierRepository } from "@/repositories/supplier-repository"
 import { SupplierAlreadyExistsError } from "@/shared/errors/supplier-already-exists-error"
 import { SupplierNotFoundError } from "@/shared/errors/supplier-not-found-error"
+import type { SupplierExtended } from "@/types/supplier-extended"
 import { type Prisma, Supplier } from "@prisma/client"
 
 export class InMemorySupplierRepository implements SupplierRepository {

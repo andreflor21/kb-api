@@ -19,7 +19,7 @@ export const importSuppliers = async (
 		ERPcode: z.string().max(100).optional(),
 		code: z.string().max(100).optional(),
 	})
-	const file = (request as any).file
+	const file = request.file
 
 	if (!file) {
 		return reply
@@ -27,8 +27,18 @@ export const importSuppliers = async (
 			.send({ message: "Nenhum arquivo foi enviado." })
 	}
 	const importSuppliers = makeImportSuppliersUseCase()
-	const filePath = path.resolve(file.path)
-	const results: Array<any> = []
+	const filePath = path.resolve(file.arguments.path)
+	const results: Array<{
+		name: string
+		cnpj?: string
+		email?: string | null
+		fone?: string | null
+		legalName?: string
+		ERPcode?: string
+		code?: string
+		active?: boolean
+		createdAt?: Date
+	}> = []
 
 	// Lendo e validando o CSV
 	const stream = fs
@@ -62,7 +72,19 @@ export const importSuppliers = async (
 		.on("end", async () => {
 			// Após o processamento, insere os dados no banco
 			try {
-				await importSuppliers.execute({ suppliers: results })
+				await importSuppliers.execute({
+					suppliers: results.map((supplier) => ({
+						name: supplier.name,
+						cnpj: supplier.cnpj ?? null,
+						email: supplier.email ?? null,
+						fone: supplier.fone ?? null,
+						legalName: supplier.legalName ?? null,
+						ERPcode: supplier.ERPcode ?? null,
+						code: supplier.code ?? null,
+						active: supplier.active ?? true,
+						createdAt: supplier.createdAt ?? new Date(),
+					})),
+				})
 
 				// Retorna a resposta de sucesso
 				reply.status(200).send({

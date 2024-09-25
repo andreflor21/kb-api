@@ -1,7 +1,7 @@
-import type { ProfileExtended } from "@/types/profile-extended"
 import type { ProfilesRepository } from "@/repositories/profiles-repository"
 import { ProfileAlreadyExistsError } from "@/shared/errors/profile-already-exists-error"
 import { ProfileNotFoundError } from "@/shared/errors/profile-not-found-error"
+import type { ProfileExtended } from "@/types/profile-extended"
 
 type UpdateProfileUseCaseRequest = {
 	id: string

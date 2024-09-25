@@ -31,7 +31,7 @@ export async function updateUser(request: FastifyRequest, reply: FastifyReply) {
 		.parse(request.body)
 
 	try {
-		let hashedPassword
+		let hashedPassword: string
 		if (password) {
 			hashedPassword = await hash(password, 10)
 		}

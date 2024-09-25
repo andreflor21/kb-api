@@ -1,7 +1,7 @@
-import type { UserExtended } from "@/types/user-extended"
 import { prisma } from "@/lib/prisma"
 import { ExpiredTokenError } from "@/shared/errors/expired-token-error"
 import { UserNotFoundError } from "@/shared/errors/user-not-found-error"
+import type { UserExtended } from "@/types/user-extended"
 import type { Prisma, User } from "@prisma/client"
 import type { UsersRepository } from "../users-repository"
 

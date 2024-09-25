@@ -1,8 +1,8 @@
-import type { SupplierExtended } from "@/types/supplier-extended"
 import { prisma } from "@/lib/prisma"
 import AppError from "@/shared/errors/app-error"
 import { SupplierAlreadyExistsError } from "@/shared/errors/supplier-already-exists-error"
 import { SupplierNotFoundError } from "@/shared/errors/supplier-not-found-error"
+import type { SupplierExtended } from "@/types/supplier-extended"
 import type { Prisma, SupplierDeliveryDays } from "@prisma/client"
 import type { SupplierRepository } from "../supplier-repository"
 
@@ -200,7 +200,7 @@ export class PrismaSupplierRepository implements SupplierRepository {
 		data: Prisma.SupplierCreateInput[],
 	): Promise<SupplierExtended[]> {
 		const returnData: SupplierExtended[] = []
-		data.forEach(async (supplier) => {
+		for (const supplier of data) {
 			const out = await prisma.supplier.upsert({
 				where: { name: supplier.name as string },
 				update: {
@@ -225,7 +225,7 @@ export class PrismaSupplierRepository implements SupplierRepository {
 				},
 			})
 			returnData.push(out)
-		})
+		}
 		return returnData
 	}
 }
