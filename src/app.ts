@@ -14,6 +14,8 @@ import { fastifySwagger } from '@fastify/swagger';
 import { fastifySwaggerUi } from '@fastify/swagger-ui';
 import { swaggerOptions, swaggerUiOptions } from './shared/docs/swagger';
 import fastifyMultipart from '@fastify/multipart';
+import { Prisma } from '@prisma/client';
+import { productsRoutes } from './http/controllers/products/routes';
 
 export const app = fastify({
     logger: {
@@ -73,23 +75,30 @@ app.register(profileRoutes);
 app.register(routesRoutes);
 app.register(sectionRoutes);
 app.register(supplierRoutes);
+app.register(productsRoutes);
 
 app.setErrorHandler((error, _, reply) => {
-    console.error('Error:', error);
+    console.log(error);
     if (error instanceof ZodError) {
         return reply
             .status(400)
-            .send({ message: 'Validation error.', errors: error.formErrors });
+            .send({ message: 'Validation error.', errors: error.format() });
+    } else if (error instanceof Prisma.PrismaClientValidationError) {
+        return reply
+            .status(400)
+            .send({ message: 'Validation error.', errors: error.message });
     }
 
     if (env.NODE_ENV !== 'production') {
         return reply
             .status(error.statusCode ?? 400)
-            .send({ message: error.message });
+            .send({ message: error.message, errors: error.stack ?? null });
     } else {
         console.error(error);
         // TODO: Here we should log to a external tool like DataDog/NewRelic/Sentry
     }
 
-    return reply.status(500).send({ message: 'Internal server error.' });
+    return reply
+        .status(500)
+        .send({ message: 'Internal server error.', errors: null });
 });

@@ -56,6 +56,11 @@ export const swaggerOptions: SwaggerOptions = {
                 description:
                     'Endpoints relacionados ao gerenciamento de tipos seções',
             },
+            {
+                name: 'Produtos',
+                description:
+                    'Endpoints relacionados ao gerenciamento de produtos',
+            },
         ],
         securityDefinitions: {
             BearerAuth: {
