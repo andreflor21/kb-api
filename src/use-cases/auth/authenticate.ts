@@ -1,37 +1,37 @@
-import { UserExtended } from '@/@Types/userExtended';
-import { UsersRepository } from '@/repositories/users-repository';
-import { InvalidCredentialsError } from '@/shared/errors/invalid-credentcials-error';
-import { compare } from 'bcryptjs';
+import type { UserExtended } from "@/types/user-extended"
+import type { UsersRepository } from "@/repositories/users-repository"
+import { InvalidCredentialsError } from "@/shared/errors/invalid-credentcials-error"
+import { compare } from "bcryptjs"
 
 interface AuthenticateUseCaseRequest {
-    email: string;
-    password: string;
+	email: string
+	password: string
 }
 
 interface AuthenticateUseCaseResponse {
-    user: UserExtended;
+	user: UserExtended
 }
 
 export class AuthenticateUseCase {
-    constructor(private usersRepository: UsersRepository) {}
+	constructor(private usersRepository: UsersRepository) {}
 
-    async execute(
-        data: AuthenticateUseCaseRequest
-    ): Promise<AuthenticateUseCaseResponse> {
-        const user = await this.usersRepository.getUserByEmail(data.email);
-        if (!user) {
-            throw new InvalidCredentialsError();
-        }
+	async execute(
+		data: AuthenticateUseCaseRequest,
+	): Promise<AuthenticateUseCaseResponse> {
+		const user = await this.usersRepository.getUserByEmail(data.email)
+		if (!user) {
+			throw new InvalidCredentialsError()
+		}
 
-        const passwordMatch = await compare(
-            data.password,
-            user.hashedPassword as string
-        );
-        if (!passwordMatch) {
-            throw new InvalidCredentialsError();
-        }
-        const { hashedPassword, profileId, ...userWithoutPassword } =
-            structuredClone(user);
-        return { user: userWithoutPassword };
-    }
+		const passwordMatch = await compare(
+			data.password,
+			user.hashedPassword as string,
+		)
+		if (!passwordMatch) {
+			throw new InvalidCredentialsError()
+		}
+		const { hashedPassword, profileId, ...userWithoutPassword } =
+			structuredClone(user)
+		return { user: userWithoutPassword }
+	}
 }

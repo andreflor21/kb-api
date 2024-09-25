@@ -1,7 +1,7 @@
-import AppError from './app-error';
+import AppError from "./app-error"
 
 export class ProfileNotFoundError extends AppError {
-    constructor() {
-        super('Profile not found', 404);
-    }
+	constructor() {
+		super("Profile not found", 404)
+	}
 }

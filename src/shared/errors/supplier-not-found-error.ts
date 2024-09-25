@@ -1,7 +1,7 @@
-import AppError from './app-error';
+import AppError from "./app-error"
 
 export class SupplierNotFoundError extends AppError {
-    constructor() {
-        super('Supplier not found', 404);
-    }
+	constructor() {
+		super("Supplier not found", 404)
+	}
 }

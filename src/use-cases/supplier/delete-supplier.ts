@@ -1,12 +1,12 @@
-import { SupplierRepository } from '@/repositories/supplier-repository';
+import type { SupplierRepository } from "@/repositories/supplier-repository"
 
 type DeleteSupplierUseCaseRequest = {
-    id: string;
-};
+	id: string
+}
 export class DeleteSupplierUseCase {
-    constructor(private supplierRepository: SupplierRepository) {}
+	constructor(private supplierRepository: SupplierRepository) {}
 
-    async execute({ id }: DeleteSupplierUseCaseRequest): Promise<void> {
-        await this.supplierRepository.deleteSupplier(id);
-    }
+	async execute({ id }: DeleteSupplierUseCaseRequest): Promise<void> {
+		await this.supplierRepository.deleteSupplier(id)
+	}
 }

@@ -1,24 +1,23 @@
-import { SupplierRepository } from '@/repositories/supplier-repository';
-import { SupplierExtended as Supplier } from '@/@Types/SupplierExtended';
+import type { SupplierExtended as Supplier } from "@/types/supplier-extended"
+import type { SupplierRepository } from "@/repositories/supplier-repository"
 
 type ListDeliveryDays = {
-    supplierId: string;
-};
+	supplierId: string
+}
 
 type ListDeliveryDaysResponse = {
-    supplier: Supplier;
-};
+	supplier: Supplier
+}
 
 export class ListDeliveryDaysUseCase {
-    constructor(private supplierRepository: SupplierRepository) {}
+	constructor(private supplierRepository: SupplierRepository) {}
 
-    async execute({
-        supplierId,
-    }: ListDeliveryDays): Promise<ListDeliveryDaysResponse> {
-        const supplier = await this.supplierRepository.listDeliveryDays(
-            supplierId
-        );
+	async execute({
+		supplierId,
+	}: ListDeliveryDays): Promise<ListDeliveryDaysResponse> {
+		const supplier =
+			await this.supplierRepository.listDeliveryDays(supplierId)
 
-        return { supplier };
-    }
+		return { supplier }
+	}
 }

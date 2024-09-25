@@ -1,22 +1,21 @@
-import { SupplierRepository } from '@/repositories/supplier-repository';
-import { SupplierDeliveryDays } from '@prisma/client';
+import type { SupplierRepository } from "@/repositories/supplier-repository"
+import type { SupplierDeliveryDays } from "@prisma/client"
 
 type GetDeliveryDays = {
-    id: string;
-};
+	id: string
+}
 
 type GetDeliveryDaysResponse = {
-    deliveryDay: SupplierDeliveryDays;
-};
+	deliveryDay: SupplierDeliveryDays
+}
 
 export class GetDeliveryDaysUseCase {
-    constructor(private supplierRepository: SupplierRepository) {}
+	constructor(private supplierRepository: SupplierRepository) {}
 
-    async execute({ id }: GetDeliveryDays): Promise<GetDeliveryDaysResponse> {
-        const deliveryDay = await this.supplierRepository.getDeliveryDaysById(
-            id
-        );
+	async execute({ id }: GetDeliveryDays): Promise<GetDeliveryDaysResponse> {
+		const deliveryDay =
+			await this.supplierRepository.getDeliveryDaysById(id)
 
-        return { deliveryDay };
-    }
+		return { deliveryDay }
+	}
 }
