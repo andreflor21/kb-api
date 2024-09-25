@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { UserAlreadyExistsError } from '@/shared/errors/user-already-exists-error';
 import { makeCreateUserUseCase } from '@/use-cases/factories/user/make-create-user-use-case';
 import { sendNewUserEmail } from '@/shared/utils/send-new-user-email';
+import AppError from '@/shared/errors/app-error';
 
 export async function createUser(request: FastifyRequest, reply: FastifyReply) {
     const { name, email, password, cpf, birthdate, code, profileId } = z
@@ -52,8 +53,11 @@ export async function createUser(request: FastifyRequest, reply: FastifyReply) {
             }
         }
     } catch (error) {
-        if (error instanceof UserAlreadyExistsError) {
-            reply.status(409).send({ message: error.message });
+        if (
+            error instanceof UserAlreadyExistsError ||
+            error instanceof AppError
+        ) {
+            reply.status(error.statusCode).send({ message: error.message });
         }
     }
 }

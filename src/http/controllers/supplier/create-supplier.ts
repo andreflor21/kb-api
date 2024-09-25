@@ -1,6 +1,7 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
 import { z } from 'zod';
 import { makeCreateSupplierUseCase } from '@/use-cases/factories/supplier/make-create-supplier-use-case';
+import AppError from '@/shared/errors/app-error';
 
 export async function createSupplier(
     request: FastifyRequest,
@@ -40,7 +41,12 @@ export async function createSupplier(
 
         return reply.status(201).send(newSupplier);
     } catch (error) {
-        reply.status(500).send();
+        if (error instanceof AppError) {
+            return reply
+                .status(error.statusCode)
+                .send({ message: error.message });
+        }
+        reply.status(500).send({ error });
     }
 }
 
