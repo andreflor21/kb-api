@@ -159,7 +159,7 @@ model ProductGroup {
 
 model Units {
   id          String    @id @default(uuid())
-  description String    @unique @db.VarChar(100)
+  description String?   @unique @db.VarChar(100)
   abrev       String    @unique @db.VarChar(10)
   stockUNits  Product[] @relation("stock_units")
   buyUnits    Product[] @relation("buy_units")
