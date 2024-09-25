@@ -70,7 +70,7 @@ export const updateUserSchema = {
 				name: { type: "string" },
 				email: { type: "string" },
 				cpf: { type: "string" },
-				birthdate: { type: "string", format: "date-time" },
+				birthdate: { type: "string", format: "date" },
 				code: { type: "string" },
 				active: { type: "boolean" },
 				profileId: { type: "string" },
