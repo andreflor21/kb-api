@@ -52,27 +52,31 @@ const validateCnpj = (cnpj: string): boolean => {
 		"99999999999999",
 	]
 	if (invalidCnpjs.includes(cnpj)) return false
+	const reversedCnpj = cnpj.substring(0, 12).split("").reverse().join("")
+	const cnpjNumbers: Array<string> = reversedCnpj.substring(0, 8).split("")
+	const cnpjNumbers2: Array<string> = reversedCnpj.substring(8, 12).split("")
+	const cnpjDigits = cnpj.substring(12).split("")
 
-	const cnpjNumbers = cnpj.substring(0, 8).split("").reverse()
-	const cnpjNumbers2 = cnpj.substring(9, 12).split("").reverse()
-	const cnpjDigits = cnpj.substring(12)
+	let sum = cnpjNumbers.reduce((acc, value, index) => {
+		return acc + Number.parseInt(value) * (index + 2)
+	}, 0)
 
-	let sum = cnpjNumbers
-		.map((number, index) => Number.parseInt(number) * (index + 2))
-		.reduce((acc, value) => acc + value, 0)
-	sum += cnpjNumbers2
-		.map((number, index) => Number.parseInt(number) * (index + 2))
-		.reduce((acc, value) => acc + value, 0)
-
+	sum += cnpjNumbers2.reduce((acc, value, index) => {
+		return acc + Number.parseInt(value) * (index + 2)
+	}, 0)
 	const rest1 = sum % 11
 	const firstDigit = rest1 < 2 ? 0 : 11 - rest1
-	sum = cnpjNumbers
-		.map((number, index) => Number.parseInt(number) * (index + 2))
-		.reduce((acc, value) => acc + value, 0)
-	cnpjNumbers2.push(firstDigit.toString()) // adiciona o primeiro dígito verificador ao array
-	sum += cnpjNumbers2
-		.map((number, index) => Number.parseInt(number) * (index + 2))
-		.reduce((acc, value) => acc + value, 0)
+	const last = cnpjNumbers.pop()
+	cnpjNumbers2.splice(0, 0, last as string)
+	cnpjNumbers.splice(0, 0, firstDigit.toString())
+
+	sum = cnpjNumbers.reduce((acc, value, index) => {
+		return acc + Number.parseInt(value) * (index + 2)
+	}, 0)
+
+	sum += cnpjNumbers2.reduce((acc, value, index) => {
+		return acc + Number.parseInt(value) * (index + 2)
+	}, 0)
 	const rest2 = sum % 11
 	const secondDigit = rest2 < 2 ? 0 : 11 - rest2
 
