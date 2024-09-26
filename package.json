@@ -11,6 +11,7 @@
 		"start": "node build/server.js",
 		"test:create-prisma-environment": "pnpm link ./prisma/vitest-environment-prisma",
 		"test:install-prisma-environment": "pnpm link vitest-environment-prisma",
+		"lint": "pnpm biome check --write ./src",
 		"build": "tsup src --out-dir build",
 		"test": "vitest run --dir src/tests",
 		"test:watch": "vitest --dir src/tests",

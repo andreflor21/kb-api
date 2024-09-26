@@ -37,13 +37,13 @@ export async function verifyRouteAccess(
 				route.method === method?.toUpperCase()
 			)
 		})
-
-		if (!hasAccess) {
-			return res.status(403).send({ message: "Acesso negado." })
-		}
+		// TODO: Ativar novamente a verificação dos acessos
+		// if (!hasAccess) {
+		// 	return res.status(403).send({ message: "Acesso negado." })
+		// }
 
 		// Caso tenha acesso, prossiga para a próxima função
-		return
+		return true
 	} catch (error) {
 		console.error(error)
 		return res.status(500).send({ message: "Erro interno do servidor." })
