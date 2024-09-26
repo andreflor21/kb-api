@@ -61,6 +61,7 @@ export const updateDeliveryDaySchema = {
 				items: {
 					type: "object",
 					properties: {
+						id: { type: "string", format: "uuid" },
 						days: {
 							type: "number",
 							minimum: 0,
