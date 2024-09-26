@@ -130,7 +130,7 @@ model Product {
   productType           ProductType       @relation(fields: [productTypeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   stockUnits            Units[]           @relation("stock_units")
   buyUnits              Units[]           @relation("buy_units")
-  conversionFactor      Decimal           @default(1) @map("conversion_factor") @db.Decimal(15, 5)
+  conversionFactor      Float             @default(1) @map("conversion_factor") @db.Float()
   ERPCode               String?           @map("erp_code") @db.VarChar(20)
   suppliers             SupplierProduct[]
   supplierLeadTimeDays  Int?              @map("supplier_lead_time_days")
@@ -185,8 +185,8 @@ model SupplierProduct {
   supplier            Supplier @relation(fields: [supplierId], references: [id], onDelete: Cascade, onUpdate: NoAction)
   product             Product  @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: NoAction)
   supplierProductCode String   @map("supplier_product_code") @db.VarChar(20)
-  minQty              Decimal? @map("min_qty") @db.Decimal(15, 5)
-  buyQty              Decimal? @map("buy_qty") @db.Decimal(15, 5)
+  minQty              Float?   @map("min_qty") @db.Float()
+  buyQty              Float?   @map("buy_qty") @db.Float()
   leadTime            Int?     @map("lead_time")
 
   @@map("supplier_products")
