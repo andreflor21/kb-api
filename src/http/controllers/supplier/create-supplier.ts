@@ -14,7 +14,13 @@ export async function createSupplier(
 			.max(18)
 			.optional()
 			.transform((value) => (value ? value.replace(/\D/g, "") : value)),
-		email: z.string().email().max(100).or(z.null()).optional(),
+		email: z
+			.string()
+			.email()
+			.max(100)
+			.or(z.null())
+			.or(z.string())
+			.optional(),
 		fone: z.string().max(11).or(z.null()).optional(),
 		legalName: z.string().max(100).optional(),
 		ERPcode: z.string().max(100).optional(),
@@ -22,6 +28,9 @@ export async function createSupplier(
 		users: z.array(z.string().uuid()).optional(),
 	})
 
+	/*
+
+		*/
 	const { name, cnpj, email, fone, legalName, ERPcode, code, users } =
 		createSupplierBodySchema.parse(request.body)
 
