@@ -14,4 +14,18 @@ export interface ProductsRepository {
 	importProducts(data: Prisma.ProductCreateInput[]): Promise<Product[]>
 
 	// Adicione outros métodos necessários aqui
+
+	/*
+		DONE: Inclusão Produto
+		TODO: Alteração Produto
+		TODO: Exclusão Produto
+		TODO: Vincular produto (e adicionar as demais informações para o produto no fornecedor)
+		TODO: Alterar informações de vinculo entre produto x fornecedores.
+		TODO: Status do vínculo (ativar, inativar) Produto x fornecedor
+		TODO: Consultar forncedores que entregam o produto
+		TODO: Inclusão Tipo Produto
+		TODO: Alteração Tipo Produto
+		TODO: Exclusão Tipo Produto
+
+	*/
 }

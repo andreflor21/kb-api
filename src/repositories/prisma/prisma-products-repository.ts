@@ -78,8 +78,51 @@ export class PrismaProductsRepository implements ProductsRepository {
 	async updateProduct(
 		id: string,
 		data: Prisma.ProductUpdateInput,
-	): Promise<Product | null> {
-		return prisma.product.update({ where: { id }, data })
+	): Promise<ProductExtended | null> {
+		return prisma.product.update({
+			where: { id },
+			data,
+			select: {
+				id: true,
+				code: true,
+				description: true,
+				additionalDescription: true,
+				active: true,
+				createdAt: true,
+				stockUnits: true,
+				buyUnits: true,
+				conversionFactor: true,
+				ERPCode: true,
+				supplierLeadTimeDays: true,
+				stockLeadTimeDays: true,
+				suppliers: {
+					select: {
+						supplier: {
+							select: {
+								id: true,
+								name: true,
+							},
+						},
+						supplierProductCode: true,
+						minQty: true,
+						buyQty: true,
+						leadTime: true,
+					},
+				},
+				productType: {
+					select: {
+						id: true,
+						description: true,
+					},
+				},
+				productGroup: {
+					select: {
+						id: true,
+						description: true,
+					},
+				},
+			},
+		})
 	}
 
 	async deleteProduct(id: string): Promise<void> {
@@ -89,6 +132,10 @@ export class PrismaProductsRepository implements ProductsRepository {
 	async importProducts(
 		data: Prisma.ProductCreateInput[],
 	): Promise<Product[]> {
-		return prisma.product.createMany({ data })
+		const dataWithProductTypeId = data.map((product) => ({
+			...product,
+			productType: { connect: { id: product } }, // Replace "defaultProductTypeId" with an appropriate value or logic
+		}))
+		return await prisma.product.createMany({ data: dataWithProductTypeId })
 	}
 }
