@@ -100,6 +100,7 @@ export const addDeliveryDaySchema = {
 			type: "object",
 			properties: {
 				message: { type: "string" },
+				errors: { type: "string" },
 			},
 		},
 		401: {

@@ -130,6 +130,7 @@ export const updateDeliveryDaySchema = {
 			type: "object",
 			properties: {
 				message: { type: "string" },
+				errors: { type: "string" },
 			},
 		},
 	},

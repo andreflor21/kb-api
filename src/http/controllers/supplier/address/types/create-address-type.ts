@@ -42,9 +42,11 @@ export const createAddressTypeSchema = {
 			},
 		},
 		400: {
+			description: "Bad Request",
 			type: "object",
 			properties: {
 				message: { type: "string" },
+				errors: { type: "string" },
 			},
 		},
 		500: {

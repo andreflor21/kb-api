@@ -80,9 +80,10 @@ app.register(productsRoutes)
 app.setErrorHandler((error, _, reply) => {
 	console.log(error)
 	if (error instanceof ZodError) {
-		return reply
-			.status(400)
-			.send({ message: "Validation error.", errors: error.format() })
+		return reply.status(400).send({
+			message: "Validation error.",
+			errors: error.format()._errors.join(", "),
+		})
 	}
 	if (error instanceof Prisma.PrismaClientValidationError) {
 		return reply
@@ -95,7 +96,6 @@ app.setErrorHandler((error, _, reply) => {
 			.status(error.statusCode ?? 400)
 			.send({ message: error.message, errors: error.stack ?? null })
 	}
-	console.error(error)
 
 	return reply
 		.status(500)

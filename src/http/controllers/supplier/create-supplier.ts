@@ -123,9 +123,11 @@ export const createSupplierSchema = {
 			},
 		},
 		400: {
+			description: "Bad Request",
 			type: "object",
 			properties: {
 				message: { type: "string" },
+				errors: { type: "string" },
 			},
 		},
 	},

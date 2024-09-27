@@ -81,6 +81,7 @@ export async function supplierRoutes(app: FastifyInstance) {
 		`${prefix}/export`,
 		{
 			onRequest: [verifyJwt],
+			schema: { tags: ["Fornecedores"] },
 		},
 		exportSupplier,
 	)

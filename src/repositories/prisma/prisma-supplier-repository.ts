@@ -152,19 +152,16 @@ export class PrismaSupplierRepository implements SupplierRepository {
 		})
 		if (!supplier) throw new SupplierNotFoundError()
 
-		data.map(async (item) => {
-			const deliveryDays = await prisma.supplierDeliveryDays.findUnique({
-				where: { id: item.id as string },
-			})
-			if (!deliveryDays)
-				throw new AppError("Dias para entrega não encontrado", 404)
+		// delete all delivery days
+		await prisma.supplierDeliveryDays.deleteMany({ where: { supplierId } })
 
-			await prisma.supplierDeliveryDays.update({
-				where: { id: item.id as string },
+		data.map(async (item) => {
+			await prisma.supplierDeliveryDays.create({
 				data: {
-					days: item.days,
-					period: item.period,
-					hour: item.hour,
+					days: item.days as string,
+					period: item.period as string | null,
+					hour: item.hour as string | null,
+					supplier: { connect: { id: supplierId } },
 				},
 			})
 		})

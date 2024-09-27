@@ -16,6 +16,7 @@ model Routes {
   path        String    @db.VarChar(100)
   method      String?   @db.VarChar(10)
   profile     Profile[] @relation("ProfileToRoutes")
+  group       String?   @db.VarChar(100)
 
   @@map("routes")
 }
@@ -128,9 +129,8 @@ model Product {
   createdAt             DateTime          @default(now()) @map("created_at") @db.DateTime(0)
   productTypeId         String            @map("product_type_id")
   productType           ProductType       @relation(fields: [productTypeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  stockUnits            Units[]           @relation("stock_units")
-  buyUnits              Units[]           @relation("buy_units")
-  conversionFactor      Float             @default(1) @map("conversion_factor") @db.Float()
+  stockUnitId           String            @map("stock_unit_id")
+  stockUnit             Units             @relation(fields: [stockUnitId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   ERPCode               String?           @map("erp_code") @db.VarChar(20)
   suppliers             SupplierProduct[]
   supplierLeadTimeDays  Int?              @map("supplier_lead_time_days")
@@ -158,11 +158,11 @@ model ProductGroup {
 }
 
 model Units {
-  id          String    @id @default(uuid())
-  description String?   @unique @db.VarChar(100)
-  abrev       String    @unique @db.VarChar(10)
-  stockUNits  Product[] @relation("stock_units")
-  buyUnits    Product[] @relation("buy_units")
+  id          String            @id @default(uuid())
+  description String?           @unique @db.VarChar(100)
+  abrev       String            @unique @db.VarChar(10)
+  stockUnit   Product[]
+  buyUnits    SupplierProduct[]
 
   @@map("units")
 }
@@ -188,6 +188,9 @@ model SupplierProduct {
   minQty              Float?   @map("min_qty") @db.Float()
   buyQty              Float?   @map("buy_qty") @db.Float()
   leadTime            Int?     @map("lead_time")
+  buyUnitsId          String   @map("buy_units_id")
+  buyUnits            Units    @relation(fields: [buyUnitsId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  conversionFactor    Float    @default(1) @map("conversion_factor") @db.Float()
 
   @@map("supplier_products")
 }

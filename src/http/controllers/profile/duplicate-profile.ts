@@ -91,6 +91,7 @@ export const duplicateProfileSchema = {
 			type: "object",
 			properties: {
 				message: { type: "string" },
+				errors: { type: "string" },
 			},
 		},
 		404: {
