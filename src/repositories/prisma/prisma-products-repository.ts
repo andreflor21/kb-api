@@ -97,8 +97,6 @@ export class PrismaProductsRepository implements ProductsRepository {
 					},
 				},
 				ERPCode: true,
-				supplierLeadTimeDays: true,
-				stockLeadTimeDays: true,
 				suppliers: {
 					select: {
 						supplier: {
