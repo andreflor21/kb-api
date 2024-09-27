@@ -156,8 +156,17 @@ export class PrismaSupplierRepository implements SupplierRepository {
 		await prisma.supplierDeliveryDays.deleteMany({ where: { supplierId } })
 
 		data.map(async (item) => {
-			await prisma.supplierDeliveryDays.create({
-				data: {
+			await prisma.supplierDeliveryDays.upsert({
+				where: {
+					id: item.id as string,
+				},
+				update: {
+					days: item.days as string,
+					period: item.period as string | null,
+					hour: item.hour as string | null,
+					supplier: { connect: { id: supplierId } },
+				},
+				create: {
 					days: item.days as string,
 					period: item.period as string | null,
 					hour: item.hour as string | null,

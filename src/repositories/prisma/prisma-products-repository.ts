@@ -89,9 +89,13 @@ export class PrismaProductsRepository implements ProductsRepository {
 				additionalDescription: true,
 				active: true,
 				createdAt: true,
-				stockUnits: true,
-				buyUnits: true,
-				conversionFactor: true,
+				stockUnit: {
+					select: {
+						id: true,
+						description: true,
+						abrev: true,
+					},
+				},
 				ERPCode: true,
 				supplierLeadTimeDays: true,
 				stockLeadTimeDays: true,
@@ -107,6 +111,7 @@ export class PrismaProductsRepository implements ProductsRepository {
 						minQty: true,
 						buyQty: true,
 						leadTime: true,
+						stockLeadTime: true,
 					},
 				},
 				productType: {
