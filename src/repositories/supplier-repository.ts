@@ -23,7 +23,7 @@ export interface SupplierRepository {
 	): Promise<void>
 	listDeliveryDays(supplierId: string): Promise<SupplierDeliveryDays[]>
 	getDeliveryDaysById(id: string): Promise<SupplierDeliveryDays>
-	removeDeliveryDays(id: string): Promise<void>
+	removeDeliveryDays(supplierId: string): Promise<void>
 
 	// Metodos para importação via planilha
 	importSuppliers(
