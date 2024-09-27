@@ -1,4 +1,3 @@
-import path from "node:path"
 import { PrismaClient } from "@prisma/client"
 import { hash } from "bcryptjs"
 const prisma = new PrismaClient()
@@ -121,20 +120,7 @@ async function main() {
 		create: {
 			code: "001",
 			description: "Product 001",
-			conversionFactor: 10,
-
-			buyUnits: {
-				connectOrCreate: {
-					where: {
-						abrev: "CX",
-					},
-					create: {
-						abrev: "CX",
-						description: "caixa",
-					},
-				},
-			},
-			stockUnits: {
+			stockUnit: {
 				connectOrCreate: {
 					where: {
 						abrev: "UN",
