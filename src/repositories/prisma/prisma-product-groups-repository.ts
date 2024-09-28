@@ -17,6 +17,9 @@ export class PrismaProductGroupsRepository implements ProductGroupsRepository {
 	async getProductGroupById(id: string) {
 		return await prisma.productGroup.findUnique({ where: { id } })
 	}
+	async getProductGroupByDescription(description: string) {
+		return await prisma.productGroup.findUnique({where: {description}});
+	}
 
 	async getProductGroups() {
 		return await prisma.productGroup.findMany()

@@ -18,6 +18,10 @@ export class PrismaProductTypesRepository implements ProductTypeRepository {
 		return await prisma.productType.findUnique({ where: { id } })
 	}
 
+	async getProductTypeByDescription(description: string) {
+		return await prisma.productType.findUnique({ where: { description } })
+	}
+
 	async getProductTypes() {
 		return await prisma.productType.findMany()
 	}
