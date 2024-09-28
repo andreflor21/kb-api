@@ -18,7 +18,7 @@ import { userRoutes } from "./http/controllers/user/routes"
 import { swaggerOptions, swaggerUiOptions } from "./shared/docs/swagger"
 
 export const app = fastify({
-	logger: {
+	/*logger: {
 		level: "info", // Log level (you can use 'debug' for more detailed logs)
 		serializers: {
 			req(req) {
@@ -34,7 +34,7 @@ export const app = fastify({
 				}
 			},
 		},
-	},
+	},*/
 })
 
 app.register(rateLimit, {
