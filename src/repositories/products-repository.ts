@@ -2,27 +2,33 @@ import type { ProductExtended } from "@/types/product-extended"
 import type { Prisma, Product } from "@prisma/client"
 
 export interface ProductsRepository {
+	// create
 	createProduct(data: Prisma.ProductCreateInput): Promise<ProductExtended>
-	getProductById(id: string): Promise<Product | null>
-	getProductByCode(code: string): Promise<Product | null>
-	getProducts(): Promise<Product[]>
+	importProducts(data: Prisma.ProductCreateInput[]): Promise<Product[]>
+
+	// read
+	getProductById(id: string): Promise<ProductExtended | null>
+	getProductByCode(code: string): Promise<ProductExtended | null>
+	getProductsBySupplier(supplierId: string): Promise<ProductExtended[]>
+	getProducts(): Promise<ProductExtended[]>
+
+	// update
 	updateProduct(
 		id: string,
 		data: Prisma.ProductUpdateInput,
-	): Promise<Product | null>
+	): Promise<ProductExtended | null>
+	updateProductStatus(id: string, status: boolean): Promise<void>
+
+	// delete
 	deleteProduct(id: string): Promise<void>
-	importProducts(data: Prisma.ProductCreateInput[]): Promise<Product[]>
 
 	// Adicione outros métodos necessários aqui
 
 	/*
 		DONE: Inclusão Produto
-		TODO: Alteração Produto
-		TODO: Exclusão Produto
-		TODO: Vincular produto (e adicionar as demais informações para o produto no fornecedor)
-		TODO: Alterar informações de vinculo entre produto x fornecedores.
-		TODO: Status do vínculo (ativar, inativar) Produto x fornecedor
-		TODO: Consultar forncedores que entregam o produto
+		DONE: Alteração Produto
+		DONE: Exclusão Produto
+		DONE: Consultar forncedores que entregam o produto
 		TODO: Inclusão Tipo Produto
 		TODO: Alteração Tipo Produto
 		TODO: Exclusão Tipo Produto
