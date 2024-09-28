@@ -7,11 +7,8 @@ type CreateProductRequest = {
 	description: string
 	additionalDescription?: string
 	stockUnit: string
-	buyUnit: string
 	conversionFactor: number
 	ERPCode?: string
-	supplierLeadTimeDays?: number
-	stockLeadTimeDays?: number
 	productType: string
 	productGroup?: string
 }
@@ -28,11 +25,7 @@ export class CreateProductUseCase {
 		description,
 		additionalDescription,
 		stockUnit,
-		buyUnit,
-		conversionFactor,
 		ERPCode,
-		supplierLeadTimeDays,
-		stockLeadTimeDays,
 		productType,
 		productGroup,
 	}: CreateProductRequest): Promise<CreateProductResponse> {
@@ -46,22 +39,13 @@ export class CreateProductUseCase {
 			code,
 			description,
 			additionalDescription,
-			stockUnits: {
+			stockUnit: {
 				connectOrCreate: {
 					where: { abrev: stockUnit },
 					create: { abrev: stockUnit },
 				},
 			},
-			buyUnits: {
-				connectOrCreate: {
-					where: { abrev: buyUnit },
-					create: { abrev: buyUnit },
-				},
-			},
-			conversionFactor,
 			ERPCode,
-			supplierLeadTimeDays,
-			stockLeadTimeDays,
 			productType: {
 				connectOrCreate: {
 					where: { description: productType },
