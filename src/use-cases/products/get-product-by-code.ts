@@ -9,7 +9,7 @@ type getProductByCodeResponse = {
 	product: ProductExtended
 }
 
-export class GetProductByIdUseCase {
+export class GetProductByCodeUseCase {
 	constructor(private productsRepository: ProductsRepository) {}
 
 	async execute({
