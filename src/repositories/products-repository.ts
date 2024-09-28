@@ -29,9 +29,9 @@ export interface ProductsRepository {
 		DONE: Alteração Produto
 		DONE: Exclusão Produto
 		DONE: Consultar forncedores que entregam o produto
-		TODO: Inclusão Tipo Produto
-		TODO: Alteração Tipo Produto
-		TODO: Exclusão Tipo Produto
+		DONE: Inclusão Tipo Produto
+		DONE: Alteração Tipo Produto
+		DONE: Exclusão Tipo Produto
 
 	*/
 }
