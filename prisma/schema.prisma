@@ -187,6 +187,7 @@ model SupplierProduct {
   leadTime            Int?     @map("lead_time")
   stockLeadTime       Int?     @map("stock_lead_time")
   buyUnitsId          String   @map("buy_units_id")
+  active              Boolean  @default(true)
   conversionFactor    Float    @default(1) @map("conversion_factor") @db.Float
   buyUnit             Units    @relation(fields: [buyUnitsId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   product             Product  @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: NoAction)

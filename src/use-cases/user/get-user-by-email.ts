@@ -1,12 +1,12 @@
 import type { UsersRepository } from "@/repositories/users-repository"
-import type { User } from "@prisma/client"
+import type { UserExtended } from "@/types/user-extended"
 
 interface GetUserByEmailUseCaseRequest {
 	email: string
 }
 
 interface GetUserByEmailUseCaseResponse {
-	user: Omit<User, "hashedPassword"> | null
+	user: Omit<UserExtended, "hashedPassword"> | null
 }
 
 export class GetUserByEmailUseCase {

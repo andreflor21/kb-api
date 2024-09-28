@@ -14,8 +14,10 @@ export type ProductExtended = Partial<Product> & {
 		buyQty: number | null
 		leadTime: number | null
 		stockLeadTime: number | null
+		buyUnit: Partial<Units>
+		active: boolean
 	}[]
 	productType: Partial<ProductType> | null
 	productGroup: Partial<ProductGroup> | null
-	buyUnit: Partial<Units>
+	stockUnit: Partial<Units>
 }
