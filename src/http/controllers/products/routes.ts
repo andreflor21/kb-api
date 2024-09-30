@@ -2,11 +2,68 @@ import { verifyRouteAccess } from "@/http/middleware/routeAccess"
 import { verifyJwt } from "@/http/middleware/verifyJwt"
 import type { FastifyInstance } from "fastify"
 import { createProduct, createProductSchema } from "./create-product"
+import { deleteProduct, deleteProductSchema } from "./delete-product"
+import { updateProduct, updateProductSchema } from "./update-product"
+import {
+	updateProductStatus,
+	updateProductStatusSchema,
+} from "./update-product-status"
+import { getProductById, getProductByIdSchema } from "./get-product-by-id"
+import { listProducts, listProductsSchema } from "./list-products"
 
 export async function productsRoutes(app: FastifyInstance) {
+	const prefix = "/products"
 	app.post(
-		"/products/new",
-		{ onRequest: [verifyJwt], schema: createProductSchema },
+		`${prefix}/new`,
+		{
+			onRequest: [verifyJwt, verifyRouteAccess],
+			schema: createProductSchema,
+		},
 		createProduct,
+	)
+
+	app.get(
+		`${prefix}/:id`,
+		{
+			onRequest: [verifyJwt, verifyRouteAccess],
+			schema: getProductByIdSchema,
+		},
+		getProductById,
+	)
+
+	app.get(
+		prefix,
+		{
+			onRequest: [verifyJwt, verifyRouteAccess],
+			schema: listProductsSchema,
+		},
+		listProducts,
+	)
+
+	app.patch(
+		`${prefix}/:id/update`,
+		{
+			onRequest: [verifyJwt, verifyRouteAccess],
+			schema: updateProductSchema,
+		},
+		updateProduct,
+	)
+
+	app.put(
+		`${prefix}/:id/status`,
+		{
+			onRequest: [verifyJwt, verifyRouteAccess],
+			schema: updateProductStatusSchema,
+		},
+		updateProductStatus,
+	)
+
+	app.delete(
+		`${prefix}/:id/delete`,
+		{
+			onRequest: [verifyJwt, verifyRouteAccess],
+			schema: deleteProductSchema,
+		},
+		deleteProduct,
 	)
 }

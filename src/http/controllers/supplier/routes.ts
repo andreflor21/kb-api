@@ -15,6 +15,10 @@ import {
 	updateSupplierStatus,
 	updateSupplierStatusSchema,
 } from "./update-supplier-status"
+import {
+	listSupplierProducts,
+	listSupplierProductsSchema,
+} from "./list-supplier-products"
 
 export async function supplierRoutes(app: FastifyInstance) {
 	const prefix = "/suppliers"
@@ -43,6 +47,15 @@ export async function supplierRoutes(app: FastifyInstance) {
 		},
 		getSupplierById,
 	)
+	app.get(
+		`${prefix}/:supplierId/products`,
+		{
+			onRequest: [verifyJwt, verifyRouteAccess],
+			schema: listSupplierProductsSchema,
+		},
+		listSupplierProducts,
+	)
+
 	app.patch(
 		`${prefix}/:supplierId/edit`,
 		{

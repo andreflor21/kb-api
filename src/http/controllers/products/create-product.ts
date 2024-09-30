@@ -1,7 +1,5 @@
-import { format } from "node:path"
 import AppError from "@/shared/errors/app-error"
 import { makeCreateProductUseCase } from "@/use-cases/factories/products/make-create-product-use-case"
-import { Prisma } from "@prisma/client"
 import type { FastifyReply, FastifyRequest } from "fastify"
 import { z } from "zod"
 
@@ -50,22 +48,11 @@ export const createProductSchema = {
 			description: { type: "string" },
 			additionalDescription: { type: "string" },
 			stockUnit: { type: "string" },
-			buyUnit: { type: "string" },
-			conversionFactor: { type: "number" },
 			ERPCode: { type: "string" },
-			supplierLeadTimeDays: { type: "number" },
-			stockLeadTimeDays: { type: "number" },
 			productType: { type: "string" },
 			productGroup: { type: "string" },
 		},
-		required: [
-			"code",
-			"description",
-			"stockUnit",
-			"buyUnit",
-			"conversionFactor",
-			"productType",
-		],
+		required: ["code", "description", "stockUnit", "productType"],
 	},
 	response: {
 		201: {
@@ -79,11 +66,7 @@ export const createProductSchema = {
 						description: { type: "string" },
 						additionalDescription: { type: "string" },
 						stockUnit: { type: "string" },
-						buyUnit: { type: "string" },
-						conversionFactor: { type: "number" },
 						ERPCode: { type: "string" },
-						supplierLeadTimeDays: { type: "number" },
-						stockLeadTimeDays: { type: "number" },
 						productType: {
 							type: "object",
 							properties: {
@@ -115,6 +98,18 @@ export const createProductSchema = {
 									},
 									supplierProductCode: { type: "string" },
 									leadTime: { type: "number" },
+									stockLeadTime: { type: "number" },
+									buyUnit: {
+										type: "object",
+										properties: {
+											id: {
+												type: "string",
+												format: "uuid",
+											},
+											description: { type: "string" },
+											abrev: { type: "string" },
+										},
+									},
 									minQty: { type: "number" },
 									buyQty: { type: "number" },
 								},
