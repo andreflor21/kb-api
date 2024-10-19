@@ -10,6 +10,7 @@ import {
 } from "./update-product-status"
 import { getProductById, getProductByIdSchema } from "./get-product-by-id"
 import { listProducts, listProductsSchema } from "./list-products"
+import { productTypesRoutes } from "./types/routes"
 
 export async function productsRoutes(app: FastifyInstance) {
 	const prefix = "/products"
@@ -66,4 +67,6 @@ export async function productsRoutes(app: FastifyInstance) {
 		},
 		deleteProduct,
 	)
+
+	app.register(productTypesRoutes, { prefix })
 }
