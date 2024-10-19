@@ -3,14 +3,14 @@ import { verifyJwt } from "@/http/middleware/verifyJwt"
 import type { FastifyInstance } from "fastify"
 import { createProduct, createProductSchema } from "./create-product"
 import { deleteProduct, deleteProductSchema } from "./delete-product"
+import { getProductById, getProductByIdSchema } from "./get-product-by-id"
+import { listProducts, listProductsSchema } from "./list-products"
+import { productTypesRoutes } from "./types/routes"
 import { updateProduct, updateProductSchema } from "./update-product"
 import {
 	updateProductStatus,
 	updateProductStatusSchema,
 } from "./update-product-status"
-import { getProductById, getProductByIdSchema } from "./get-product-by-id"
-import { listProducts, listProductsSchema } from "./list-products"
-import { productTypesRoutes } from "./types/routes"
 
 export async function productsRoutes(app: FastifyInstance) {
 	const prefix = "/products"

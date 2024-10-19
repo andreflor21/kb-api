@@ -1,6 +1,6 @@
-import type { Prisma } from "@prisma/client"
 import { prisma } from "@/lib/prisma"
 import AppError from "@/shared/errors/app-error"
+import type { Prisma } from "@prisma/client"
 import type { ProductGroupsRepository } from "../product-groups-repository"
 
 export class PrismaProductGroupsRepository implements ProductGroupsRepository {
@@ -18,7 +18,7 @@ export class PrismaProductGroupsRepository implements ProductGroupsRepository {
 		return await prisma.productGroup.findUnique({ where: { id } })
 	}
 	async getProductGroupByDescription(description: string) {
-		return await prisma.productGroup.findUnique({where: {description}});
+		return await prisma.productGroup.findUnique({ where: { description } })
 	}
 
 	async getProductGroups() {

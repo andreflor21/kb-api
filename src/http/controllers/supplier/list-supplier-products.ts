@@ -1,7 +1,7 @@
-import type { FastifyRequest, FastifyReply } from "fastify"
-import { z } from "zod"
-import { makeListProductsBySupplierUseCase } from "@/use-cases/factories/products/make-list-products-by-supplier"
 import AppError from "@/shared/errors/app-error"
+import { makeListProductsBySupplierUseCase } from "@/use-cases/factories/products/make-list-products-by-supplier"
+import type { FastifyReply, FastifyRequest } from "fastify"
+import { z } from "zod"
 
 export const listSupplierProducts = async (
 	request: FastifyRequest,

@@ -1,6 +1,6 @@
 import AppError from "@/shared/errors/app-error"
 import { makeCreateProductTypeUseCase } from "@/use-cases/factories/products/types/make-create-product-type-use-case"
-import type { FastifyRequest, FastifyReply } from "fastify"
+import type { FastifyReply, FastifyRequest } from "fastify"
 import { z } from "zod"
 
 export const createProductType = async (

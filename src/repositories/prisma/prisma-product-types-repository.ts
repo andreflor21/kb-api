@@ -1,7 +1,7 @@
-import type { ProductTypeRepository } from "../product-types-repository"
-import type { Prisma } from "@prisma/client"
-import AppError from "@/shared/errors/app-error"
 import { prisma } from "@/lib/prisma"
+import AppError from "@/shared/errors/app-error"
+import type { Prisma } from "@prisma/client"
+import type { ProductTypeRepository } from "../product-types-repository"
 
 export class PrismaProductTypesRepository implements ProductTypeRepository {
 	async createProductType(data: Prisma.ProductTypeCreateInput) {

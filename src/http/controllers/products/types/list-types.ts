@@ -1,5 +1,5 @@
 import { makeListProductTypeUseCase } from "@/use-cases/factories/products/types/make-list-product-type-use-case"
-import type { FastifyRequest, FastifyReply } from "fastify"
+import type { FastifyReply, FastifyRequest } from "fastify"
 
 export const listProductTypes = async (
 	request: FastifyRequest,

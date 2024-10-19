@@ -1,7 +1,7 @@
-import type { FastifyRequest, FastifyReply } from "fastify"
-import { makeDeleteProductUseCase } from "@/use-cases/factories/products/make-delete-product-use-case"
-import { z } from "zod"
 import AppError from "@/shared/errors/app-error"
+import { makeDeleteProductUseCase } from "@/use-cases/factories/products/make-delete-product-use-case"
+import type { FastifyReply, FastifyRequest } from "fastify"
+import { z } from "zod"
 
 export const deleteProduct = async (
 	request: FastifyRequest,

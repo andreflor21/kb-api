@@ -1,6 +1,6 @@
 import type { ProductsRepository } from "@/repositories/products-repository"
-import type { ProductExtended } from "@/types/product-extended"
 import AppError from "@/shared/errors/app-error"
+import type { ProductExtended } from "@/types/product-extended"
 
 type getProductByCodeRequest = {
 	code: string

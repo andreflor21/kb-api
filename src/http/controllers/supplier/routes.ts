@@ -9,16 +9,16 @@ import { deliveryDaysRoutes } from "./delivery-days/routes"
 import { exportSupplier } from "./export-supplier"
 import { getSupplierById, getSupplierByIdSchema } from "./get-supplier-by-id"
 import { importSuppliers, importSuppliersSchema } from "./import-suppliers"
+import {
+	listSupplierProducts,
+	listSupplierProductsSchema,
+} from "./list-supplier-products"
 import { listSuppliers, listSuppliersSchema } from "./list-suppliers"
 import { updateSupplier, updateSupplierSchema } from "./update-supplier"
 import {
 	updateSupplierStatus,
 	updateSupplierStatusSchema,
 } from "./update-supplier-status"
-import {
-	listSupplierProducts,
-	listSupplierProductsSchema,
-} from "./list-supplier-products"
 
 export async function supplierRoutes(app: FastifyInstance) {
 	const prefix = "/suppliers"

@@ -1,5 +1,5 @@
-import type { Prisma, SupplierProduct } from "@prisma/client"
 import type { ProductExtended } from "@/types/product-extended"
+import type { Prisma, SupplierProduct } from "@prisma/client"
 
 export interface SupplierProductsRepository {
 	createSupplierProduct(
