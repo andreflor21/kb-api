@@ -12,11 +12,8 @@ export const createProduct = async (
 		description: z.string().max(100),
 		additionalDescription: z.string().optional(),
 		stockUnit: z.string().max(10),
-		buyUnit: z.string().max(10),
-		conversionFactor: z.number(),
 		ERPCode: z.string().optional(),
 		supplierLeadTimeDays: z.number().optional(),
-		stockLeadTimeDays: z.number().optional(),
 		productType: z.string().max(100),
 		productGroup: z.string().max(100).optional(),
 	})
@@ -27,6 +24,7 @@ export const createProduct = async (
 		const product = await createProductUseCase.execute(validatedData)
 		reply.status(201).send(product)
 	} catch (error) {
+		console.error(error)
 		if (error instanceof AppError) {
 			return reply
 				.status(error.statusCode)
@@ -65,7 +63,13 @@ export const createProductSchema = {
 						code: { type: "string" },
 						description: { type: "string" },
 						additionalDescription: { type: "string" },
-						stockUnit: { type: "string" },
+						stockUnit: {
+							type: "object",
+							properties: {
+								id: { type: "string", format: "uuid" },
+								abrev: { type: "string" },
+							},
+						},
 						ERPCode: { type: "string" },
 						productType: {
 							type: "object",

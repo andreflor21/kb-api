@@ -24,6 +24,7 @@ export const updateProduct = async (
 		const validatedData = UpdateProductRequestSchema.parse(request.body)
 		const updateProductUseCase = makeUpdateProductUseCase()
 		const product = await updateProductUseCase.execute(validatedData)
+		console.log(product)
 		reply.status(204).send()
 	} catch (error) {
 		if (error instanceof AppError) {

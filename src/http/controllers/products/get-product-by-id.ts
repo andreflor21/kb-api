@@ -43,8 +43,15 @@ export const getProductByIdSchema = {
 					code: { type: "string" },
 					description: { type: "string" },
 					additionalDescription: { type: "string" },
-					stockUnit: { type: "string" },
+					stockUnit: {
+						type: "object",
+						properties: {
+							id: { type: "string", format: "uuid" },
+							abrev: { type: "string" },
+						},
+					},
 					ERPCode: { type: "string" },
+					active: { type: "boolean" },
 					productType: {
 						type: "object",
 						properties: {

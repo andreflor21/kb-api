@@ -43,7 +43,13 @@ export const listProductsSchema = {
 							code: { type: "string" },
 							description: { type: "string" },
 							additionalDescription: { type: "string" },
-							stockUnit: { type: "string" },
+							stockUnit: {
+								type: "object",
+								properties: {
+									id: { type: "string", format: "uuid" },
+									abrev: { type: "string" },
+								},
+							},
 							ERPCode: { type: "string" },
 							productType: {
 								type: "object",
@@ -59,6 +65,7 @@ export const listProductsSchema = {
 									description: { type: "string" },
 								},
 							},
+							active: { type: "boolean" },
 							suppliers: {
 								type: "array",
 								items: {
