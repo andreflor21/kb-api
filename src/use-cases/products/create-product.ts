@@ -7,7 +7,6 @@ type CreateProductRequest = {
 	description: string
 	additionalDescription?: string
 	stockUnit: string
-	conversionFactor: number
 	ERPCode?: string
 	productType: string
 	productGroup?: string
@@ -61,7 +60,6 @@ export class CreateProductUseCase {
 					}
 				: undefined,
 		})
-
 		return { product }
 	}
 }
