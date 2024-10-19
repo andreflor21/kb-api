@@ -1,14 +1,16 @@
-import type {ProductTypeRepository} from "@/repositories/product-types-repository";
-import {ProductType} from "@prisma/client";
+import type { ProductTypeRepository } from "@/repositories/product-types-repository"
+import type { ProductType } from "@prisma/client"
 
 type ListTypesResponse = {
-    productTypes: ProductType[];
+	productTypes: ProductType[]
 }
 
 export class ListProductTypesUseCase {
-    constructor(private readonly productTypeRepository: ProductTypeRepository) {}
-    async execute(): Promise<ListTypesResponse> {
-        const productTypes = await this.productTypeRepository.getProductTypes();
-        return { productTypes };
-    }
+	constructor(
+		private readonly productTypeRepository: ProductTypeRepository,
+	) {}
+	async execute(): Promise<ListTypesResponse> {
+		const productTypes = await this.productTypeRepository.getProductTypes()
+		return { productTypes }
+	}
 }
