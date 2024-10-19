@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -15,6 +12,7 @@ model Routes {
   description String    @db.VarChar(100)
   path        String    @db.VarChar(100)
   method      String?   @db.VarChar(10)
+  group       String?   @db.VarChar(100)
   profile     Profile[] @relation("ProfileToRoutes")
 
   @@map("routes")
@@ -43,8 +41,8 @@ model User {
   profileId         String     @map("profile_id")
   tokenReset        String?    @map("token_reset") @db.VarChar(200)
   tokenResetExpires DateTime?  @map("token_reset_expires") @db.DateTime(0)
-  suppliers         Supplier[] @relation("UserToSupplier")
   profile           Profile    @relation(fields: [profileId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  suppliers         Supplier[] @relation("UserToSupplier")
 
   @@index([profileId], map: "users_profile_id_fkey")
   @@map("users")
@@ -75,19 +73,19 @@ model Section {
 
 model Supplier {
   id           String                 @id @default(uuid())
-  code         String                 @map("code") @db.VarChar(10)
-  ERPCode      String                 @map("erp_code") @db.VarChar(10)
-  name         String                 @db.VarChar(100)
-  legalName    String                 @map("legal_name") @db.VarChar(100)
-  cnpj         String                 @unique @db.VarChar(14)
+  code         String?                @map("code") @db.VarChar(10)
+  ERPCode      String?                @map("erp_code") @db.VarChar(10)
+  name         String                 @unique @db.VarChar(100)
+  legalName    String?                @map("legal_name") @db.VarChar(100)
+  cnpj         String?                @unique @db.VarChar(14)
   fone         String?                @db.VarChar(20)
   email        String?                @db.VarChar(50)
   active       Boolean                @default(true)
   createdAt    DateTime               @default(now()) @map("created_at") @db.DateTime(0)
   addresses    SupplierAddress[]
-  users        User[]                 @relation("UserToSupplier")
-  products     Product[]
   deliveryDays SupplierDeliveryDays[]
+  products     SupplierProduct[]
+  users        User[]                 @relation("UserToSupplier")
 
   @@map("suppliers")
 }
@@ -103,8 +101,8 @@ model SupplierAddress {
   zipcode       String       @db.VarChar(9)
   supplierId    String       @map("supplier_id")
   addressTypeId String?      @map("address_type_id")
-  supplier      Supplier     @relation(fields: [supplierId], references: [id], onDelete: Cascade, onUpdate: NoAction)
   addressType   AddressType? @relation(fields: [addressTypeId], references: [id], onUpdate: NoAction)
+  supplier      Supplier     @relation(fields: [supplierId], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
   @@index([supplierId], map: "supplier_address_supplier_id_fkey")
   @@index([addressTypeId], map: "supplier_address_address_type_id_fkey")
@@ -120,22 +118,24 @@ model AddressType {
 }
 
 model Product {
-  id                   String      @id @default(uuid())
-  code                 String      @unique @db.VarChar(20)
-  description          String      @db.VarChar(100)
-  active               Boolean     @default(true)
-  createdAt            DateTime    @default(now()) @map("created_at") @db.DateTime(0)
-  productTypeId        String      @map("product_type_id")
-  productType          ProductType @relation(fields: [productTypeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  stockUnits           Units[]     @relation("stock_units")
-  buyUnits             Units[]     @relation("buy_units")
-  conversionFactor     Decimal     @default(1) @map("conversion_factor") @db.Decimal(15, 5)
-  ERPCode              String?     @map("erp_code") @db.VarChar(20)
-  supplierId           String?     @map("supplier_id")
-  supplier             Supplier?   @relation(fields: [supplierId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  supplierLeadTimeDays Int?        @map("supplier_lead_time_days")
-  stockLeadTimeDays    Int?        @map("stock_lead_time_days")
+  id                    String            @id @default(uuid())
+  code                  String            @unique @db.VarChar(20)
+  description           String            @db.VarChar(100)
+  additionalDescription String?           @map("additional_description") @db.VarChar(200)
+  active                Boolean           @default(true)
+  createdAt             DateTime          @default(now()) @map("created_at") @db.DateTime(0)
+  productTypeId         String            @map("product_type_id")
+  stockUnitId           String            @map("stock_unit_id")
+  ERPCode               String?           @map("erp_code") @db.VarChar(20)
+  productGroupId        String?           @map("product_group_id")
+  productGroup          ProductGroup?     @relation(fields: [productGroupId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  productType           ProductType       @relation(fields: [productTypeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  stockUnit             Units             @relation(fields: [stockUnitId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  suppliers             SupplierProduct[]
 
+  @@index([productGroupId], map: "products_product_group_id_fkey")
+  @@index([productTypeId], map: "products_product_type_id_fkey")
+  @@index([stockUnitId], map: "products_stock_unit_id_fkey")
   @@map("products")
 }
 
@@ -147,12 +147,20 @@ model ProductType {
   @@map("product_types")
 }
 
-model Units {
+model ProductGroup {
   id          String    @id @default(uuid())
   description String    @unique @db.VarChar(100)
-  abrev       String    @unique @db.VarChar(10)
-  stockUNits  Product[] @relation("stock_units")
-  buyUnits    Product[] @relation("buy_units")
+  products    Product[]
+
+  @@map("product_groups")
+}
+
+model Units {
+  id          String            @id @default(uuid())
+  description String?           @unique @db.VarChar(100)
+  abrev       String            @unique @db.VarChar(10)
+  stockUnit   Product[]
+  buyUnits    SupplierProduct[]
 
   @@map("units")
 }
@@ -160,10 +168,33 @@ model Units {
 model SupplierDeliveryDays {
   id         String   @id @default(uuid())
   supplierId String   @map("supplier_id")
-  days       String   @db.VarChar(15) // 0 - domingo, 1 - segunda, 2 - terça, 3 - quarta, 4 - quinta, 5 - sexta, 6 - sábado
+  days       String   @db.VarChar(15)
+  period     String?  @db.VarChar(10)
+  hour       String?  @db.VarChar(5)
   supplier   Supplier @relation(fields: [supplierId], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  period     String   @db.VarChar(10) // 0 - manhã, 1 - tarde, 2 - noite
-  hour       String   @db.VarChar(5)
 
+  @@index([supplierId], map: "supplier_delivery_days_supplier_id_fkey")
   @@map("supplier_delivery_days")
+}
+
+model SupplierProduct {
+  id                  String   @id @default(uuid())
+  supplierId          String   @map("supplier_id")
+  productId           String   @map("product_id")
+  supplierProductCode String   @map("supplier_product_code") @db.VarChar(20)
+  minQty              Float?   @map("min_qty") @db.Float
+  buyQty              Float?   @map("buy_qty") @db.Float
+  leadTime            Int?     @map("lead_time")
+  stockLeadTime       Int?     @map("stock_lead_time")
+  buyUnitsId          String   @map("buy_units_id")
+  active              Boolean  @default(true)
+  conversionFactor    Float    @default(1) @map("conversion_factor") @db.Float
+  buyUnit             Units    @relation(fields: [buyUnitsId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  product             Product  @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  supplier            Supplier @relation(fields: [supplierId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([buyUnitsId], map: "supplier_products_buy_units_id_fkey")
+  @@index([productId], map: "supplier_products_product_id_fkey")
+  @@index([supplierId], map: "supplier_products_supplier_id_fkey")
+  @@map("supplier_products")
 }

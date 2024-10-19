@@ -1,22 +1,22 @@
-import { ProfilesRepository } from '@/repositories/profiles-repository';
-import { Profile } from '@prisma/client';
+import type { ProfilesRepository } from "@/repositories/profiles-repository"
+import type { Profile } from "@prisma/client"
 
 interface GetProfileByIdUseCaseRequest {
-    id: string;
+	id: string
 }
 
 interface GetProfileByIdUseCaseResponse {
-    profile: Profile | null;
+	profile: Profile | null
 }
 
 export class GetProfileByIdUseCase {
-    constructor(private profilesRepository: ProfilesRepository) {}
+	constructor(private profilesRepository: ProfilesRepository) {}
 
-    async execute({
-        id,
-    }: GetProfileByIdUseCaseRequest): Promise<GetProfileByIdUseCaseResponse> {
-        const profile = await this.profilesRepository.getProfileById(id);
+	async execute({
+		id,
+	}: GetProfileByIdUseCaseRequest): Promise<GetProfileByIdUseCaseResponse> {
+		const profile = await this.profilesRepository.getProfileById(id)
 
-        return { profile };
-    }
+		return { profile }
+	}
 }

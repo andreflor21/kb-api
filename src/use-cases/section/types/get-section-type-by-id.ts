@@ -1,17 +1,17 @@
-import { SectionTypesRepository } from '@/repositories/section-types-repository';
-import { SectionType } from '@prisma/client';
+import type { SectionTypesRepository } from "@/repositories/section-types-repository"
+import type { SectionType } from "@prisma/client"
 
 interface GetSectionTypeByIdUseCaseResponse {
-    sectionType: Partial<SectionType> | null;
+	sectionType: Partial<SectionType> | null
 }
 
 export class GetSectionTypeByIdUseCase {
-    constructor(private sectionTypesRepository: SectionTypesRepository) {}
+	constructor(private sectionTypesRepository: SectionTypesRepository) {}
 
-    async execute(id: string): Promise<GetSectionTypeByIdUseCaseResponse> {
-        const sectionType =
-            await this.sectionTypesRepository.getSectionTypeById(id);
+	async execute(id: string): Promise<GetSectionTypeByIdUseCaseResponse> {
+		const sectionType =
+			await this.sectionTypesRepository.getSectionTypeById(id)
 
-        return { sectionType };
-    }
+		return { sectionType }
+	}
 }

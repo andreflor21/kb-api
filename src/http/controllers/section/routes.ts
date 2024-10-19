@@ -1,22 +1,57 @@
-import { FastifyInstance } from 'fastify';
-import { verifyJwt } from '@/http/middleware/verifyJwt';
-import { createSection } from './create-section';
-import { getSectionById } from './get-section-by-id';
-import { listSections } from './list-sections';
-import { updateSection } from './update-section';
-import { updateSectionStatus } from './update-section-status';
-import { sectionTypesRoutes } from './types/routes';
+import { verifyRouteAccess } from "@/http/middleware/routeAccess"
+import { verifyJwt } from "@/http/middleware/verifyJwt"
+import type { FastifyInstance } from "fastify"
+import { createSection, createSectionSchema } from "./create-section"
+import { getSectionById, getSectionByIdSchema } from "./get-section-by-id"
+import { listSections, listSectionsSchema } from "./list-sections"
+import { sectionTypesRoutes } from "./types/routes"
+import { updateSection, updateSectionSchema } from "./update-section"
+import {
+	updateSectionStatus,
+	updateSectionStatusSchema,
+} from "./update-section-status"
 
 export async function sectionRoutes(app: FastifyInstance) {
-    app.get('/sections', { onRequest: verifyJwt }, listSections);
-    app.post('/sections/new', { onRequest: verifyJwt }, createSection);
-    app.get('/sections/:id', { onRequest: verifyJwt }, getSectionById);
-    app.patch('/sections/:id/edit', { onRequest: verifyJwt }, updateSection);
-    app.put(
-        '/sections/:id/status',
-        { onRequest: verifyJwt },
-        updateSectionStatus
-    );
+	app.get(
+		"/sections",
+		{
+			onRequest: [verifyJwt, verifyRouteAccess],
+			schema: listSectionsSchema,
+		},
+		listSections,
+	)
+	app.post(
+		"/sections/new",
+		{
+			onRequest: [verifyJwt, verifyRouteAccess],
+			schema: createSectionSchema,
+		},
+		createSection,
+	)
+	app.get(
+		"/sections/:id",
+		{
+			onRequest: [verifyJwt, verifyRouteAccess],
+			schema: getSectionByIdSchema,
+		},
+		getSectionById,
+	)
+	app.patch(
+		"/sections/:id/edit",
+		{
+			onRequest: [verifyJwt, verifyRouteAccess],
+			schema: updateSectionSchema,
+		},
+		updateSection,
+	)
+	app.put(
+		"/sections/:id/status",
+		{
+			onRequest: [verifyJwt, verifyRouteAccess],
+			schema: updateSectionStatusSchema,
+		},
+		updateSectionStatus,
+	)
 
-    app.register(sectionTypesRoutes);
+	app.register(sectionTypesRoutes)
 }

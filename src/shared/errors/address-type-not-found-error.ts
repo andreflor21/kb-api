@@ -1,7 +1,7 @@
-import AppError from './app-error';
+import AppError from "./app-error"
 
 export class AddressTypeNotFoundError extends AppError {
-    constructor() {
-        super('Address type not found', 404);
-    }
+	constructor() {
+		super("Address type not found", 404)
+	}
 }

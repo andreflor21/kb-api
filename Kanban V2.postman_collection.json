@@ -27,13 +27,8 @@
 						},
 						"url": {
 							"raw": "{{base_url}}/users/new",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"users",
-								"new"
-							]
+							"host": ["{{base_url}}"],
+							"path": ["users", "new"]
 						}
 					},
 					"response": []
@@ -54,14 +49,8 @@
 						},
 						"url": {
 							"raw": "{{base_url}}/users/{{usuario_id}}/edit",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"users",
-								"{{usuario_id}}",
-								"edit"
-							]
+							"host": ["{{base_url}}"],
+							"path": ["users", "{{usuario_id}}", "edit"]
 						}
 					},
 					"response": []
@@ -73,14 +62,8 @@
 						"header": [],
 						"url": {
 							"raw": "{{base_url}}/users/{{usuario_id}}/delete",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"users",
-								"{{usuario_id}}",
-								"delete"
-							]
+							"host": ["{{base_url}}"],
+							"path": ["users", "{{usuario_id}}", "delete"]
 						}
 					},
 					"response": []
@@ -101,9 +84,7 @@
 						},
 						"url": {
 							"raw": "{{base_url}}/users/{{usuario_id}}/change-password",
-							"host": [
-								"{{base_url}}"
-							],
+							"host": ["{{base_url}}"],
 							"path": [
 								"users",
 								"{{usuario_id}}",
@@ -120,13 +101,8 @@
 						"header": [],
 						"url": {
 							"raw": "{{base_url}}/users/{{usuario_id}}",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"users",
-								"{{usuario_id}}"
-							]
+							"host": ["{{base_url}}"],
+							"path": ["users", "{{usuario_id}}"]
 						}
 					},
 					"response": []
@@ -138,12 +114,8 @@
 						"header": [],
 						"url": {
 							"raw": "{{base_url}}/users",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"users"
-							]
+							"host": ["{{base_url}}"],
+							"path": ["users"]
 						}
 					},
 					"response": []
@@ -178,12 +150,8 @@
 						},
 						"url": {
 							"raw": "{{base_url}}/forgot-password",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"forgot-password"
-							]
+							"host": ["{{base_url}}"],
+							"path": ["forgot-password"]
 						}
 					},
 					"response": []
@@ -204,18 +172,14 @@
 					"listen": "prerequest",
 					"script": {
 						"type": "text/javascript",
-						"exec": [
-							""
-						]
+						"exec": [""]
 					}
 				},
 				{
 					"listen": "test",
 					"script": {
 						"type": "text/javascript",
-						"exec": [
-							""
-						]
+						"exec": [""]
 					}
 				}
 			]
@@ -239,13 +203,8 @@
 						},
 						"url": {
 							"raw": "{{base_url}}/profiles/new",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"profiles",
-								"new"
-							]
+							"host": ["{{base_url}}"],
+							"path": ["profiles", "new"]
 						}
 					},
 					"response": []
@@ -266,14 +225,8 @@
 						},
 						"url": {
 							"raw": "{{base_url}}/profiles/{{perfil_id}}/duplicate",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"profiles",
-								"{{perfil_id}}",
-								"duplicate"
-							]
+							"host": ["{{base_url}}"],
+							"path": ["profiles", "{{perfil_id}}", "duplicate"]
 						}
 					},
 					"response": []
@@ -285,14 +238,8 @@
 						"header": [],
 						"url": {
 							"raw": "{{base_url}}/perfil/{{perfil_id}}/delete",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"perfil",
-								"{{perfil_id}}",
-								"delete"
-							]
+							"host": ["{{base_url}}"],
+							"path": ["perfil", "{{perfil_id}}", "delete"]
 						}
 					},
 					"response": []
@@ -304,15 +251,8 @@
 						"header": [],
 						"url": {
 							"raw": "{{base_url}}/perfil/{{perfil_id}}/rotas/link",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"perfil",
-								"{{perfil_id}}",
-								"rotas",
-								"link"
-							]
+							"host": ["{{base_url}}"],
+							"path": ["perfil", "{{perfil_id}}", "rotas", "link"]
 						}
 					},
 					"response": []
@@ -324,9 +264,7 @@
 						"header": [],
 						"url": {
 							"raw": "{{base_url}}/profiles/{{perfil_id}}/routes/{{rota_id}}/unlink",
-							"host": [
-								"{{base_url}}"
-							],
+							"host": ["{{base_url}}"],
 							"path": [
 								"profiles",
 								"{{perfil_id}}",
@@ -345,9 +283,7 @@
 						"header": [],
 						"url": {
 							"raw": "{{base_url}}/profiles/{{perfil_id}}/routes/{{rota_id}}/link",
-							"host": [
-								"{{base_url}}"
-							],
+							"host": ["{{base_url}}"],
 							"path": [
 								"profiles",
 								"{{perfil_id}}",
@@ -366,13 +302,8 @@
 						"header": [],
 						"url": {
 							"raw": "{{base_url}}/profiles/{{perfil_id}}",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"profiles",
-								"{{perfil_id}}"
-							]
+							"host": ["{{base_url}}"],
+							"path": ["profiles", "{{perfil_id}}"]
 						}
 					},
 					"response": []
@@ -384,14 +315,8 @@
 						"header": [],
 						"url": {
 							"raw": "{{base_url}}/profiles/{{perfil_id}}/routes",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"profiles",
-								"{{perfil_id}}",
-								"routes"
-							]
+							"host": ["{{base_url}}"],
+							"path": ["profiles", "{{perfil_id}}", "routes"]
 						}
 					},
 					"response": []
@@ -412,18 +337,14 @@
 					"listen": "prerequest",
 					"script": {
 						"type": "text/javascript",
-						"exec": [
-							""
-						]
+						"exec": [""]
 					}
 				},
 				{
 					"listen": "test",
 					"script": {
 						"type": "text/javascript",
-						"exec": [
-							""
-						]
+						"exec": [""]
 					}
 				}
 			]
@@ -438,12 +359,8 @@
 						"header": [],
 						"url": {
 							"raw": "{{base_url}}/routes",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"routes"
-							]
+							"host": ["{{base_url}}"],
+							"path": ["routes"]
 						}
 					},
 					"response": []
@@ -455,14 +372,8 @@
 						"header": [],
 						"url": {
 							"raw": "{{base_url}}/routes/{{rota_id}}/edit",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"routes",
-								"{{rota_id}}",
-								"edit"
-							]
+							"host": ["{{base_url}}"],
+							"path": ["routes", "{{rota_id}}", "edit"]
 						}
 					},
 					"response": []
@@ -483,13 +394,8 @@
 						},
 						"url": {
 							"raw": "{{base_url}}/routes/new",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"routes",
-								"new"
-							]
+							"host": ["{{base_url}}"],
+							"path": ["routes", "new"]
 						}
 					},
 					"response": []
@@ -510,18 +416,14 @@
 					"listen": "prerequest",
 					"script": {
 						"type": "text/javascript",
-						"exec": [
-							""
-						]
+						"exec": [""]
 					}
 				},
 				{
 					"listen": "test",
 					"script": {
 						"type": "text/javascript",
-						"exec": [
-							""
-						]
+						"exec": [""]
 					}
 				}
 			]
@@ -539,13 +441,8 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/sections/types",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"sections",
-										"types"
-									]
+									"host": ["{{base_url}}"],
+									"path": ["sections", "types"]
 								}
 							},
 							"response": []
@@ -566,14 +463,8 @@
 								},
 								"url": {
 									"raw": "{{base_url}}/sections/types/new",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"sections",
-										"types",
-										"new"
-									]
+									"host": ["{{base_url}}"],
+									"path": ["sections", "types", "new"]
 								}
 							},
 							"response": []
@@ -594,9 +485,7 @@
 								},
 								"url": {
 									"raw": "{{base_url}}/sections/types/{{tipo_id}}/edit",
-									"host": [
-										"{{base_url}}"
-									],
+									"host": ["{{base_url}}"],
 									"path": [
 										"sections",
 										"types",
@@ -614,14 +503,8 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/sections/types/{{tipo_id}}",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"sections",
-										"types",
-										"{{tipo_id}}"
-									]
+									"host": ["{{base_url}}"],
+									"path": ["sections", "types", "{{tipo_id}}"]
 								}
 							},
 							"response": []
@@ -633,9 +516,7 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/sections/types/{{tipo_id}}/delete",
-									"host": [
-										"{{base_url}}"
-									],
+									"host": ["{{base_url}}"],
 									"path": [
 										"sections",
 										"types",
@@ -655,12 +536,8 @@
 						"header": [],
 						"url": {
 							"raw": "{{base_url}}/sections",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"sections"
-							]
+							"host": ["{{base_url}}"],
+							"path": ["sections"]
 						}
 					},
 					"response": []
@@ -672,13 +549,8 @@
 						"header": [],
 						"url": {
 							"raw": "{{base_url}}/sections/{{secao_id}}",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"sections",
-								"{{secao_id}}"
-							]
+							"host": ["{{base_url}}"],
+							"path": ["sections", "{{secao_id}}"]
 						}
 					},
 					"response": []
@@ -699,13 +571,8 @@
 						},
 						"url": {
 							"raw": "{{base_url}}/sections/new",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"sections",
-								"new"
-							]
+							"host": ["{{base_url}}"],
+							"path": ["sections", "new"]
 						}
 					},
 					"response": []
@@ -726,14 +593,8 @@
 						},
 						"url": {
 							"raw": "{{base_url}}/sections/{{secao_id}}/edit",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"sections",
-								"{{secao_id}}",
-								"edit"
-							]
+							"host": ["{{base_url}}"],
+							"path": ["sections", "{{secao_id}}", "edit"]
 						}
 					},
 					"response": []
@@ -754,14 +615,8 @@
 						},
 						"url": {
 							"raw": "{{base_url}}/sections/{{secao_id}}/status",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"sections",
-								"{{secao_id}}",
-								"status"
-							]
+							"host": ["{{base_url}}"],
+							"path": ["sections", "{{secao_id}}", "status"]
 						}
 					},
 					"response": []
@@ -782,18 +637,14 @@
 					"listen": "prerequest",
 					"script": {
 						"type": "text/javascript",
-						"exec": [
-							""
-						]
+						"exec": [""]
 					}
 				},
 				{
 					"listen": "test",
 					"script": {
 						"type": "text/javascript",
-						"exec": [
-							""
-						]
+						"exec": [""]
 					}
 				}
 			]
@@ -823,9 +674,7 @@
 										},
 										"url": {
 											"raw": "{{base_url}}/suppliers/addresses/types/new",
-											"host": [
-												"{{base_url}}"
-											],
+											"host": ["{{base_url}}"],
 											"path": [
 												"suppliers",
 												"addresses",
@@ -852,9 +701,7 @@
 										},
 										"url": {
 											"raw": "{{base_url}}/suppliers/addresses/types/{{tipo_id}}/edit",
-											"host": [
-												"{{base_url}}"
-											],
+											"host": ["{{base_url}}"],
 											"path": [
 												"suppliers",
 												"addresses",
@@ -873,9 +720,7 @@
 										"header": [],
 										"url": {
 											"raw": "{{base_url}}/suppliers/addresses/types/{{tipo_id}}/delete",
-											"host": [
-												"{{base_url}}"
-											],
+											"host": ["{{base_url}}"],
 											"path": [
 												"suppliers",
 												"addresses",
@@ -896,9 +741,7 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/suppliers/{{forn_id}}/addresses/new",
-									"host": [
-										"{{base_url}}"
-									],
+									"host": ["{{base_url}}"],
 									"path": [
 										"suppliers",
 										"{{forn_id}}",
@@ -925,9 +768,7 @@
 								},
 								"url": {
 									"raw": "{{base_url}}/suppliers/{{forn_id}}/addresses/{{tipo_id}}/edit",
-									"host": [
-										"{{base_url}}"
-									],
+									"host": ["{{base_url}}"],
 									"path": [
 										"suppliers",
 										"{{forn_id}}",
@@ -946,9 +787,7 @@
 								"header": [],
 								"url": {
 									"raw": "{{base_url}}/suppliers/{{forn_id}}/addresses/{{tipo_id}}/delete",
-									"host": [
-										"{{base_url}}"
-									],
+									"host": ["{{base_url}}"],
 									"path": [
 										"suppliers",
 										"{{forn_id}}",
@@ -969,12 +808,8 @@
 						"header": [],
 						"url": {
 							"raw": "{{base_url}}/suppliers",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"suppliers"
-							]
+							"host": ["{{base_url}}"],
+							"path": ["suppliers"]
 						}
 					},
 					"response": []
@@ -995,13 +830,8 @@
 						},
 						"url": {
 							"raw": "{{base_url}}/suppliers/new",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"suppliers",
-								"new"
-							]
+							"host": ["{{base_url}}"],
+							"path": ["suppliers", "new"]
 						}
 					},
 					"response": []
@@ -1022,14 +852,8 @@
 						},
 						"url": {
 							"raw": "{{base_url}}/suppliers/{{forn_id}}/edit",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"suppliers",
-								"{{forn_id}}",
-								"edit"
-							]
+							"host": ["{{base_url}}"],
+							"path": ["suppliers", "{{forn_id}}", "edit"]
 						}
 					},
 					"response": []
@@ -1050,14 +874,8 @@
 						},
 						"url": {
 							"raw": "{{base_url}}/suppliers/{{forn_id}}/status",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"suppliers",
-								"{{forn_id}}",
-								"status"
-							]
+							"host": ["{{base_url}}"],
+							"path": ["suppliers", "{{forn_id}}", "status"]
 						}
 					},
 					"response": []
@@ -1069,13 +887,8 @@
 						"header": [],
 						"url": {
 							"raw": "{{base_url}}/suppliers/{{forn_id}}",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"suppliers",
-								"{{forn_id}}"
-							]
+							"host": ["{{base_url}}"],
+							"path": ["suppliers", "{{forn_id}}"]
 						}
 					},
 					"response": []
@@ -1096,18 +909,14 @@
 					"listen": "prerequest",
 					"script": {
 						"type": "text/javascript",
-						"exec": [
-							""
-						]
+						"exec": [""]
 					}
 				},
 				{
 					"listen": "test",
 					"script": {
 						"type": "text/javascript",
-						"exec": [
-							""
-						]
+						"exec": [""]
 					}
 				}
 			]
@@ -1122,13 +931,8 @@
 						"header": [],
 						"url": {
 							"raw": "{{base_url}}/export/suppliers",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"export",
-								"suppliers"
-							]
+							"host": ["{{base_url}}"],
+							"path": ["export", "suppliers"]
 						}
 					},
 					"response": []
@@ -1155,13 +959,8 @@
 						},
 						"url": {
 							"raw": "{{base_url}}/import/suppliers",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"import",
-								"suppliers"
-							]
+							"host": ["{{base_url}}"],
+							"path": ["import", "suppliers"]
 						}
 					},
 					"response": []
@@ -1200,12 +999,8 @@
 				},
 				"url": {
 					"raw": "{{base_url}}/login",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"login"
-					]
+					"host": ["{{base_url}}"],
+					"path": ["login"]
 				}
 			},
 			"response": []
@@ -1229,12 +1024,8 @@
 				},
 				"url": {
 					"raw": "{{base_url}}/{{token_senha}}",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"{{token_senha}}"
-					]
+					"host": ["{{base_url}}"],
+					"path": ["{{token_senha}}"]
 				}
 			},
 			"response": []
@@ -1245,18 +1036,14 @@
 			"listen": "prerequest",
 			"script": {
 				"type": "text/javascript",
-				"exec": [
-					""
-				]
+				"exec": [""]
 			}
 		},
 		{
 			"listen": "test",
 			"script": {
 				"type": "text/javascript",
-				"exec": [
-					""
-				]
+				"exec": [""]
 			}
 		}
 	],
