@@ -7,7 +7,8 @@ export const listProductTypes = async (
 ) => {
 	const listProductTypeUseCase = makeListProductTypeUseCase()
 	const productTypes = await listProductTypeUseCase.execute()
-	reply.status(200).send({ productTypes })
+	console.log(productTypes)
+	return reply.status(200).send(productTypes)
 }
 
 export const listProductTypesSchema = {
@@ -16,7 +17,7 @@ export const listProductTypesSchema = {
 	security: [{ BearerAuth: [] }],
 	response: {
 		200: {
-			descripion: "Success",
+			description: "Success",
 			type: "object",
 			properties: {
 				productTypes: {
@@ -24,7 +25,7 @@ export const listProductTypesSchema = {
 					items: {
 						type: "object",
 						properties: {
-							id: { type: "string", format: "uuid" },
+							id: { type: "string" },
 							description: { type: "string" },
 						},
 					},

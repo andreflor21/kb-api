@@ -17,13 +17,33 @@ export const listProductGroupSchema = {
 	security: [{ BearerAuth: [] }],
 	response: {
 		200: {
-			type: "array",
-			items: {
-				type: "object",
-				properties: {
-					id: { type: "string" },
-					description: { type: "string" },
+			description: "Success",
+			type: "object",
+			properties: {
+				productGroups: {
+					type: "array",
+					items: {
+						type: "object",
+						properties: {
+							id: { type: "string" },
+							description: { type: "string" },
+						},
+					},
 				},
+			},
+		},
+		401: {
+			type: "object",
+			description: "Unauthorized",
+			properties: {
+				message: { type: "string" },
+			},
+		},
+		403: {
+			type: "object",
+			description: "Forbidden",
+			properties: {
+				message: { type: "string" },
 			},
 		},
 	},
