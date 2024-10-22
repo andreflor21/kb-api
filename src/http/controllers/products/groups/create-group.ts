@@ -30,7 +30,7 @@ export const createProductGroup = async (
 }
 
 export const createProductGroupSchema = {
-	tags: ["Grupos de Produtos"],
+	tags: ["Grupos de Produto"],
 	summary: "Cria um novo grupo de produto",
 	security: [{ BearerAuth: [] }],
 	body: {

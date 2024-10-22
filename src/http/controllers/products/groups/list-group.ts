@@ -12,8 +12,8 @@ export const listProductGroup = async (
 }
 
 export const listProductGroupSchema = {
-	tags: ["Grupos de Produtos"],
-	summary: "Lista todos os grupos de produtos",
+	tags: ["Grupos de Produto"],
+	summary: "Lista todos os Grupos de Produto",
 	security: [{ BearerAuth: [] }],
 	response: {
 		200: {

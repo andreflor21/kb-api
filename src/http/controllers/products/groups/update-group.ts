@@ -35,7 +35,7 @@ export const updateProductGroup = async (
 }
 
 export const updateProductGroupSchema = {
-	tags: ["Grupos de Produtos"],
+	tags: ["Grupos de Produto"],
 	summary: "Atualiza um grupo de produto",
 	security: [{ BearerAuth: [] }],
 	params: {
