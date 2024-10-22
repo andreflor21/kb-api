@@ -8,9 +8,11 @@ updates:
     - package-ecosystem: 'npm' # or any ecosystem like 'composer', 'pip', etc.
       directory: '/' # location of your `package.json` or other dependency files
       schedule:
-          interval: 'daily' # update check schedule (daily, weekly, etc.)
+          interval: 'weekly' # update check schedule (daily, weekly, etc.)
       target-branch: 'development' # set the branch to 'development' instead of 'main'
       open-pull-requests-limit: 5 # limits the number of open PRs
+      assignees:
+          - 'andreflor21'
       commit-message:
           prefix: 'chore(deps)' # optional: customize the commit message
       ignore:
