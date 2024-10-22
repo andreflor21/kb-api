@@ -27,8 +27,8 @@ importers:
         specifier: ^9.1.0
         version: 9.1.0
       '@fastify/swagger-ui':
-        specifier: ^5.0.1
-        version: 5.0.1
+        specifier: ^5.1.0
+        version: 5.1.0
       '@prisma/client':
         specifier: ^5.20.0
         version: 5.20.0(prisma@5.20.0)
@@ -568,8 +568,8 @@ packages:
   '@fastify/static@8.0.1':
     resolution: {integrity: sha512-7idyhbcgf14v4bjWzUeHEFvnVxvNJ1n5cyGPgFtwTZjnjUQ1wgC7a2FQai7OGKqCKywDEjzbPhAZRW+uEK1LMg==}
 
-  '@fastify/swagger-ui@5.0.1':
-    resolution: {integrity: sha512-nCDV5l0OTziK8nIeHaLZ30ENFFftZ4Pcs7GHDcqOO6Jp3qSnyOsqBg1/EosM+d1mrCvH4vSlM09xolkjrbuJQQ==}
+  '@fastify/swagger-ui@5.1.0':
+    resolution: {integrity: sha512-XWb+zWz0vlP4QIXbF2xo/n9XuOjNF5aRdQ+0AiBXY9nlIuoTYU1ZXCkXNStdnM/sOdnDy8Q1vsxZ2RsN7XivQA==}
 
   '@fastify/swagger@9.1.0':
     resolution: {integrity: sha512-4q3OgaqoNngsbXcld8MAZX2N7Mf4hGp0OFZ6m8q+PZ1IcEeixjnfsdLDjJaRgJnYlGrSDkKgrWNGFG1+s4CiOA==}
@@ -2916,7 +2916,7 @@ snapshots:
       fastq: 1.17.1
       glob: 11.0.0
 
-  '@fastify/swagger-ui@5.0.1':
+  '@fastify/swagger-ui@5.1.0':
     dependencies:
       '@fastify/static': 8.0.1
       fastify-plugin: 5.0.1
