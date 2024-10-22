@@ -1,18 +1,21 @@
-import { UsersRepository } from '@/repositories/users-repository';
-import { User } from '@prisma/client';
+import type { UsersRepository } from "@/repositories/users-repository"
+import type { UserExtended } from "@/types/user-extended"
 
 interface ListUsersUseCaseResponse {
-    users: Omit<User, 'hashedPassword'>[];
+	users: Omit<UserExtended, "hashedPassword">[]
 }
 
 export class ListUsersUseCase {
-    constructor(private usersRepository: UsersRepository) {}
+	constructor(private usersRepository: UsersRepository) {}
 
-    async execute(): Promise<ListUsersUseCaseResponse> {
-        const users = await this.usersRepository.getUsers();
-        if (!users) {
-            return { users: [] };
-        }
-        return { users: users.map(({ hashedPassword, ...user }) => user) };
-    }
+	async execute(): Promise<ListUsersUseCaseResponse> {
+		const users = await this.usersRepository.getUsers()
+		if (!users) {
+			return { users: [] }
+		}
+		const usersSerialized = users.map((user) => {
+			return { ...user, hashedPassword: undefined, profileId: undefined }
+		})
+		return { users: usersSerialized }
+	}
 }

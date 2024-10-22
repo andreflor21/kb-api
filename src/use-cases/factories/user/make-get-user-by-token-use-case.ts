@@ -1,9 +1,9 @@
-import { PrismaUsersRepository } from '@/repositories/prisma/prisma-users-repository';
-import { GetUserByTokenUseCase } from '../../user/get-user-by-token';
+import { PrismaUsersRepository } from "@/repositories/prisma/prisma-users-repository"
+import { GetUserByTokenUseCase } from "../../user/get-user-by-token"
 
-export function makeGetUserByEmailUseCase() {
-    const userRepository = new PrismaUsersRepository();
-    const getUserByTokenUseCase = new GetUserByTokenUseCase(userRepository);
+export function makeGetUserByTokenUseCase() {
+	const userRepository = new PrismaUsersRepository()
+	const getUserByTokenUseCase = new GetUserByTokenUseCase(userRepository)
 
-    return getUserByTokenUseCase;
+	return getUserByTokenUseCase
 }

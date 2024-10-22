@@ -1,7 +1,7 @@
-import AppError from './app-error';
+import AppError from "./app-error"
 
 export class RouteNotFoundError extends AppError {
-    constructor() {
-        super('Route not found', 404);
-    }
+	constructor() {
+		super("Route not found", 404)
+	}
 }

@@ -1,16 +1,16 @@
-import { SectionsRepository } from '@/repositories/sections-repository';
-import { Section } from '@prisma/client';
+import type { SectionsRepository } from "@/repositories/sections-repository"
+import type { Section } from "@prisma/client"
 
 interface ListSectionsUseCaseResponse {
-    sections: Partial<Section>[];
+	sections: Partial<Section>[]
 }
 
 export class ListSectionsUseCase {
-    constructor(private sectionsRepository: SectionsRepository) {}
+	constructor(private sectionsRepository: SectionsRepository) {}
 
-    async execute(): Promise<ListSectionsUseCaseResponse> {
-        const sections = await this.sectionsRepository.getSections();
+	async execute(): Promise<ListSectionsUseCaseResponse> {
+		const sections = await this.sectionsRepository.getSections()
 
-        return { sections };
-    }
+		return { sections }
+	}
 }

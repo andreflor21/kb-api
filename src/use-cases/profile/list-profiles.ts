@@ -1,15 +1,15 @@
-import { ProfileExtended } from '@/@Types/profileExtended';
-import { ProfilesRepository } from '@/repositories/profiles-repository';
+import type { ProfilesRepository } from "@/repositories/profiles-repository"
+import type { ProfileExtended } from "@/types/profile-extended"
 
 interface ListProfilesUseCaseResponse {
-    profiles: ProfileExtended[];
+	profiles: ProfileExtended[]
 }
 
 export class ListProfilesUseCase {
-    constructor(private profilesRepository: ProfilesRepository) {}
+	constructor(private profilesRepository: ProfilesRepository) {}
 
-    async execute(): Promise<ListProfilesUseCaseResponse> {
-        const profiles = await this.profilesRepository.getProfiles();
-        return { profiles };
-    }
+	async execute(): Promise<ListProfilesUseCaseResponse> {
+		const profiles = await this.profilesRepository.getProfiles()
+		return { profiles }
+	}
 }

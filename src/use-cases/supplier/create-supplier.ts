@@ -1,44 +1,52 @@
-import { SupplierRepository } from '@/repositories/supplier-repository';
-import { SupplierExtended as Supplier } from '@/@Types/SupplierExtended';
+import type { SupplierRepository } from "@/repositories/supplier-repository"
+import AppError from "@/shared/errors/app-error"
+import { validateCpfCnpj } from "@/shared/utils/validate-cpf-cnpj"
+import type { SupplierExtended as Supplier } from "@/types/supplier-extended"
 
 type CreateSupplierUseCaseRequest = {
-    code: string;
-    cnpj: string;
-    name: string;
-    legalName: string;
-    ERPCode: string;
-    fone: string | null;
-    email: string | null;
-    users: string[];
-};
+	code: string | null
+	cnpj: string | null
+	name: string
+	legalName: string | null
+	ERPCode: string | null
+	fone: string | null
+	email: string | null
+	users: string[]
+}
 
 type CreateSupplierUseCaseResponse = {
-    supplier: Supplier;
-};
+	supplier: Supplier
+}
 
 export class CreateSupplierUseCase {
-    constructor(private supplierRepository: SupplierRepository) {}
+	constructor(private supplierRepository: SupplierRepository) {}
 
-    async execute({
-        code,
-        cnpj,
-        name,
-        legalName,
-        ERPCode,
-        fone,
-        email,
-        users,
-    }: CreateSupplierUseCaseRequest): Promise<CreateSupplierUseCaseResponse> {
-        const supplier = await this.supplierRepository.createSupplier({
-            code,
-            cnpj,
-            name,
-            legalName,
-            ERPCode,
-            fone,
-            email,
-            users: { connect: users.map((id) => ({ id })) },
-        });
-        return { supplier };
-    }
+	async execute({
+		code,
+		cnpj,
+		name,
+		legalName,
+		ERPCode,
+		fone,
+		email,
+		users,
+	}: CreateSupplierUseCaseRequest): Promise<CreateSupplierUseCaseResponse> {
+		if (cnpj) {
+			if (!validateCpfCnpj(cnpj)) {
+				throw new AppError("CNPJ inválido", 400)
+			}
+		}
+
+		const supplier = await this.supplierRepository.createSupplier({
+			code,
+			cnpj,
+			name,
+			legalName,
+			ERPCode,
+			fone,
+			email,
+			users: { connect: users.map((id) => ({ id })) },
+		})
+		return { supplier }
+	}
 }

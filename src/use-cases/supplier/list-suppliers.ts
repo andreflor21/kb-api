@@ -1,15 +1,15 @@
-import { SupplierRepository } from '@/repositories/supplier-repository';
-import { SupplierExtended as Supplier } from '@/@Types/SupplierExtended';
+import type { SupplierRepository } from "@/repositories/supplier-repository"
+import type { SupplierExtended as Supplier } from "@/types/supplier-extended"
 
 type ListSuppliersUseCaseResponse = {
-    suppliers: Supplier[];
-};
+	suppliers: Supplier[]
+}
 
 export class ListSuppliersUseCase {
-    constructor(private supplierRepository: SupplierRepository) {}
+	constructor(private supplierRepository: SupplierRepository) {}
 
-    async execute(): Promise<ListSuppliersUseCaseResponse> {
-        const suppliers = await this.supplierRepository.getSuppliers();
-        return { suppliers };
-    }
+	async execute(): Promise<ListSuppliersUseCaseResponse> {
+		const suppliers = await this.supplierRepository.getSuppliers()
+		return { suppliers }
+	}
 }
