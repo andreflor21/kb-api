@@ -27,7 +27,7 @@ export const deleteProductGroup = async (
 }
 
 export const deleteProductGroupSchema = {
-	tags: ["Groupos de Produtos"],
+	tags: ["Grupos de Produtos"],
 	summary: "Deleta um grupo de produto",
 	security: [{ BearerAuth: [] }],
 	params: {
