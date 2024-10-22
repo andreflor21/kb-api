@@ -12,7 +12,6 @@ import {
 	updateProductStatus,
 	updateProductStatusSchema,
 } from "./update-product-status"
-import { productGroupsRoutes } from "./groups/routes"
 
 export async function productsRoutes(app: FastifyInstance) {
 	const prefix = "/products"
