@@ -6,15 +6,32 @@ export async function listSuppliers(
 	request: FastifyRequest,
 	reply: FastifyReply,
 ) {
+	const paginationSchema = z.object({
+		page: z.number().min(1).default(1),
+		pageSize: z.number().default(10),
+	})
+	const { page, pageSize } = paginationSchema.parse(request.query)
 	const listSuppliers = makeListSuppliersUseCase()
-	const suppliers = await listSuppliers.execute()
+	const { suppliers, totalSuppliers } = await listSuppliers.execute({
+		skip: (page - 1) * pageSize,
+		take: pageSize,
+	})
 
-	return reply.status(200).send(suppliers)
+	const totalPages = Math.ceil(totalSuppliers / pageSize)
+
+	return reply.status(200).send({ suppliers, totalPages, currentPage: page })
 }
 
 export const listSuppliersSchema = {
 	tags: ["Fornecedores"],
 	security: [{ BearerAuth: [] }],
+	query: {
+		type: "object",
+		properties: {
+			page: { type: "number" },
+			pageSize: { type: "number" },
+		},
+	},
 	response: {
 		200: {
 			type: "object",
@@ -75,6 +92,12 @@ export const listSuppliersSchema = {
 							},
 						},
 					},
+				},
+				totalPages: {
+					type: "number",
+				},
+				currentPage: {
+					type: "number",
 				},
 			},
 		},

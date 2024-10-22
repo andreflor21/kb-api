@@ -4,7 +4,8 @@ import type { Prisma, SupplierDeliveryDays } from "@prisma/client"
 export interface SupplierRepository {
 	createSupplier(data: Prisma.SupplierCreateInput): Promise<SupplierExtended>
 	getSupplierById(id: string): Promise<SupplierExtended>
-	getSuppliers(): Promise<SupplierExtended[]>
+	getSuppliers(skip: number, take: number): Promise<SupplierExtended[]>
+	countSuppliers(): Promise<number>
 	updateSupplier(
 		id: string,
 		data: Prisma.SupplierUpdateInput,

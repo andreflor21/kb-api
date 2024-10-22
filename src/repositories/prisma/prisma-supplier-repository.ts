@@ -52,8 +52,13 @@ export class PrismaSupplierRepository implements SupplierRepository {
 		return supplier
 	}
 
-	async getSuppliers(): Promise<SupplierExtended[]> {
+	async getSuppliers(
+		skip: number,
+		take: number,
+	): Promise<SupplierExtended[]> {
 		return await prisma.supplier.findMany({
+			skip,
+			take,
 			include: {
 				users: {
 					select: {
@@ -67,7 +72,10 @@ export class PrismaSupplierRepository implements SupplierRepository {
 			},
 		})
 	}
-
+	async countSuppliers(): Promise<number> {
+		const count = await prisma.supplier.count()
+		return count
+	}
 	async updateSupplier(
 		id: string,
 		data: Prisma.SupplierUpdateInput,
