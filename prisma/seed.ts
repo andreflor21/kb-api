@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client"
+import { faker } from "@faker-js/faker"
 import { hash } from "bcryptjs"
 const prisma = new PrismaClient()
 async function main() {
@@ -81,32 +82,35 @@ async function main() {
 			description: "Address Type 001",
 		},
 	})
-	const supplier = await prisma.supplier.upsert({
-		where: { cnpj: "123456789012" },
-		update: {},
-		create: {
-			name: "Supplier 001",
-			cnpj: "123456789012",
-			email: "supplier01@mail.com",
-			fone: "12345678901",
-			ERPCode: "001",
-			code: "001",
-			legalName: "Supplier 001 Ltda",
-			addresses: {
-				create: {
-					lograd: "Rua 001",
-					number: "001",
-					district: "Bairro 001",
-					city: "Cidade 001",
-					state: "ES",
-					zipcode: "12345678",
-					addressType: {
-						connect: { id: addressType.id },
+	for (let i = 0; i < 20; i++) {
+		const supplier = await prisma.supplier.upsert({
+			where: { cnpj: "123456789012" },
+			update: {},
+			create: {
+				name: "Supplier 001",
+				cnpj: "123456789012",
+				email: "supplier01@mail.com",
+				fone: "12345678901",
+				ERPCode: "001",
+				code: "001",
+				legalName: "Supplier 001 Ltda",
+				addresses: {
+					create: {
+						lograd: "Rua 001",
+						number: "001",
+						district: "Bairro 001",
+						city: "Cidade 001",
+						state: "ES",
+						zipcode: "12345678",
+						addressType: {
+							connect: { id: addressType.id },
+						},
 					},
 				},
 			},
-		},
-	})
+		})
+	}
+
 	const productType = await prisma.productType.upsert({
 		where: { description: "Product Type 001" },
 		update: {},
@@ -359,16 +363,7 @@ async function main() {
 		}
 	}
 	const rts = await prisma.routes.findMany()
-	console.log({
-		profiles: { profile1, profile2 },
-		users: { user1, user2 },
-		section,
-		addressType,
-		supplier,
-		productType,
-		product,
-		routes: rts,
-	})
+	console.log("Seed ok")
 }
 main()
 	.then(async () => {
