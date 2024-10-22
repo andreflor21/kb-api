@@ -76,17 +76,29 @@ export class PrismaProductsRepository implements ProductsRepository {
 					...product,
 					stockUnit: {
 						connectOrCreate: {
-							where: { abrev: product.stockUnit as string },
-							create: { abrev: product.stockUnit as string },
+							where: {
+								abrev: (
+									product.stockUnit as string
+								).toUpperCase(),
+							},
+							create: {
+								abrev: (
+									product.stockUnit as string
+								).toUpperCase(),
+							},
 						},
 					},
 					productType: {
 						connectOrCreate: {
 							where: {
-								description: product.productType as string,
+								description: (
+									product.productType as string
+								).toUpperCase(),
 							},
 							create: {
-								description: product.productType as string,
+								description: (
+									product.productType as string
+								).toUpperCase(),
 							},
 						},
 					},
@@ -94,12 +106,14 @@ export class PrismaProductsRepository implements ProductsRepository {
 						? {
 								connectOrCreate: {
 									where: {
-										description:
-											product.productGroup as string,
+										description: (
+											product.productGroup as string
+										).toUpperCase(),
 									},
 									create: {
-										description:
-											product.productGroup as string,
+										description: (
+											product.productGroup as string
+										).toUpperCase(),
 									},
 								},
 							}
@@ -109,17 +123,29 @@ export class PrismaProductsRepository implements ProductsRepository {
 					...product,
 					stockUnit: {
 						connectOrCreate: {
-							where: { abrev: product.stockUnit as string },
-							create: { abrev: product.stockUnit as string },
+							where: {
+								abrev: (
+									product.stockUnit as string
+								).toUpperCase(),
+							},
+							create: {
+								abrev: (
+									product.stockUnit as string
+								).toUpperCase(),
+							},
 						},
 					},
 					productType: {
 						connectOrCreate: {
 							where: {
-								description: product.productType as string,
+								description: (
+									product.productType as string
+								).toUpperCase(),
 							},
 							create: {
-								description: product.productType as string,
+								description: (
+									product.productType as string
+								).toUpperCase(),
 							},
 						},
 					},
@@ -127,12 +153,14 @@ export class PrismaProductsRepository implements ProductsRepository {
 						? {
 								connectOrCreate: {
 									where: {
-										description:
-											product.productGroup as string,
+										description: (
+											product.productGroup as string
+										).toUpperCase(),
 									},
 									create: {
-										description:
-											product.productGroup as string,
+										description: (
+											product.productGroup as string
+										).toUpperCase(),
 									},
 								},
 							}

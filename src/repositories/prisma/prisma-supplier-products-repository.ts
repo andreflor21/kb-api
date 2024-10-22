@@ -13,8 +13,12 @@ export class PrismaSupplierProductsRepository
 				...data,
 				buyUnit: {
 					connectOrCreate: {
-						where: { abrev: data.buyUnit as string },
-						create: { abrev: data.buyUnit as string },
+						where: {
+							abrev: (data.buyUnit as string).toUpperCase(),
+						},
+						create: {
+							abrev: (data.buyUnit as string).toUpperCase(),
+						},
 					},
 				},
 			},
@@ -39,8 +43,12 @@ export class PrismaSupplierProductsRepository
 				...data,
 				buyUnit: {
 					connectOrCreate: {
-						where: { abrev: data.buyUnit as string },
-						create: { abrev: data.buyUnit as string },
+						where: {
+							abrev: (data.buyUnit as string).toUpperCase(),
+						},
+						create: {
+							abrev: (data.buyUnit as string).toUpperCase(),
+						},
 					},
 				},
 			},

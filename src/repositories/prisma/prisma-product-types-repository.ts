@@ -6,7 +6,7 @@ import type { ProductTypeRepository } from "../product-types-repository"
 export class PrismaProductTypesRepository implements ProductTypeRepository {
 	async createProductType(data: Prisma.ProductTypeCreateInput) {
 		const productType = await prisma.productType.findUnique({
-			where: { description: data.description },
+			where: { description: data.description.toUpperCase() },
 		})
 		if (productType) {
 			throw new AppError("Tipo de produto já cadastrado", 409)
@@ -19,7 +19,9 @@ export class PrismaProductTypesRepository implements ProductTypeRepository {
 	}
 
 	async getProductTypeByDescription(description: string) {
-		return await prisma.productType.findUnique({ where: { description } })
+		return await prisma.productType.findUnique({
+			where: { description: description.toUpperCase() },
+		})
 	}
 
 	async getProductTypes() {

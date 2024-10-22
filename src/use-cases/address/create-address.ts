@@ -49,10 +49,10 @@ export class CreateAddressUseCase {
 			addressType: {
 				connectOrCreate: {
 					where: {
-						description: addressType.description,
+						description: addressType.description.toUpperCase(),
 					},
 					create: {
-						description: addressType.description,
+						description: addressType.description.toUpperCase(),
 					},
 				},
 			},

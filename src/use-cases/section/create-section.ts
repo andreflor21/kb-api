@@ -34,11 +34,11 @@ export class CreateSectionUseCase {
 			sectionType: {
 				connectOrCreate: {
 					where: {
-						description: sectionType.description,
+						description: sectionType.description.toUpperCase(),
 					},
 					create: {
-						description: sectionType.description,
-						abrev: sectionType.abreviation,
+						description: sectionType.description.toUpperCase(),
+						abrev: sectionType.abreviation.toUpperCase(),
 					},
 				},
 			},

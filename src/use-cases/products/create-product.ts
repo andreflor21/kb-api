@@ -40,22 +40,22 @@ export class CreateProductUseCase {
 			additionalDescription,
 			stockUnit: {
 				connectOrCreate: {
-					where: { abrev: stockUnit },
-					create: { abrev: stockUnit },
+					where: { abrev: stockUnit.toUpperCase() },
+					create: { abrev: stockUnit.toUpperCase() },
 				},
 			},
 			ERPCode,
 			productType: {
 				connectOrCreate: {
-					where: { description: productType },
-					create: { description: productType },
+					where: { description: productType.toUpperCase() },
+					create: { description: productType.toUpperCase() },
 				},
 			},
 			productGroup: productGroup
 				? {
 						connectOrCreate: {
-							where: { description: productGroup },
-							create: { description: productGroup },
+							where: { description: productGroup.toUpperCase() },
+							create: { description: productGroup.toUpperCase() },
 						},
 					}
 				: undefined,

@@ -6,7 +6,7 @@ import type { ProductGroupsRepository } from "../product-groups-repository"
 export class PrismaProductGroupsRepository implements ProductGroupsRepository {
 	async createProductGroup(data: Prisma.ProductGroupCreateInput) {
 		const productGroup = await prisma.productGroup.findUnique({
-			where: { description: data.description },
+			where: { description: data.description.toUpperCase() },
 		})
 		if (productGroup) {
 			throw new AppError("Grupo de produto já cadastrado", 409)
@@ -18,7 +18,9 @@ export class PrismaProductGroupsRepository implements ProductGroupsRepository {
 		return await prisma.productGroup.findUnique({ where: { id } })
 	}
 	async getProductGroupByDescription(description: string) {
-		return await prisma.productGroup.findUnique({ where: { description } })
+		return await prisma.productGroup.findUnique({
+			where: { description: description.toUpperCase() },
+		})
 	}
 
 	async getProductGroups() {
