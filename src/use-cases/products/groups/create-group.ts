@@ -19,7 +19,7 @@ export class CreateProductGroupUseCase {
 
 		const productGroup =
 			await this.productGroupsRepository.createProductGroup({
-				description,
+				description: description.toUpperCase(),
 			})
 		return { productGroup }
 	}
