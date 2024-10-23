@@ -45,8 +45,8 @@ importers:
         specifier: ^16.4.5
         version: 16.4.5
       fast-csv:
-        specifier: ^5.0.1
-        version: 5.0.1
+        specifier: ^5.0.2
+        version: 5.0.2
       fastify:
         specifier: ^5.0.0
         version: 5.0.0
@@ -516,11 +516,11 @@ packages:
     resolution: {integrity: sha512-vH9PiIMMwvhCx31Af3HiGzsVNULDbyVkHXwlemn/B0TFj/00ho3y55efXrUZTfQipxoHC5u4xq6zblww1zm1Ig==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@fast-csv/format@5.0.0':
-    resolution: {integrity: sha512-IyMpHwYIOGa2f0BJi6Wk55UF0oBA5urdIydoEDYxPo88LFbeb3Yr4rgpu98OAO1glUWheSnNtUgS80LE+/dqmw==}
+  '@fast-csv/format@5.0.2':
+    resolution: {integrity: sha512-fRYcWvI8vs0Zxa/8fXd/QlmQYWWkJqKZPAXM+vksnplb3owQFKTPPh9JqOtD0L3flQw/AZjjXdPkD7Kp/uHm8g==}
 
-  '@fast-csv/parse@5.0.0':
-    resolution: {integrity: sha512-ecF8tCm3jVxeRjEB6VPzmA+1wGaJ5JgaUX2uesOXdXD6qQp0B3EdshOIed4yT1Xlj/F2f8v4zHSo0Oi31L697g==}
+  '@fast-csv/parse@5.0.2':
+    resolution: {integrity: sha512-gMu1Btmm99TP+wc0tZnlH30E/F1Gw1Tah3oMDBHNPe9W8S68ixVHjt89Wg5lh7d9RuQMtwN+sGl5kxR891+fzw==}
 
   '@fastify/accept-negotiator@2.0.0':
     resolution: {integrity: sha512-/Sce/kBzuTxIq5tJh85nVNOq9wKD8s+viIgX0fFMDBdw95gnpf53qmF1oBgJym3cPFliWUuSloVg/1w/rH0FcQ==}
@@ -1213,8 +1213,8 @@ packages:
     resolution: {integrity: sha512-mdas0PTbgQnwSyAjcYM7OMaftM8nJ3Kqz6yAyK4iCFvMOGGvh6pv42IHwcE5PBpS6ffYeZRSsgAdYUMG4CSjhQ==}
     engines: {node: '>=20'}
 
-  fast-csv@5.0.1:
-    resolution: {integrity: sha512-Q43zC4NdQD5MAWOVQOF8KA+D6ddvTJjX2ib8zqysm74jZhtk6+dc8C75/OqRV6Y9CLc4kgvbC3PLG8YL4YZfgw==}
+  fast-csv@5.0.2:
+    resolution: {integrity: sha512-CnB2zYAzzeh5Ta0UhSf32NexLy2SsEsSMY+fMWPV40k1OgaLEbm9Hf5dms3z/9fASZHBjB6i834079gVeksEqQ==}
     engines: {node: '>=10.0.0'}
 
   fast-decode-uri-component@1.0.1:
@@ -2824,7 +2824,7 @@ snapshots:
     dependencies:
       levn: 0.4.1
 
-  '@fast-csv/format@5.0.0':
+  '@fast-csv/format@5.0.2':
     dependencies:
       lodash.escaperegexp: 4.1.2
       lodash.isboolean: 3.0.3
@@ -2832,7 +2832,7 @@ snapshots:
       lodash.isfunction: 3.0.9
       lodash.isnil: 4.0.0
 
-  '@fast-csv/parse@5.0.0':
+  '@fast-csv/parse@5.0.2':
     dependencies:
       lodash.escaperegexp: 4.1.2
       lodash.groupby: 4.6.0
@@ -3681,10 +3681,10 @@ snapshots:
       graceful-fs: 4.2.11
       handlebars: 4.7.8
 
-  fast-csv@5.0.1:
+  fast-csv@5.0.2:
     dependencies:
-      '@fast-csv/format': 5.0.0
-      '@fast-csv/parse': 5.0.0
+      '@fast-csv/format': 5.0.2
+      '@fast-csv/parse': 5.0.2
 
   fast-decode-uri-component@1.0.1: {}
 
