@@ -29,8 +29,16 @@ export class PrismaSupplierProductsRepository
 		return await prisma.supplierProduct.findUnique({ where: { id } })
 	}
 
-	async getSupplierProducts(supplierId: string): Promise<SupplierProduct[]> {
-		return await prisma.supplierProduct.findMany({ where: { supplierId } })
+	async getSupplierProducts(
+		supplierId: string,
+		skip: number,
+		take: number,
+	): Promise<SupplierProduct[]> {
+		return await prisma.supplierProduct.findMany({
+			where: { supplierId },
+			skip,
+			take,
+		})
 	}
 
 	async updateSupplierProduct(
@@ -67,5 +75,9 @@ export class PrismaSupplierProductsRepository
 			where: { id },
 			data: { active: status },
 		})
+	}
+
+	async countSupplierProducts(supplierId: string): Promise<number> {
+		return await prisma.supplierProduct.count({ where: { supplierId } })
 	}
 }

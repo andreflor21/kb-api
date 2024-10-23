@@ -9,9 +9,18 @@ export async function listSections(
 	const listSections = makeListSectionsUseCase()
 
 	try {
-		const sections = await listSections.execute()
+		const paginationSchema = z.object({
+			page: z.number().default(1),
+			pageSize: z.number().default(10),
+		})
+		const { page, pageSize } = paginationSchema.parse(request.query)
+		const { sections, totalSections } = await listSections.execute({
+			skip: (page - 1) * pageSize,
+			take: pageSize,
+		})
 
-		reply.status(200).send(sections)
+		const totalPages = Math.ceil(totalSections / pageSize)
+		reply.status(200).send({ sections, totalPages, currentPage: page })
 	} catch (error) {
 		reply.status(500).send()
 	}
@@ -20,6 +29,13 @@ export async function listSections(
 export const listSectionsSchema = {
 	tags: ["Seções"],
 	security: [{ BearerAuth: [] }],
+	querystring: {
+		type: "object",
+		properties: {
+			page: { type: "number" },
+			pageSize: { type: "number" },
+		},
+	},
 	response: {
 		200: {
 			description: "Success",
@@ -45,6 +61,8 @@ export const listSectionsSchema = {
 						},
 					},
 				},
+				totalPages: { type: "number" },
+				currentPage: { type: "number" },
 			},
 		},
 		403: {

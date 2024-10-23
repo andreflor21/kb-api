@@ -55,8 +55,13 @@ export class PrismaProfilesRepository implements ProfilesRepository {
 		})
 	}
 
-	public async getProfiles(): Promise<ProfileExtended[]> {
+	public async getProfiles(
+		skip: number,
+		take: number,
+	): Promise<ProfileExtended[]> {
 		return await prisma.profile.findMany({
+			skip,
+			take,
 			include: {
 				routes: true,
 				users: {
@@ -160,4 +165,7 @@ export class PrismaProfilesRepository implements ProfilesRepository {
 		})
 	}
 	// Adicione outros métodos necessários aqui
+	public async countProfiles(): Promise<number> {
+		return await prisma.profile.count()
+	}
 }

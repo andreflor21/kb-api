@@ -1,10 +1,12 @@
 export const validateCpfCnpj = (cpfCnpj: string): boolean => {
-	if (cpfCnpj.length === 11) {
-		return validateCpf(cpfCnpj)
+	const cpfCnpjDigits = cpfCnpj.replace(/\D/g, "")
+
+	if (cpfCnpjDigits.length === 11) {
+		return validateCpf(cpfCnpjDigits)
 	}
 
-	if (cpfCnpj.length === 14) {
-		return validateCnpj(cpfCnpj)
+	if (cpfCnpjDigits.length === 14) {
+		return validateCnpj(cpfCnpjDigits)
 	}
 
 	return false
@@ -25,17 +27,33 @@ const validateCpf = (cpf: string): boolean => {
 	]
 	if (invalidCpfs.includes(cpf)) return false
 
-	const cpfNumbers = cpf.substring(0, 9)
+	let cpfNumbers = cpf.substring(0, 9)
 	const cpfDigits = cpf.substring(9)
-
 	const sum = cpfNumbers
 		.split("")
-		.map((number, index) => Number.parseInt(number) * (10 - index))
-		.reduce((acc, value) => acc + value, 0)
+		.reduce(
+			(acc, value, index) => acc + Number.parseInt(value) * (10 - index),
+			0,
+		)
 
-	const rest = (sum * 10) % 11
+	let rest = (sum * 10) % 11
+	rest = rest === 10 ? 0 : rest
+	cpfNumbers += rest.toString()
 
-	return rest === Number.parseInt(cpfDigits[0])
+	const sum2 = cpfNumbers
+		.split("")
+		.reduce(
+			(acc, value, index) => acc + Number.parseInt(value) * (11 - index),
+			0,
+		)
+
+	let rest2 = (sum2 * 10) % 11
+	rest2 = rest2 === 11 ? 0 : rest2
+
+	return (
+		rest === Number.parseInt(cpfDigits[0]) &&
+		rest2 === Number.parseInt(cpfDigits[1])
+	)
 }
 
 const validateCnpj = (cnpj: string): boolean => {

@@ -3,7 +3,7 @@ import type { Prisma, Section } from "@prisma/client"
 export interface SectionsRepository {
 	createSection(data: Prisma.SectionCreateInput): Promise<Section>
 	getSectionById(id: string): Promise<Section | null>
-	getSections(): Promise<Section[]>
+	getSections(skip: number, take: number): Promise<Section[]>
 	updateSection(
 		id: string,
 		data: Prisma.SectionUpdateInput,
@@ -11,4 +11,5 @@ export interface SectionsRepository {
 	updateSectionStatus(id: string, status: boolean): Promise<void>
 	deleteSection(id: string): Promise<void>
 	// Adicione outros métodos necessários aqui
+	countSections(): Promise<number>
 }

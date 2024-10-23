@@ -86,8 +86,10 @@ class PrismaUsersRepository implements UsersRepository {
 		return user
 	}
 
-	async getUsers(): Promise<UserExtended[]> {
+	async getUsers(skip: number, take: number): Promise<UserExtended[]> {
 		const users = await prisma.user.findMany({
+			skip,
+			take,
 			include: {
 				profile: {
 					select: {
@@ -202,7 +204,7 @@ class PrismaUsersRepository implements UsersRepository {
 			throw new UserNotFoundError()
 		}
 	}
-	// Implemente outros métodos de acesso ao banco aqui
+
 	async updateUserStatus(id: string, status: boolean): Promise<void> {
 		const checkUser = await prisma.user.findUnique({
 			where: { id },
@@ -216,6 +218,11 @@ class PrismaUsersRepository implements UsersRepository {
 		} else {
 			throw new UserNotFoundError()
 		}
+	}
+
+	async countUsers(): Promise<number> {
+		const count = await prisma.user.count()
+		return count
 	}
 }
 

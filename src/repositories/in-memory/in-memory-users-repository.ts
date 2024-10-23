@@ -163,6 +163,10 @@ class InMemoryUsersRepository implements UsersRepository {
 			throw new UserNotFoundError()
 		}
 	}
+
+	public async countUsers(): Promise<number> {
+		return this.users.length
+	}
 }
 
 export { InMemoryUsersRepository }
