@@ -10,7 +10,7 @@ export interface ProductsRepository {
 	getProductById(id: string): Promise<ProductExtended | null>
 	getProductByCode(code: string): Promise<ProductExtended | null>
 	getProductsBySupplier(supplierId: string): Promise<ProductExtended[]>
-	getProducts(): Promise<ProductExtended[]>
+	getProducts(skip: number, take: number): Promise<ProductExtended[]>
 
 	// update
 	updateProduct(
@@ -23,15 +23,5 @@ export interface ProductsRepository {
 	deleteProduct(id: string): Promise<void>
 
 	// Adicione outros métodos necessários aqui
-
-	/*
-		DONE: Inclusão Produto
-		DONE: Alteração Produto
-		DONE: Exclusão Produto
-		DONE: Consultar forncedores que entregam o produto
-		DONE: Inclusão Tipo Produto
-		DONE: Alteração Tipo Produto
-		DONE: Exclusão Tipo Produto
-
-	*/
+	countProducts(): Promise<number>
 }

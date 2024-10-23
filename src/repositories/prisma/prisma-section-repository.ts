@@ -32,4 +32,8 @@ export class PrismaSectionRepository implements SectionsRepository {
 	async deleteSection(id: string): Promise<void> {
 		await prisma.section.delete({ where: { id } })
 	}
+
+	async countSections(): Promise<number> {
+		return prisma.section.count()
+	}
 }

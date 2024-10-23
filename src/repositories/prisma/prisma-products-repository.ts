@@ -217,8 +217,10 @@ export class PrismaProductsRepository implements ProductsRepository {
 		})
 	}
 
-	async getProducts(): Promise<ProductExtended[]> {
+	async getProducts(skip: number, take: number): Promise<ProductExtended[]> {
 		return prisma.product.findMany({
+			skip,
+			take,
 			select: this.selectFields,
 		})
 	}
@@ -258,5 +260,9 @@ export class PrismaProductsRepository implements ProductsRepository {
 
 	async deleteProduct(id: string): Promise<void> {
 		await prisma.product.delete({ where: { id } })
+	}
+
+	async countProducts(): Promise<number> {
+		return prisma.product.count()
 	}
 }

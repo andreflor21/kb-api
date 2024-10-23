@@ -6,13 +6,18 @@ export interface SupplierProductsRepository {
 		data: Prisma.SupplierProductCreateInput,
 	): Promise<SupplierProduct>
 	getSupplierProductById(id: string): Promise<SupplierProduct | null>
-	getSupplierProducts(supplierId: string): Promise<SupplierProduct[]>
+	getSupplierProducts(
+		supplierId: string,
+		skip: number,
+		take: number,
+	): Promise<SupplierProduct[]>
 	updateSupplierProduct(
 		id: string,
 		data: Prisma.SupplierProductUpdateInput,
 	): Promise<SupplierProduct | null>
 	deleteSupplierProductStatus(id: string): Promise<void>
 	updateSupplierProductStatus(id: string, status: boolean): Promise<void>
+	countSupplierProducts(supplierId: string): Promise<number>
 }
 
 // DONE: Vincular produto (e adicionar as demais informações para o produto no fornecedor)

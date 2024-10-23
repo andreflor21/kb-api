@@ -6,7 +6,7 @@ export interface ProfilesRepository {
 	getProfileByDescription(
 		description: string,
 	): Promise<ProfileExtended | null>
-	getProfiles(): Promise<ProfileExtended[]>
+	getProfiles(skip: number, take: number): Promise<ProfileExtended[]>
 	updateProfile(
 		id: string,
 		data: Prisma.ProfileUpdateInput,
@@ -19,4 +19,5 @@ export interface ProfilesRepository {
 	linkProfileToRoute(id: string, routeId: string): Promise<void>
 	unlinkProfileToRoute(id: string, routeId: string): Promise<void>
 	// Adicione outros métodos necessários aqui
+	countProfiles(): Promise<number>
 }

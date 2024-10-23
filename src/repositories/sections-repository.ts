@@ -11,4 +11,5 @@ export interface SectionsRepository {
 	updateSectionStatus(id: string, status: boolean): Promise<void>
 	deleteSection(id: string): Promise<void>
 	// Adicione outros métodos necessários aqui
+	countSections(): Promise<number>
 }

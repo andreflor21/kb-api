@@ -5,7 +5,8 @@ export interface UsersRepository {
 	getUserById(id: string): Promise<UserExtended | null>
 	getUserByEmail(email: string): Promise<UserExtended | null>
 	getUserByToken(token: string): Promise<User | null>
-	getUsers(): Promise<UserExtended[]>
+	getUsers(skip: number, take: number): Promise<UserExtended[]>
+	countUsers(): Promise<number>
 	updateUser(
 		id: string,
 		data: Prisma.UserUpdateInput,
