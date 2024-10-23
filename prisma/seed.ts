@@ -82,64 +82,65 @@ async function main() {
 			description: "Address Type 001",
 		},
 	})
-	for (let i = 0; i < 20; i++) {
-		const supplier = await prisma.supplier.upsert({
-			where: { cnpj: "123456789012" },
+	const supplier = await prisma.supplier.upsert({
+		where: { cnpj: "123456789012" },
+		update: {},
+		create: {
+			name: "Supplier 001",
+			cnpj: "123456789012",
+			email: "supplier01@mail.com",
+			fone: "12345678901",
+			ERPCode: "001",
+			code: "001",
+			legalName: "Supplier 001 Ltda",
+			addresses: {
+				create: {
+					lograd: "Rua 001",
+					number: "001",
+					district: "Bairro 001",
+					city: "Cidade 001",
+					state: "ES",
+					zipcode: "12345678",
+					addressType: {
+						connect: { id: addressType.id },
+					},
+				},
+			},
+		},
+	})
+	for (let i = 0; i < 15; i++) {
+		const type = faker.commerce.department()
+		const productType = await prisma.productType.upsert({
+			where: { description: type.toUpperCase() },
 			update: {},
 			create: {
-				name: "Supplier 001",
-				cnpj: "123456789012",
-				email: "supplier01@mail.com",
-				fone: "12345678901",
-				ERPCode: "001",
-				code: "001",
-				legalName: "Supplier 001 Ltda",
-				addresses: {
-					create: {
-						lograd: "Rua 001",
-						number: "001",
-						district: "Bairro 001",
-						city: "Cidade 001",
-						state: "ES",
-						zipcode: "12345678",
-						addressType: {
-							connect: { id: addressType.id },
+				description: type.toUpperCase(),
+			},
+		})
+		const code = faker.commerce.isbn()
+		const product = await prisma.product.upsert({
+			where: { code },
+			update: {},
+			create: {
+				code,
+				description: faker.commerce.productName(),
+				stockUnit: {
+					connectOrCreate: {
+						where: {
+							abrev: "UN",
+						},
+						create: {
+							description: "unidade",
+							abrev: "UN",
 						},
 					},
+				},
+				productType: {
+					connect: { id: productType.id },
 				},
 			},
 		})
 	}
-
-	const productType = await prisma.productType.upsert({
-		where: { description: "Product Type 001" },
-		update: {},
-		create: {
-			description: "Product Type 001",
-		},
-	})
-	const product = await prisma.product.upsert({
-		where: { code: "001" },
-		update: {},
-		create: {
-			code: "001",
-			description: "Product 001",
-			stockUnit: {
-				connectOrCreate: {
-					where: {
-						abrev: "UN",
-					},
-					create: {
-						description: "unidade",
-						abrev: "UN",
-					},
-				},
-			},
-			productType: {
-				connect: { id: productType.id },
-			},
-		},
-	})
 	const routes = [
 		{ path: "/", method: "POST", description: "Login" },
 		{
