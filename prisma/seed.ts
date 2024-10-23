@@ -173,7 +173,7 @@ async function main() {
 			group: "Usuários",
 		},
 		{
-			path: "/users/{id}",
+			path: "/users/:id",
 			method: "GET",
 			description: "Obter detalhes do usuário pelo ID.",
 			group: "Usuários",
@@ -209,25 +209,37 @@ async function main() {
 			group: "Perfil",
 		},
 		{
-			path: "/profiles/{id}",
+			path: "/profiles/{id}/routes/{routeId}/link",
+			method: "POST",
+			description: "Vincular uma rota a um perfil.",
+			group: "Perfil",
+		},
+		{
+			path: "/profiles/{id}/routes/{routeId}/unlink",
+			method: "POST",
+			description: "Desvincular uma rota de um perfil.",
+			group: "Perfil",
+		},
+		{
+			path: "/routes",
 			method: "GET",
 			description: "Obter detalhes do perfil pelo ID.",
 			group: "Perfil",
 		},
 		{
-			path: "/profiles/{id}/edit",
+			path: "/profiles/:id/edit",
 			method: "PATCH",
 			description: "Editar os detalhes do perfil.",
 			group: "Perfil",
 		},
 		{
-			path: "/profiles/{id}/delete",
+			path: "/profiles/:id/delete",
 			method: "DELETE",
 			description: "Deletar um perfil pelo ID.",
 			group: "Perfil",
 		},
 		{
-			path: "/profiles/{id}/duplicate",
+			path: "/profiles/:id/duplicate",
 			method: "POST",
 			description: "Duplicar um perfil existente.",
 			group: "Perfil",
@@ -239,13 +251,13 @@ async function main() {
 			group: "Perfil",
 		},
 		{
-			path: "/profiles/{id}/routes/{routeId}/link",
+			path: "/routes/new",
 			method: "POST",
 			description: "Vincular uma rota a um perfil.",
 			group: "Perfil",
 		},
 		{
-			path: "/profiles/{id}/routes/{routeId}/unlink",
+			path: "/profiles/:id/routes/:routeId/unlink",
 			method: "POST",
 			description: "Desvincular uma rota de um perfil.",
 			group: "Perfil",
@@ -263,13 +275,13 @@ async function main() {
 			group: "Rotas",
 		},
 		{
-			path: "/routes/{id}",
+			path: "/routes/:id",
 			method: "GET",
 			description: "Obter detalhes de uma rota pelo ID.",
 			group: "Rotas",
 		},
 		{
-			path: "/routes/{id}/edit",
+			path: "/routes/:id/edit",
 			method: "PATCH",
 			description: "Editar os detalhes de uma rota.",
 			group: "Rotas",
@@ -287,19 +299,19 @@ async function main() {
 			group: "Seções",
 		},
 		{
-			path: "/sections/{id}",
+			path: "/sections/:id",
 			method: "GET",
 			description: "Obter detalhes de uma seção pelo ID.",
 			group: "Seções",
 		},
 		{
-			path: "/sections/{id}/edit",
+			path: "/sections/:id/edit",
 			method: "PATCH",
 			description: "Editar os detalhes de uma seção.",
 			group: "Seções",
 		},
 		{
-			path: "/sections/{id}/status",
+			path: "/sections/:id/status",
 			method: "PUT",
 			description: "Atualizar o status de uma seção.",
 			group: "Seções",
@@ -317,19 +329,19 @@ async function main() {
 			group: "Tipos de Seções",
 		},
 		{
-			path: "/sections/types/{id}",
+			path: "/sections/types/:id",
 			method: "GET",
 			description: "Obter detalhes de um tipo de seção pelo ID.",
 			group: "Tipos de Seções",
 		},
 		{
-			path: "/sections/types/{id}/edit",
+			path: "/sections/types/:id/edit",
 			method: "PATCH",
 			description: "Editar os detalhes de um tipo de seção.",
 			group: "Tipos de Seções",
 		},
 		{
-			path: "/sections/types/{id}/delete",
+			path: "/sections/types/:id/delete",
 			method: "DELETE",
 			description: "Deletar um tipo de seção pelo ID.",
 			group: "Tipos de Seções",
@@ -347,13 +359,67 @@ async function main() {
 			group: "Fornecedores",
 		},
 		{
-			path: "/suppliers/{supplierId}",
+			path: "/suppliers/:id",
 			method: "GET",
 			description: "Obter detalhes de um fornecedor pelo ID.",
 			group: "Fornecedores",
 		},
 		{
-			path: "/suppliers/{supplierId}/products",
+			path: "/suppliers/:id/edit",
+			method: "PATCH",
+			description: "Editar os detalhes de um fornecedor.",
+			group: "Fornecedores",
+		},
+		{
+			path: "/suppliers/:id/status",
+			method: "PUT",
+			description: "Atualizar o status de um fornecedor.",
+			group: "Fornecedores",
+		},
+		{
+			path: "/suppliers/:id/delete",
+			method: "DELETE",
+			description: "Deleta um fornecedor.",
+			group: "Fornecedores",
+		},
+		{
+			path: "/suppliers/:supplierId",
+			method: "GET",
+			description: "Obter detalhes de um fornecedor pelo ID.",
+			group: "Fornecedores",
+		},
+		{
+			path: "/suppliers/:supplierId/addresses",
+			method: "GET",
+			description: "Obter os endereços de um fornecedor",
+			group: "Fornecedores",
+		},
+		{
+			path: "/suppliers/:supplierId/addresses/new",
+			method: "POST",
+			description: "Cadastrar um novo endereço do fornecedor",
+			group: "Fornecedores",
+		},
+		{
+			path: "/suppliers/:supplierId/addresses/:addressId",
+			method: "GET",
+			description: "Buscar um endereço do fornecedor por id",
+			group: "Fornecedores",
+		},
+		{
+			path: "/suppliers/:supplierId/addresses/:addressId/edit",
+			method: "PATCH",
+			description: "Editar um novo endereço do fornecedor",
+			group: "Fornecedores",
+		},
+		{
+			path: "/suppliers/:supplierId/addresses/:addressId/delete",
+			method: "DELETE",
+			description: "Deletar um novo endereço do fornecedor",
+			group: "Fornecedores",
+		},
+		{
+			path: "/suppliers/:supplierId/products",
 			method: "GET",
 			description: "Obter uma lista de produtos de um fornecedor.",
 			group: "Produtos",
@@ -367,6 +433,16 @@ async function main() {
 		})
 		if (!r) {
 			await prisma.routes.create({
+				data: {
+					path: route.path,
+					method: route.method,
+					description: route.description,
+					group: route.group,
+				},
+			})
+		} else {
+			await prisma.routes.update({
+				where: { id: r.id },
 				data: {
 					path: route.path,
 					method: route.method,
