@@ -1,18 +1,36 @@
 import { makeListUsersUseCase } from "@/use-cases/factories/user/make-list-users-use-case"
 import type { FastifyReply, FastifyRequest } from "fastify"
+import { z } from "zod"
 
-export async function listUsers(req: FastifyRequest, res: FastifyReply) {
+export async function listUsers(request: FastifyRequest, reply: FastifyReply) {
+	const paginationSchema = z.object({
+		page: z.number().min(1).default(1),
+		pageSize: z.number().default(10),
+	})
+	const { page, pageSize } = paginationSchema.parse(request.query)
+
 	const listUsers = makeListUsersUseCase()
 
-	const users = await listUsers.execute()
+	const { users, totalUsers } = await listUsers.execute({
+		skip: (page - 1) * pageSize,
+		take: pageSize,
+	})
+	const totalPages = Math.ceil(totalUsers / pageSize)
 
-	res.status(200).send(users)
+	return reply.status(200).send({ users, totalPages, currentPage: page })
 }
 
 export const listUsersSchema = {
 	schema: {
 		tags: ["Usuários"],
 		security: [{ BearerAuth: [] }],
+		query: {
+			type: "object",
+			properties: {
+				page: { type: "number" },
+				pageSize: { type: "number" },
+			},
+		},
 		response: {
 			200: {
 				description: "Success",
@@ -52,6 +70,8 @@ export const listUsersSchema = {
 							},
 						},
 					},
+					totalPages: { type: "number" },
+					currentPage: { type: "number" },
 				},
 			},
 			403: {

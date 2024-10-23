@@ -7,16 +7,20 @@ export const listProducts = async (
 	request: FastifyRequest,
 	reply: FastifyReply,
 ) => {
-	const ListProductsRequestSchema = z.object({
-		page: z.number().int().positive().optional(),
-		perPage: z.number().int().positive().optional(),
-	})
-
 	try {
-		const validatedData = ListProductsRequestSchema.parse(request.query)
+		const paginationSchema = z.object({
+			page: z.number().min(1).default(1),
+			pageSize: z.number().default(10),
+		})
+		const { page, pageSize } = paginationSchema.parse(request.query)
+
 		const listProductsUseCase = makeListProductsUseCase()
-		const products = await listProductsUseCase.execute()
-		reply.status(200).send(products)
+		const { products, totalProducts } = await listProductsUseCase.execute({
+			skip: (page - 1) * pageSize,
+			take: pageSize,
+		})
+		const totalPages = Math.ceil(totalProducts / pageSize)
+		reply.status(200).send({ products, totalPages, currentPage: page })
 	} catch (error) {
 		if (error instanceof AppError) {
 			return reply
@@ -30,6 +34,13 @@ export const listProductsSchema = {
 	tags: ["Produtos"],
 	summary: "Lista todos os produtos",
 	security: [{ BearerAuth: [] }],
+	query: {
+		type: "object",
+		properties: {
+			page: { type: "number" },
+			pageSize: { type: "number" },
+		},
+	},
 	response: {
 		200: {
 			type: "object",
@@ -103,6 +114,8 @@ export const listProductsSchema = {
 						},
 					},
 				},
+				totalPages: { type: "number" },
+				currentPage: { type: "number" },
 			},
 		},
 	},
