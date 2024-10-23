@@ -11,8 +11,8 @@ export class PrismaSectionRepository implements SectionsRepository {
 		return prisma.section.findUnique({ where: { id } })
 	}
 
-	async getSections(): Promise<Section[]> {
-		return prisma.section.findMany()
+	async getSections(skip: number, take: number): Promise<Section[]> {
+		return prisma.section.findMany({ skip, take })
 	}
 
 	async updateSection(
